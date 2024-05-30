@@ -1,32 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   command.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/09 11:30:43 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/05/30 14:35:34 by sgabsi           ###   ########.fr       */
+/*   Created: 2024/05/30 12:08:49 by sgabsi            #+#    #+#             */
+/*   Updated: 2024/05/30 13:57:52 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef COMMAND_H
+# define COMMAND_H
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+# include <stdbool.h>
+
+typedef struct	s_command
 {
-	char	*str;
-	size_t	size;
+	char	*name;
+	int		(*onexecute)(char *argv[]);
+}				t_command;
 
-	if (!s)
-		return (NULL);
-	size = ft_strlen(s);
-	if (start >= size || len == 0)
-		return (ft_strdup(""));
-	if (len > size - start)
-		len = size - start;
-	str = (char *)ft_calloc(len + 1, sizeof(char));
-	if (!str)
-		return (NULL);
-	ft_memmove(str, s + start, len + 1);
-	return (str);
-}
+typedef	struct	s_command_manager
+{
+	t_command	list_command[7];
+	bool		instanced;
+	int			(*dispatch)(char *name, char *argv[]);
+}				t_command_manager;
+
+t_command_manager *get_command_mng(void);
+
+#endif

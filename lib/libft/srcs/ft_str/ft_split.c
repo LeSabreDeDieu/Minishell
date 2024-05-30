@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 16:32:04 by sgabsi            #+#    #+#             */
-/*   Updated: 2023/11/16 13:08:10 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/05/30 14:54:13 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,55 +37,45 @@ static char	*extract_word(const char *s, char c, size_t *len)
 {
 	size_t	i;
 	char	*word;
+	char	*m;
 
 	i = 0;
-	while (s[i] && s[i] != c)
-		i++;
-	word = (char *)malloc(i + 1);
-	if (!word)
-		return (NULL);
-	i = 0;
-	while (*s && *s != c)
-		word[i++] = *s++;
-	word[i] = '\0';
-	*len = i;
+	m = (char *)s;
+	while (*m && *m != c)
+		m++;
+	*len = m - s;
+	word = ft_substr(s, 0, *len);
 	return (word);
 }
 
-static void	ft_clear(char **tab, int indice)
+static void	ft_clear(char **tab, size_t indice)
 {
-	int	i;
+	size_t	i;
 
-	i = 0;
-	while (i <= indice)
-	{
-		tab[i] = NULL;
-		free(tab[i]);
-	}
+	i = -1;
+	while (++i <= indice)
+		(free(tab[i]), tab[i] = NULL);
 }
 
-static char	**ft_fill(const char *s, char c, char **result, size_t *word_len)
+static char	**ft_fill(const char *s, char c, char **result)
 {
-	int	i;
+	char	**move;
+	size_t	word_len;
 
-	i = 0;
+	move = result;
 	while (*s)
 	{
 		if (*s != c)
 		{
-			result[i++] = extract_word(s, c, word_len);
-			if (!result[i - 1])
-			{
-				ft_clear(result, i - 1);
-				free(result);
-				return (NULL);
-			}
-			s += *word_len;
+			*move = extract_word(s, c, &word_len);
+			if (!*move)
+				return (ft_clear(result, move - result), free(result), NULL);
+			move++;
+			s += word_len;
 		}
 		else
 			s++;
 	}
-	result[i] = NULL;
 	return (result);
 }
 
@@ -93,14 +83,13 @@ char	**ft_split(char const *s, char c)
 {
 	int		word_count;
 	char	**result;
-	size_t	word_len;
 
 	if (!s)
 		return (NULL);
 	word_count = count_words(s, c);
-	result = (char **)malloc(sizeof(char *) * (word_count + 1));
+	result = (char **)ft_calloc((word_count + 1), sizeof(char *));
 	if (!result)
 		return (NULL);
-	result = ft_fill(s, c, result, &word_len);
+	result = ft_fill(s, c, result);
 	return (result);
 }

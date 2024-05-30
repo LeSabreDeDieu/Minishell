@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 11:48:24 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/03/21 13:33:08 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/05/30 14:56:49 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@
 #ifndef LIBFT_H
 # define LIBFT_H
 
-# include <stdlib.h>
-# include <unistd.h>
 # include <stdarg.h>
 # include <stdint.h>
+# include <stdlib.h>
+# include <unistd.h>
 
 // BUFFER_SIZE FOR GET_NEXT_LINE
 # ifndef BUFFER_SIZE
@@ -42,13 +42,13 @@ typedef struct s_list
 /**
  * @file libft.h
 
-	* @brief This file contains the declarations of various string 
+	* @brief This file contains the declarations of various string
 	and memory manipulation functions.
  */
 
 /**
 
-	* @brief Returns a pointer to the first occurrence of the character 
+	* @brief Returns a pointer to the first occurrence of the character
 	'c' in the string 'str'.
  * @param str The string to search in.
  * @param c The character to search for.
@@ -59,7 +59,7 @@ char				*ft_strchr(const char *str, int c);
 
 /**
 
-	* @brief Returns a pointer to the last occurrence of the character 
+	* @brief Returns a pointer to the last occurrence of the character
 	'c' in the string 'str'.
  * @param str The string to search in.
  * @param c The character to search for.
@@ -70,7 +70,7 @@ char				*ft_strrchr(const char *str, int c);
 
 /**
 
-	* @brief Locates the first occurrence of the string 'needle' in the 
+	* @brief Locates the first occurrence of the string 'needle' in the
 	string 'haystack' within the first 'len' characters.
  * @param haystack The string to search in.
  * @param needle The string to search for.
@@ -80,6 +80,17 @@ char				*ft_strrchr(const char *str, int c);
  */
 char				*ft_strnstr(const char *haystack, const char *needle,
 						size_t len);
+
+/**
+
+	* @brief Locates the first occurrence of the string 'needle' in the
+	string 'haystack'.
+ * @param haystack The string to search in.
+ * @param needle The string to search for.
+ * @return A pointer to the first occurrence of 'needle' in 'haystack',
+	or NULL if 'needle' is not found.
+ */
+char				*ft_strstr(const char *haystack, const char *needle);
 
 /**
  * @brief Allocates and returns a substring of the string 's'.
@@ -100,7 +111,7 @@ char				*ft_strjoin(char const *s1, char const *s2);
 
 /**
 
-	* @brief Trims the characters specified in 'set' from the beginning 
+	* @brief Trims the characters specified in 'set' from the beginning
 	and end of the string 's1'.
  * @param s1 The string to trim.
  * @param set The set of characters to trim.
@@ -110,7 +121,7 @@ char				*ft_strtrim(char const *s1, char const *set);
 
 /**
 
-	* @brief Applies the function 'f' to each character of the 
+	* @brief Applies the function 'f' to each character of the
 	string 's' to create a new string.
  * @param s The string to iterate over.
  * @param f The function to apply to each character.
@@ -121,7 +132,7 @@ char				*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 
 /**
 
-	* @brief Splits the string 's' using the character 'c' as 
+	* @brief Splits the string 's' using the character 'c' as
 	a delimiter and returns an array of strings.
  * @param s The string to split.
  * @param c The delimiter character.
@@ -223,7 +234,7 @@ int					ft_strncmp(const char *s1, const char *s2, size_t n);
  * @param src The source string.
  * @param size The size of the destination buffer.
 
-	* @return The total length of the string that would have been 
+	* @return The total length of the string that would have been
 	copied if 'size' was large enough.
  */
 size_t				ft_strlcpy(char *dest, const char *src, size_t size);
@@ -234,7 +245,7 @@ size_t				ft_strlcpy(char *dest, const char *src, size_t size);
  * @param src The source string.
  * @param size The size of the destination buffer.
 
-	* @return The total length of the string that would have been 
+	* @return The total length of the string that would have been
 	created if 'size' was large enough.
  */
 size_t				ft_strlcat(char *dest, const char *src, size_t size);
@@ -249,7 +260,9 @@ size_t				ft_strlen(const char *str);
 
 /**
  * @brief Sets the first 'n' bytes of the memory area 's' to the value 'c'.
- * @param s The memory area to set.
+ * @param s The memory area to setchar	*ft_strstr(const char *haystack,
+		const char *needle)
+.
  * @param c The value to set.
  * @param n The number of bytes to set.
  * @return A pointer to the memory area 's'.
@@ -258,7 +271,7 @@ void				*ft_memset(void *s, int c, size_t n);
 
 /**
 
-	* @brief Locates the first occurrence of the character 'c' 
+	* @brief Locates the first occurrence of the character 'c'
 	in the memory area 's'.
  * @param s The memory area to search in.
  * @param c The character to search for.
@@ -303,7 +316,7 @@ void				ft_striteri(char *s, void (*f)(unsigned int, char *));
 
 /**
 
-	* @brief Allocates memory for an array of 'count' elements of 
+	* @brief Allocates memory for an array of 'count' elements of
 	'size' bytes each and returns a pointer to the allocated memory.
  * @param count The number of elements to allocate.
  * @param size The size of each element.
@@ -313,7 +326,7 @@ void				*ft_calloc(size_t count, size_t size);
 
 /**
 
-	* @brief Duplicates the string 's1' and returns a pointer to 
+	* @brief Duplicates the string 's1' and returns a pointer to
 	the duplicated string.
  * @param s1 The string to duplicate.
  * @return A pointer to the duplicated string, or NULL if the allocation fails.
@@ -336,7 +349,7 @@ void				ft_putstr_fd(char *s, int fd);
 
 /**
 
-	* @brief Writes the string 's' followed by a newline character 
+	* @brief Writes the string 's' followed by a newline character
 	to the file descriptor 'fd'.
  * @param s The string to write.
  * @param fd The file descriptor.

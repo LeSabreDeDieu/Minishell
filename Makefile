@@ -6,7 +6,7 @@
 #    By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/28 23:23:20 by sgabsi            #+#    #+#              #
-#    Updated: 2024/05/28 23:33:11 by sgabsi           ###   ########.fr        #
+#    Updated: 2024/05/30 15:54:03 by sgabsi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,18 +15,32 @@
 #################
 
 # Directories
-SRC_SUBDIR	=	utils init
+SRC_SUBDIR	=	env utils
 SRCDIR		=	./src
 INCDIR		=	./include
 LIBDIR		=	./lib
 OBJDIR		=	obj
 
 # Sources
-SRC			=	$(SRCDIR)/minishell.c
+#ENV
+SRC_ENV_DIR 	=	$(SRCDIR)/env
+SRC_ENV_FILES	=	env_factory.c \
+					env.c
+SRC_ENV			=	$(addprefix $(SRC_ENV_DIR)/, $(SRC_ENV_FILES))
+
+#UTILS
+SRC_UTILS_DIR 	=	$(SRCDIR)/utils
+SRC_UTILS_FILES	=	free.c
+SRC_UTILS		=	$(addprefix $(SRC_UTILS_DIR)/, $(SRC_UTILS_FILES))
+
+SRC				=	$(SRC_ENV) \
+					$(SRC_UTILS) \
+					$(SRCDIR)/minishell.c
 
 # Objects
 OBJ_SUBDIRS	=	$(SRC_SUBDIR:%=$(OBJDIR)/%)
 OBJ			=	$(SRC:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
+DEP			=	$(OBJ:.o=.d)
 
 # Libraries
 LIBFT_DIR 	=	$(LIBDIR)/libft
@@ -40,7 +54,7 @@ CC			=	cc
 CFLAGS		=	-Wall -Werror -Wextra -MMD -g3
 
 OPTIONS		=	-I $(INCDIR) -I $(LIBFT_DIR)/includes
-LFLAGS		=	-L $(LIBFT_DIR) -lft
+LFLAGS		=	-L $(LIBFT_DIR) -lft -lreadline -lcurses
 
 # Progress bar
 COUNT		=	1
@@ -106,3 +120,4 @@ norminette:
 	@norminette src/ include/ > norm.log | grep -B 1 -e "Error" || echo "Tous les fichiers ont passé le check norminette !"
 
 .PHONY: check compile all clean fclean re norminette
+-include $(DEP)

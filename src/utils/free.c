@@ -1,32 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/09 11:30:43 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/05/30 14:35:34 by sgabsi           ###   ########.fr       */
+/*   Created: 2024/05/30 15:19:27 by sgabsi            #+#    #+#             */
+/*   Updated: 2024/05/30 15:55:09 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+void	free_str_tab(char **tabs)
 {
-	char	*str;
-	size_t	size;
+	char	**move;
 
-	if (!s)
-		return (NULL);
-	size = ft_strlen(s);
-	if (start >= size || len == 0)
-		return (ft_strdup(""));
-	if (len > size - start)
-		len = size - start;
-	str = (char *)ft_calloc(len + 1, sizeof(char));
-	if (!str)
-		return (NULL);
-	ft_memmove(str, s + start, len + 1);
-	return (str);
+	move = tabs;
+	while (*move)
+		free(*move++);
+	free(tabs);
 }
