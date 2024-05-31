@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gabrielcaptari@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:20:04 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/05/30 16:06:33 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/05/31 15:16:23 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,71 +17,36 @@ t_env	*new_env(char *name, char *value)
 	t_env	*env;
 
 	env = ft_calloc(1, sizeof(*env));
-	if (!env)
+	if (!env || !name || !value)
 		return (NULL);
-	env->name = name;
-	env->value = value;
+	env->name = ft_strdup(name);
+	env->value = ft_strdup(value);
 	return (env);
-}
-
-void	add_env(t_env *env)
-{
-	t_env_factory	*factory;
-	t_env			*current;
-
-	factory = get_env_factory();
-	if (!factory->env)
-	{
-		factory->env = env;
-		return ;
-	}
-	current = factory->env;
-	while (current->next)
-		current = current->next;
-	current->next = env;
 }
 
 void	create_env(char *envp[])
 {
-	char	**split;
 	char	**move;
-	char	*tmp;
-	char	*line;
 
-	if (!envp || !*envp)
+	if (!envp)
 		return ;
-	split = ft_split(*envp, '=');
-	if (!split)
-		return ;
-	line = NULL;
-	move = split + 1;
+	move = envp;
 	while (*move)
 	{
-		tmp = ft_strjoin_gnl(line, *move);
-		if (!tmp)
+		const t_parsing_env parsing_env = parser_env(*move++);
+		if (!parsing_env.name || !parsing_env.value)
+			continue;
+		const t_env *new = new_env(parsing_env.name, parsing_env.value);
+		if (!new)
 		{
-			free_str_tab(split);
-			free(line);
-			return ;
+			free(parsing_env.name);
+			free(parsing_env.value);
+			continue;
 		}
-		line = ft_strjoin_gnl(tmp, "=");
-		if (!line)
-		{
-			free_str_tab(split);
-			return ;
-		}
-		free(*move++);
+		free(parsing_env.name);
+		free(parsing_env.value);
+		add_env((t_env * )new);
 	}
-	tmp = line;
-	line = ft_strtrim(tmp, "=");
-	free(tmp);
-	if (!line)
-	{
-		free_str_tab(split);
-		return ;
-	}
-	add_env(new_env(split[0], line));
-	(free(split), create_env(++envp));
 }
 
 void	print_env(void)
@@ -93,7 +58,7 @@ void	print_env(void)
 	current = factory->env;
 	if (!current)
 		return ;
-	while (current->next)
+	while (current)
 	{
 		printf("%s=%s\n", current->name, current->value);
 		current = current->next;
@@ -107,6 +72,7 @@ void	free_env(void)
 	t_env			*current;
 
 	factory = get_env_factory();
+	free(factory->config.sepparator);
 	current = factory->env;
 	if (!current)
 		return ;

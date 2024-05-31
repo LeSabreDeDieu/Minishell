@@ -3,32 +3,66 @@
 /*                                                        :::      ::::::::   */
 /*   env_factory.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gabrielcaptari@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:16:09 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/05/30 15:44:11 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/05/31 15:21:38 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
+#inlude <stdbool.h>
 
 t_env_factory	*get_env_factory(void)
 {
-	static t_env_factory	env;
-
-	return (&env);
+	static t_env_factory	factory;
+	if (!factory.instanced)
+	{
+		factory.instanced = 1;
+		factory.config.sepparator = ft_strdup("=");
+	}
+	return (&factory);
 }
 
-t_env	get_env(char *name)
+boo
+
+t_parsing_env_config	*get_env_config(void)
+{
+	return (&get_env_factory()->config);
+}
+
+t_env	*get_env(char *name)
 {
 	t_env	*current;
 
 	current = get_env_factory()->env;
 	if (!current)
-		return ((t_env){.name = NULL, .value = NULL, .next = NULL});
-	while (ft_strncmp(current->name, name, ft_strlen(current->name)) != 0
+		return (NULL);
+	while ((ft_strncmp(current->name, name, ft_strlen(current->name)) != 0 || ft_strncmp(current->name, name, ft_strlen(name)) != 0)
 		&& current->next)
 		current = current->next;
-	return ((t_env){.name = current->name, .value = current->value,
-		.next = NULL});
+	return current;
+}
+
+// void	set_env(char *name, char *value)
+// {
+
+// }
+
+
+void	add_env(t_env *env)
+{
+	t_env_factory	*factory;
+	t_env			*current;
+
+	factory = get_env_factory();
+	if (!factory->env)
+	{
+		factory->env = env;
+		return ;
+	}
+	current = factory->env;
+	while (current->next)
+		current = current->next;
+	current->next = env;
 }
