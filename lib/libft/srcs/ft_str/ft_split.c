@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 16:32:04 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/05/30 14:54:13 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/06/02 14:51:52 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,9 @@ static int	count_words(const char *s, char c)
 
 static char	*extract_word(const char *s, char c, size_t *len)
 {
-	size_t	i;
 	char	*word;
 	char	*m;
 
-	i = 0;
 	m = (char *)s;
 	while (*m && *m != c)
 		m++;
