@@ -19,7 +19,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: failure()
         with:
-          name: Error Norme ?
+          name: "Error Norme ?"
           path: |
             error.log
           if-no-files-found: error
