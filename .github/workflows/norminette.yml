@@ -14,7 +14,7 @@ jobs:
 
       - name: Test Norm
         run: | 
-          python3 -m norminette Makefile > error.log
+          python3 -m norminette > error.log
       - name: Upload workspace
         uses: actions/upload-artifact@v4
         if: failure()
