@@ -6,7 +6,7 @@
 /*   By: gcaptari <gabrielcaptari@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 13:58:08 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/06/02 16:48:42 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/06/02 18:27:54 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ t_env						*new_env(char *name, char *value);
 void						add_env(t_env *env);
 void						create_env(char *envp[]);
 void						print_env(void);
-size_t                      len_env(void);
+size_t						len_env(void);
 void						free_env(void);
 
 t_parsing_env				parser_env(char *envp);
