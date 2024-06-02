@@ -1,0 +1,23 @@
+name: norminette
+on: [push, pull_request]
+
+jobs:
+  norminette:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install tools and dependencies
+        run: |
+          sudo pip3 install --upgrade pip setuptools
+          sudo pip3 install norminette
+
+      - name: Test Norm
+        run: | 
+          NORME=$(python3 -m norminette)
+          ERROR_COUNT=$( $NORME | grep -E '^(Error|Warning)' | wc -l); 
+          "if [[ $ERROR_COUNT != 0 ]]
+          then
+            echo "python3 -m norminette";
+          exit;
+          fi"
