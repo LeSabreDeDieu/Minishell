@@ -15,7 +15,9 @@
 #################
 
 # Directories
-SRC_SUBDIR	=	env utils
+SRC_SUBDIR	=	env \
+				utils \
+				ast
 SRCDIR		=	./src
 INCDIR		=	./include
 LIBDIR		=	./lib
@@ -29,14 +31,20 @@ SRC_ENV_FILES	=	env_factory.c \
 					parser.c
 SRC_ENV			=	$(addprefix $(SRC_ENV_DIR)/, $(SRC_ENV_FILES))
 
+#AST
+SRC_AST_DIR 	=	$(SRCDIR)/ast
+SRC_AST_FILES	=	parse/config.c
+SRC_AST			=	$(addprefix $(SRC_AST_DIR)/, $(SRC_AST_FILES))
+
 #UTILS
 SRC_UTILS_DIR 	=	$(SRCDIR)/utils
 SRC_UTILS_FILES	=	free.c \
 					len.c
 SRC_UTILS		=	$(addprefix $(SRC_UTILS_DIR)/, $(SRC_UTILS_FILES))
 
-SRC				=	$(SRC_ENV) \
-					$(SRC_UTILS) \
+SRC				=	$(SRC_ENV)		\
+					$(SRC_UTILS)	\
+					$(SRC_AST)		\
 					$(SRCDIR)/minishell.c
 
 # Objects
