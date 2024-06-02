@@ -26,7 +26,8 @@ OBJDIR		=	obj
 SRC_ENV_DIR 	=	$(SRCDIR)/env
 SRC_ENV_FILES	=	env_factory.c \
 					env.c		\
-					parser.c
+					parser.c	\
+					test.c
 SRC_ENV			=	$(addprefix $(SRC_ENV_DIR)/, $(SRC_ENV_FILES))
 
 #UTILS
@@ -109,9 +110,11 @@ $(LIBFT):
 clean:
 	@rm -rf $(OBJDIR)
 	@rm -f norm.log
+	@make -sC $(LIBFT_DIR) clean
 	@echo "$(YELLOW)********* Suppression des fichiers objets *********$(NC)"
 
 fclean: clean
+	@make -sC $(LIBFT_DIR) fclean
 	@rm -f $(NAME)
 	@echo "$(RED)********* Suppression de l'executable $(NAME) *********$(NC)"
 

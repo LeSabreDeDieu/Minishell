@@ -6,11 +6,13 @@
 /*   By: gcaptari <gabrielcaptari@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:20:04 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/05/31 15:16:23 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/06/02 16:52:04 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "env.h"
+#include "libft.h"
+#include "stdio.h"
 
 t_env	*new_env(char *name, char *value)
 {
@@ -20,32 +22,38 @@ t_env	*new_env(char *name, char *value)
 	if (!env || !name || !value)
 		return (NULL);
 	env->name = ft_strdup(name);
+	if (!env->name)
+		return (NULL);
 	env->value = ft_strdup(value);
+	if (!env->value)
+		return (free(env->name), NULL);
 	return (env);
 }
 
 void	create_env(char *envp[])
 {
-	char	**move;
+	char			**move;
+	t_parsing_env	parsing_env;
+	t_env			*new;
 
 	if (!envp)
 		return ;
 	move = envp;
 	while (*move)
 	{
-		const t_parsing_env parsing_env = parser_env(*move++);
+		parsing_env = parser_env(*move++);
 		if (!parsing_env.name || !parsing_env.value)
-			continue;
-		const t_env *new = new_env(parsing_env.name, parsing_env.value);
+			continue ;
+		new = new_env(parsing_env.name, parsing_env.value);
 		if (!new)
 		{
 			free(parsing_env.name);
 			free(parsing_env.value);
-			continue;
+			continue ;
 		}
 		free(parsing_env.name);
 		free(parsing_env.value);
-		add_env((t_env * )new);
+		add_env((t_env *)new);
 	}
 }
 
@@ -64,5 +72,3 @@ void	print_env(void)
 		current = current->next;
 	}
 }
-
-

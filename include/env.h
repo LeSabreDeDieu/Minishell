@@ -6,7 +6,7 @@
 /*   By: gcaptari <gabrielcaptari@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 13:58:08 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/05/31 15:12:09 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/06/02 16:48:42 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct s_env_factory
 
 t_env_factory				*get_env_factory(void);
 t_parsing_env_config		*get_env_config(void);
+bool						test_env_config(void);
 
 t_env						*get_env(char *name);
 void						set_env(char *name, char *value);
@@ -55,6 +56,6 @@ size_t                      len_env(void);
 void						free_env(void);
 
 t_parsing_env				parser_env(char *envp);
-char **env_to_tab(void);
+char						**env_to_tab(void);
 
 #endif
