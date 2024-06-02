@@ -32,11 +32,10 @@
 # include "env.h"
 # include "command.h"
 # include "libft.h"
+# include "utils.h"
 
 typedef struct	s_data
 {
 }				t_data;
-
-void	free_str_tab(char **tabs);
 
 #endif

@@ -31,7 +31,8 @@ SRC_ENV			=	$(addprefix $(SRC_ENV_DIR)/, $(SRC_ENV_FILES))
 
 #UTILS
 SRC_UTILS_DIR 	=	$(SRCDIR)/utils
-SRC_UTILS_FILES	=	free.c
+SRC_UTILS_FILES	=	free.c \
+					len.c
 SRC_UTILS		=	$(addprefix $(SRC_UTILS_DIR)/, $(SRC_UTILS_FILES))
 
 SRC				=	$(SRC_ENV) \
@@ -51,8 +52,8 @@ LIBFT 		=	$(LIBFT_DIR)/libft.a
 NAME		=	minishell
 
 # Compiler
-CC			=	cc
-CFLAGS		=	-Wall -Werror -Wextra -MMD -g3
+CC			=	clang
+CFLAGS		=	-Wall -Werror -Wextra -MMD
 
 OPTIONS		=	-I $(INCDIR) -I $(LIBFT_DIR)/includes
 LFLAGS		=	-L $(LIBFT_DIR) -lft -lreadline -lcurses

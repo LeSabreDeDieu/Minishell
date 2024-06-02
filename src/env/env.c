@@ -65,23 +65,4 @@ void	print_env(void)
 	}
 }
 
-void	free_env(void)
-{
-	t_env_factory	*factory;
-	t_env			*tmp;
-	t_env			*current;
 
-	factory = get_env_factory();
-	free(factory->config.sepparator);
-	current = factory->env;
-	if (!current)
-		return ;
-	while (current)
-	{
-		tmp = current;
-		current = tmp->next;
-		free(tmp->name);
-		free(tmp->value);
-		free(tmp);
-	}
-}

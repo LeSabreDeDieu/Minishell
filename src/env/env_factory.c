@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "env.h"
-#inlude <stdbool.h>
+#include <stdbool.h>
 
 t_env_factory	*get_env_factory(void)
 {
@@ -23,8 +23,6 @@ t_env_factory	*get_env_factory(void)
 	}
 	return (&factory);
 }
-
-boo
 
 t_parsing_env_config	*get_env_config(void)
 {

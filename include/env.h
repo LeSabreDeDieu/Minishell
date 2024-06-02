@@ -13,6 +13,7 @@
 #ifndef ENV_H
 # define ENV_H
 # include "libft.h"
+# include "utils.h"
 # include <stdbool.h>
 
 typedef struct s_env
@@ -50,8 +51,10 @@ t_env						*new_env(char *name, char *value);
 void						add_env(t_env *env);
 void						create_env(char *envp[]);
 void						print_env(void);
+size_t                      len_env(void);
 void						free_env(void);
 
 t_parsing_env				parser_env(char *envp);
+char **env_to_tab(void);
 
 #endif

@@ -13,31 +13,35 @@
 #include "env.h"
 #include "minishell.h"
 
-void	ft_handle_signal(int signum, siginfo_t *info, void *context)
-{
-	char	*str;
+// void	ft_handle_signal(int signum, siginfo_t *info, void *context)
+// {
+// 	char	*str;
 
-	(void)info;
-	(void)context;
-	str = get_env("USER")->value;
-	if (signum == SIGINT)
-	{
-		rl_replace_line("\0", 1);
-		rl_redisplay();
-	}
-	return ;
-}
+// 	(void)info;
+// 	(void)context;
+// 	str = get_env("USER")->value;
+// 	if (signum == SIGINT)
+// 	{
+// 		rl_replace_line("\0", 1);
+// 		rl_redisplay();
+// 	}
+// 	return ;
+// }
 
 int	main(int argc, char *argv[], char *envp[])
 {
 	// struct sigaction	sa;
 	// char	*prompt;
+    char **test_env_encode;
 
 	(void)argc;
 	(void)argv;
 	create_env(envp);
 	print_env();
+    test_env_encode = env_to_tab();
+    printf("kjsdlfkdjflsk %s\n", test_env_encode[0]);
 	free_env();
+    free_str_tab(test_env_encode);
 	// sa.sa_sigaction = &ft_handle_signal;
 	// sa.sa_flags = SA_SIGINFO;
 	// sigaction(SIGINT, &sa, NULL);
