@@ -6,7 +6,7 @@
 /*   By: gcaptari <gabrielcaptari@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 23:31:50 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/06/02 17:10:08 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/06/02 17:11:41 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,3 +67,4 @@ int	main(int argc, char *argv[], char *envp[])
 	// }
 	return (0);
 }
+
