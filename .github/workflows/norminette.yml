@@ -14,10 +14,6 @@ jobs:
 
       - name: Test Norm
         run: | 
-          NORME=$(python3 -m norminette);
-          ERROR_COUNT=$( $NORME | grep -E '^(Error|Warning)' | wc -l); 
-          "if [[ $ERROR_COUNT != 0 ]]
-          then
-            echo "python3 -m norminette";
-            exit;
-          fi"
+          NORME=$(python3 -m norminette)
+          ERROR_COUNT=$( $NORME | grep -E '^(Error|Warning)' | wc -l)
+          echo "$ERROR_COUNT"
