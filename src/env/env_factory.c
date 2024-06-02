@@ -6,7 +6,7 @@
 /*   By: gcaptari <gabrielcaptari@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:16:09 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/05/31 15:21:38 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/06/02 16:49:14 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 t_env_factory	*get_env_factory(void)
 {
 	static t_env_factory	factory;
+
 	if (!factory.instanced)
 	{
 		factory.instanced = 1;
@@ -36,17 +37,12 @@ t_env	*get_env(char *name)
 	current = get_env_factory()->env;
 	if (!current)
 		return (NULL);
-	while ((ft_strncmp(current->name, name, ft_strlen(current->name)) != 0 || ft_strncmp(current->name, name, ft_strlen(name)) != 0)
+	while ((ft_strncmp(current->name, name, ft_strlen(current->name)) != 0
+			|| ft_strncmp(current->name, name, ft_strlen(name)) != 0)
 		&& current->next)
 		current = current->next;
-	return current;
+	return (current);
 }
-
-// void	set_env(char *name, char *value)
-// {
-
-// }
-
 
 void	add_env(t_env *env)
 {
@@ -63,4 +59,23 @@ void	add_env(t_env *env)
 	while (current->next)
 		current = current->next;
 	current->next = env;
+}
+
+void	set_env(char *name, char *value)
+{
+	t_env	*current;
+	char	*tmp;
+
+	current = get_env(name);
+	if (current)
+	{
+		tmp = current->value;
+		current->value = ft_strdup(value);
+		if (!current->value)
+			current->value = tmp;
+		else
+			free(tmp);
+		return ;
+	}
+	add_env(new_env(name, value));
 }

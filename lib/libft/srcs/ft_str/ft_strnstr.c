@@ -6,12 +6,11 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 13:33:03 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/05/30 14:55:05 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/06/02 18:24:54 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
 
 static size_t	ft_max(size_t n, size_t n2)
 {

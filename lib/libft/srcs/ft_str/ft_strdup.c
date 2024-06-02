@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 14:57:46 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/06/02 16:23:56 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/06/02 18:24:25 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ char	*ft_strdup(const char *s1)
 {
 	size_t	len;
 	char	*s2;
+
 	if (!s1)
 		return (NULL);
 	len = ft_strlen(s1);

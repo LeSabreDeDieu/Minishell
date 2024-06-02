@@ -15,9 +15,7 @@
 #################
 
 # Directories
-SRC_SUBDIR	=	env \
-				utils \
-				ast
+SRC_SUBDIR	=	env utils
 SRCDIR		=	./src
 INCDIR		=	./include
 LIBDIR		=	./lib
@@ -28,13 +26,9 @@ OBJDIR		=	obj
 SRC_ENV_DIR 	=	$(SRCDIR)/env
 SRC_ENV_FILES	=	env_factory.c \
 					env.c		\
-					parser.c
+					parser.c	\
+					test.c
 SRC_ENV			=	$(addprefix $(SRC_ENV_DIR)/, $(SRC_ENV_FILES))
-
-#AST
-SRC_AST_DIR 	=	$(SRCDIR)/ast
-SRC_AST_FILES	=	parse/config.c
-SRC_AST			=	$(addprefix $(SRC_AST_DIR)/, $(SRC_AST_FILES))
 
 #UTILS
 SRC_UTILS_DIR 	=	$(SRCDIR)/utils
@@ -42,9 +36,8 @@ SRC_UTILS_FILES	=	free.c \
 					len.c
 SRC_UTILS		=	$(addprefix $(SRC_UTILS_DIR)/, $(SRC_UTILS_FILES))
 
-SRC				=	$(SRC_ENV)		\
-					$(SRC_UTILS)	\
-					$(SRC_AST)		\
+SRC				=	$(SRC_ENV) \
+					$(SRC_UTILS) \
 					$(SRCDIR)/minishell.c
 
 # Objects
@@ -117,9 +110,11 @@ $(LIBFT):
 clean:
 	@rm -rf $(OBJDIR)
 	@rm -f norm.log
+	@make -sC $(LIBFT_DIR) clean
 	@echo "$(YELLOW)********* Suppression des fichiers objets *********$(NC)"
 
 fclean: clean
+	@make -sC $(LIBFT_DIR) fclean
 	@rm -f $(NAME)
 	@echo "$(RED)********* Suppression de l'executable $(NAME) *********$(NC)"
 
