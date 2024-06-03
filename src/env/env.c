@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gabrielcaptari@student.42.fr>    +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:20:04 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/06/03 10:35:19 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/06/03 15:24:55 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ t_env	*new_env(char *name, char *value)
 
 	env = ft_calloc(1, sizeof(*env));
 	if (!env || !name || !value)
-		return (NULL);
+		return (free(env), NULL);
 	env->name = ft_strdup(name);
 	if (!env->name)
-		return (NULL);
+		return (free(env), NULL);
 	env->value = ft_strdup(value);
 	if (!env->value)
-		return (free(env->name), NULL);
+		return (free(env->name), free(env), NULL);
 	return (env);
 }
 
