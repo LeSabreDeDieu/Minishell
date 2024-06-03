@@ -6,11 +6,12 @@
 /*   By: gcaptari <gabrielcaptari@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:16:09 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/06/02 16:49:14 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/06/03 10:24:13 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
+#include <stdio.h>
 #include <stdbool.h>
 
 t_env_factory	*get_env_factory(void)
@@ -41,6 +42,9 @@ t_env	*get_env(char *name)
 			|| ft_strncmp(current->name, name, ft_strlen(name)) != 0)
 		&& current->next)
 		current = current->next;
+	if ((ft_strncmp(current->name, name, ft_strlen(current->name)) != 0
+			|| ft_strncmp(current->name, name, ft_strlen(name)) != 0))
+		return (NULL);
 	return (current);
 }
 
