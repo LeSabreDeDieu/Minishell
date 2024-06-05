@@ -42,3 +42,23 @@ void	free_env(void)
 		free(tmp);
 	}
 }
+
+void	free_token(void)
+{
+	t_token_factory	*fac;
+	t_token			*tmp;
+	t_token			*current;
+
+	fac = get_token_factory();
+	current = fac->token;
+	if (!current)
+		return ;
+	while (current)
+	{
+		tmp = current;
+		current = tmp->next;
+		if (tmp->value)
+			free(tmp->value);
+		free(tmp);
+	}
+}

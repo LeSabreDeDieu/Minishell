@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gcaptari <gabrielcaptari@student.42.fr>    +#+  +:+       +#+         #
+#    By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/28 23:23:20 by sgabsi            #+#    #+#              #
-#    Updated: 2024/05/31 14:35:03 by gcaptari         ###   ########.fr        #
+#    Updated: 2024/06/05 16:42:16 by sgabsi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@
 #################
 
 # Directories
-SRC_SUBDIR	=	env utils
+SRC_SUBDIR	=	env utils token
 SRCDIR		=	./src
 INCDIR		=	./include
 LIBDIR		=	./lib
@@ -30,6 +30,14 @@ SRC_ENV_FILES	=	env_factory.c \
 					test.c
 SRC_ENV			=	$(addprefix $(SRC_ENV_DIR)/, $(SRC_ENV_FILES))
 
+#TOKEN
+SRC_TOKEN_DIR 	=	$(SRCDIR)/token
+SRC_TOKEN_FILES	=	factory.c \
+					tokenise.c \
+					totokenise.c \
+					utils.c
+SRC_TOKEN		=	$(addprefix $(SRC_TOKEN_DIR)/, $(SRC_TOKEN_FILES))
+
 #UTILS
 SRC_UTILS_DIR 	=	$(SRCDIR)/utils
 SRC_UTILS_FILES	=	free.c \
@@ -37,6 +45,7 @@ SRC_UTILS_FILES	=	free.c \
 SRC_UTILS		=	$(addprefix $(SRC_UTILS_DIR)/, $(SRC_UTILS_FILES))
 
 SRC				=	$(SRC_ENV) \
+					$(SRC_TOKEN) \
 					$(SRC_UTILS) \
 					$(SRCDIR)/minishell.c
 
@@ -54,7 +63,7 @@ NAME		=	minishell
 
 # Compiler
 CC			=	clang
-CFLAGS		=	-Wall -Werror -Wextra -MMD
+CFLAGS		=	-Wall -Werror -Wextra -MMD -g3
 
 OPTIONS		=	-I $(INCDIR) -I $(LIBFT_DIR)/includes
 LFLAGS		=	-L $(LIBFT_DIR) -lft -lreadline -lcurses

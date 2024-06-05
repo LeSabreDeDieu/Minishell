@@ -29,8 +29,10 @@
 # include <termios.h>            // pour tcsetattr, tcgetattr
 # include <curses.h>             // pour tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
 # include <term.h>               // pour tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
+
 # include "env.h"
 # include "command.h"
+# include "tokens.h"
 # include "libft.h"
 # include "utils.h"
 

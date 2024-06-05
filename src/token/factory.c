@@ -6,16 +6,18 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 15:03:21 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/06/03 15:25:49 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/06/05 18:03:02 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokens.h"
 #include "libft.h"
 
-static void create_token_config(t_token_factory *fac)
+static void	create_token_config(t_token_factory *fac)
 {
-	t_token_config *config = &fac->config;
+	t_token_config	*config;
+
+	config = &fac->config;
 	config->redirection = "<>";
 	config->pipe = '|';
 	config->variable = '$';
@@ -28,7 +30,7 @@ static void create_token_config(t_token_factory *fac)
 t_token_factory	*get_token_factory(void)
 {
 	static t_token_factory	factory;
-	
+
 	if (!factory.instanced)
 	{
 		factory.instanced = true;
@@ -45,9 +47,9 @@ t_token_config	*get_token_config(void)
 t_token	*create_token(char *value, t_token_type type)
 {
 	t_token	*token;
-	
-	token = ft_calloc(1, sizeof(token));
-	if (!token || !value || !type)
+
+	token = ft_calloc(1, sizeof(*token));
+	if (!token || !value)
 		return (free(token), NULL);
 	token->value = ft_strdup(value);
 	if (!token->value)
@@ -60,10 +62,13 @@ void	add_token(t_token *token)
 {
 	t_token_factory	*fac;
 	t_token			*current;
-	
+
 	fac = get_token_factory();
 	if (!fac->token)
-		return (void)(fac->token = token);
+	{
+		fac->token = token;
+		return ;
+	}
 	current = fac->token;
 	while (current->next)
 		current = current->next;

@@ -1,27 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   totokenise.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/08 14:57:46 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/06/05 18:00:49 by sgabsi           ###   ########.fr       */
+/*   Created: 2024/06/05 16:31:38 by sgabsi            #+#    #+#             */
+/*   Updated: 2024/06/05 16:57:30 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "tokens.h"
 
-char	*ft_strdup(const char *s1)
+void	to_tokenise(char *prompt)
 {
-	size_t	len;
-	char	*s2;
+	t_token_config	*conf;
+	char			*tmp;
 
-	if (!s1 || !*s1)
-		return (NULL);
-	len = ft_strlen(s1);
-	s2 = (char *)ft_calloc(len + 1, sizeof (char));
-	if (!s2)
-		return (NULL);
-	return ((char *)ft_memmove(s2, s1, len));
+	if (!prompt)
+		return ;
+	tmp = prompt;
+	conf = get_token_config();
+	while (*tmp)
+	{
+		if (*tmp == ' ')
+		{
+			tmp++;
+			continue ;
+		}
+		tokenise(&tmp, conf);
+	}
 }
