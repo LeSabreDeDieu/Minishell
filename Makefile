@@ -43,10 +43,15 @@ SRC_UTILS_DIR 	=	$(SRCDIR)/utils
 SRC_UTILS_FILES	=	free.c \
 					len.c
 SRC_UTILS		=	$(addprefix $(SRC_UTILS_DIR)/, $(SRC_UTILS_FILES))
+#READ_LINE
+SRC_READ_LINE_DIR 	=	$(SRCDIR)/readline
+SRC_READ_LINE_FILES	=	get_line.c
+SRC_READ_LINE		=	$(addprefix $(SRC_READ_LINE_DIR)/, $(SRC_READ_LINE_FILES))
 
 SRC				=	$(SRC_ENV) \
 					$(SRC_TOKEN) \
 					$(SRC_UTILS) \
+					$(SRC_READ_LINE) \
 					$(SRCDIR)/minishell.c
 
 # Objects

@@ -40,4 +40,5 @@ typedef struct	s_data
 {
 }				t_data;
 
+char *rl_gets(void);
 #endif

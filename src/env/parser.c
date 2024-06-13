@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gcaptari <gabrielcaptari@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 14:36:35 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/06/02 16:42:21 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/06/05 16:23:15 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ char	**env_to_tab(void)
 	char	**tabs;
 	char	**move;
 
-	tabs = ft_calloc(len_env() + 1, sizeof(char *));
+	tabs = ft_calloc(get_env_factory()->length + 1, sizeof(char *));
 	if (!tabs)
 		return (NULL);
 	move = tabs;
