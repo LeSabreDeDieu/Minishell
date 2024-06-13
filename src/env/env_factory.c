@@ -6,13 +6,13 @@
 /*   By: gcaptari <gabrielcaptari@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:16:09 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/06/03 10:24:13 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/06/05 16:34:56 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
-#include <stdio.h>
 #include <stdbool.h>
+#include <stdio.h>
 
 t_env_factory	*get_env_factory(void)
 {
@@ -54,6 +54,8 @@ void	add_env(t_env *env)
 	t_env			*current;
 
 	factory = get_env_factory();
+	if (env)
+		factory->length++;
 	if (!factory->env)
 	{
 		factory->env = env;
@@ -64,6 +66,36 @@ void	add_env(t_env *env)
 		current = current->next;
 	current->next = env;
 }
+
+void	unset_env(char *name)
+{
+	t_env	*current;
+	t_env	*find;
+
+	find = get_env(name);
+	if (!find)
+		return ;
+	current = get_env_factory()->env;
+	get_env_factory()->length--;
+	while (current)
+	{
+		if (current == find)
+		{
+			get_env_factory()->env = find->next;
+			break ;
+		}
+		else if (current->next == find)
+		{
+			current->next = find->next;
+			break ;
+		}
+		current = current->next;
+	}
+	free(find->name);
+	free(find->value);
+	free(find);
+}
+
 
 void	set_env(char *name, char *value)
 {

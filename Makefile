@@ -6,7 +6,7 @@
 #    By: gcaptari <gabrielcaptari@student.42.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/28 23:23:20 by sgabsi            #+#    #+#              #
-#    Updated: 2024/05/31 14:35:03 by gcaptari         ###   ########.fr        #
+#    Updated: 2024/06/13 10:58:16 by gcaptari         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,9 +35,14 @@ SRC_UTILS_DIR 	=	$(SRCDIR)/utils
 SRC_UTILS_FILES	=	free.c \
 					len.c
 SRC_UTILS		=	$(addprefix $(SRC_UTILS_DIR)/, $(SRC_UTILS_FILES))
+#READ_LINE
+SRC_READ_LINE_DIR 	=	$(SRCDIR)/readline
+SRC_READ_LINE_FILES	=	get_line.c
+SRC_READ_LINE		=	$(addprefix $(SRC_READ_LINE_DIR)/, $(SRC_READ_LINE_FILES))
 
 SRC				=	$(SRC_ENV) \
 					$(SRC_UTILS) \
+					$(SRC_READ_LINE) \
 					$(SRCDIR)/minishell.c
 
 # Objects
