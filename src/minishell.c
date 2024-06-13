@@ -3,15 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gabrielcaptari@student.42.fr>    +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 23:31:50 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/06/13 10:59:31 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/06/13 10:59:31 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
 #include "minishell.h"
+#include "tokens.h"
+
+static void	print_token(void)
+{
+	t_token_factory	*fac;
+	t_token			*current;
+	const char		*token_names[8] = {"WORD", "VARIABLE", "PIPE",
+		"REDIRECTION", "SUBSHELL", "DOUBLE_QUOTE",
+		"SIMPLE_QUOTE"};
+
+	fac = get_token_factory();
+	if (!fac)
+		return ;
+	current = fac->token;
+	printf("Tokenisation : \n");
+	while (current)
+	{
+		printf("[%s] => #%s#\n", token_names[current->type], current->value);
+		if (!current->next)
+			break ;
+		current = current->next;
+	}
+}
 
 int	main(int argc, char *argv[], char *envp[])
 {
@@ -31,6 +53,8 @@ int	main(int argc, char *argv[], char *envp[])
 			free_env();
 			return (0);
 		}
+    to_tokenise(argv[1]);
+    print_token();
 		printf("%s\n", line);
 	}
 	return (0);

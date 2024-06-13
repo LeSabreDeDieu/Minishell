@@ -1,27 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   valid_token.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/08 14:57:46 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/06/05 18:00:49 by sgabsi           ###   ########.fr       */
+/*   Created: 2024/06/06 09:54:50 by sgabsi            #+#    #+#             */
+/*   Updated: 2024/06/13 10:13:31 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "tokens.h"
 
-char	*ft_strdup(const char *s1)
+bool	check_valid_token(void)
 {
-	size_t	len;
-	char	*s2;
+	t_token_factory	*t_fac;
+	t_token			*current;
+	int				num_of_double_quote;
+	int				num_of_simple_quote;		
 
-	if (!s1 || !*s1)
-		return (NULL);
-	len = ft_strlen(s1);
-	s2 = (char *)ft_calloc(len + 1, sizeof (char));
-	if (!s2)
-		return (NULL);
-	return ((char *)ft_memmove(s2, s1, len));
+	t_fac = get_token_factory();
+	current = t_fac->token;
+	// while (current->next)
+	// {
+	// 	if (current->type == TOKEN_DOUBLE_QUOTE)
+	// 	if (current->type == TOKEN_SIMPLE_QUOTE)
+	// 	if (current->type == TOKEN_SUBSHELL)
+	// }
 }

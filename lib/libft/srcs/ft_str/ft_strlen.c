@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 16:11:22 by sgabsi            #+#    #+#             */
-/*   Updated: 2023/11/07 15:46:15 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/06/05 17:50:44 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ size_t	ft_strlen(const char *str)
 {
 	size_t	size;
 
+	if (!str || !*str)
+		return (0);
 	size = 0;
 	while (str[size])
 		size++;
