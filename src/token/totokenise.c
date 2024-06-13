@@ -6,12 +6,13 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:31:38 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/06/13 10:09:15 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/06/13 18:30:57 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokens.h"
 #include "libft.h"
+#include <stdio.h>
 
 void	to_tokenise(char *prompt)
 {
@@ -20,9 +21,11 @@ void	to_tokenise(char *prompt)
 	char			*tmp;
 	char			char_tmp;
 
-	if (!prompt)
+	if (!prompt || !*prompt)
 		return ;
 	tmp = ft_strtrim(prompt, " ");
+	if (!tmp)
+		return ;
 	save = tmp;
 	conf = get_token_config();
 	while (*tmp)

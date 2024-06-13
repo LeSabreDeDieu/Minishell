@@ -46,14 +46,14 @@ static void	tokenise_redirect_char(char **str)
 
 	if (**str == '<')
 	{
-		if (**str + 1 == '<')
+		if (*(*str + 1) == '<')
 			tmp = "<<";
 		else
 			tmp = "<";
 	}
 	else
 	{
-		if (**str + 1 == '>')
+		if (*(*str + 1) == '>')
 			tmp = ">>";
 		else
 			tmp = ">";
@@ -100,6 +100,26 @@ void	tokenise(char **str, t_token_config *conf)
 {
 	char	*tmp;
 
+	if (!*str || !**str || **str == ' ')
+		return ;
+	if (**str == '&' && *(*str + 1) == '&')
+	{
+		tokenise_special_char("&&", TOKEN_AND);
+		*str += 2;
+		return ;
+	}
+	if (**str == conf->pipe)
+	{
+		if (*(*str + 1) == conf->pipe)
+		{
+			tokenise_special_char("||", TOKEN_OR);
+			*str += 1;
+		}
+		else
+			tokenise_special_char("|", TOKEN_PIPE);
+		*str += 1;
+		return ;
+	}
 	if (**str == conf->double_quote)
 	{
 		tmp = ft_substr(*str, 0, (ft_strchr(*str + 1, '"') - *str) + 1);
@@ -118,12 +138,6 @@ void	tokenise(char **str, t_token_config *conf)
 		tokenise_special_char(tmp, TOKEN_SIMPLE_QUOTE);
 		*str += ft_strlen(tmp);
 		free(tmp);
-		return ;
-	}
-	if (**str == conf->pipe)
-	{
-		tokenise_special_char("|", TOKEN_PIPE);
-		*str += 1;
 		return ;
 	}
 	tokenise2(str, conf);

@@ -61,4 +61,5 @@ void	free_token(void)
 			free(tmp->value);
 		free(tmp);
 	}
+	fac->token = NULL;
 }
