@@ -16,11 +16,13 @@
 
 typedef enum e_token_type
 {
+	TOKEN_AND,
+	TOKEN_OR,
+	TOKEN_SUBSHELL,
 	TOKEN_WORD,
 	TOKEN_VARIABLE,
 	TOKEN_PIPE,
 	TOKEN_REDIRECTION,
-	TOKEN_SUBSHELL,
 	TOKEN_DOUBLE_QUOTE,
 	TOKEN_SIMPLE_QUOTE
 }			t_token_type;
@@ -35,6 +37,8 @@ typedef struct s_token
 typedef struct s_token_config
 {
 	char	*redirection;
+	char	*and;
+	char	*or;
 	char	pipe;
 	char	variable;
 	char	subshell_start;
@@ -65,16 +69,3 @@ char			*get_word(char **str);
 void			free_token(void);
 
 #endif
-
-// < in cat | grep {word} | ls >> out 
-
-// [redirection]=>"<" [word]=>"in" [word]=>cat [pipe] [word]=>"grep" [word]=>args [pipe] [word]=>"ls" [redirection]=>">>" [word]=>"out"
-/*
-
-<	=	REDIRECTION_IN
-<<	=	HERE_DOC
-
->	=	REDIRCTION_OUT
->>	=	REDIRCTION_OUT_APPEND
-
-*/

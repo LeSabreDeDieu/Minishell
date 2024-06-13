@@ -78,11 +78,11 @@ static void	tokenise2(char **str, t_token_config *conf)
 	}
 	if (**str == conf->subshell_start)
 	{
-		tmp = ft_substr(*str, 0, *str - ft_strrchr(*str, ')'));
+		tmp = ft_substr(*str, 1, (ft_strrchr(*str, ')') - *str) - 1);
 		if (!tmp)
 			return ;
 		tokenise_special_char(tmp, TOKEN_SUBSHELL);
-		*str += ft_strlen(tmp);
+		*str += ft_strlen(tmp) + 2;
 		free(tmp);
 		return ;
 	}
@@ -98,16 +98,26 @@ static void	tokenise2(char **str, t_token_config *conf)
 
 void	tokenise(char **str, t_token_config *conf)
 {
+	char	*tmp;
+
 	if (**str == conf->double_quote)
 	{
-		tokenise_special_char("\"", TOKEN_DOUBLE_QUOTE);
-		*str += 1;
+		tmp = ft_substr(*str, 0, (ft_strchr(*str + 1, '"') - *str) + 1);
+		if (!tmp)
+			return ;
+		tokenise_special_char(tmp, TOKEN_DOUBLE_QUOTE);
+		*str += ft_strlen(tmp);
+		free(tmp);
 		return ;
 	}
 	if (**str == conf->simple_quote)
 	{
-		tokenise_special_char("\'", TOKEN_SIMPLE_QUOTE);
-		*str += 1;
+		tmp = ft_substr(*str, 0, (ft_strchr(*str + 1, '\'') - *str) + 1);
+		if (!tmp)
+			return ;
+		tokenise_special_char(tmp, TOKEN_SIMPLE_QUOTE);
+		*str += ft_strlen(tmp);
+		free(tmp);
 		return ;
 	}
 	if (**str == conf->pipe)

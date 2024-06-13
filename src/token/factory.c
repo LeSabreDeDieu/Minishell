@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 15:03:21 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/06/05 18:03:02 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/06/13 10:29:55 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ static void	create_token_config(t_token_factory *fac)
 	t_token_config	*config;
 
 	config = &fac->config;
+	config->and = "&&";
+	config->or = "||";
 	config->redirection = "<>";
 	config->pipe = '|';
 	config->variable = '$';
