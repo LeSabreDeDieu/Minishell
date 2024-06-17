@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 23:31:50 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/06/13 18:17:54 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/06/17 17:57:08 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	print_token(void)
 	printf("Tokenisation : \n");
 	while (current)
 	{
-		printf("[%s] => #%s#\n", token_names[current->type], current->value);
+		printf("[%s] => %%%s%%\n", token_names[current->type], current->value);
 		if (!current->next)
 			break ;
 		current = current->next;

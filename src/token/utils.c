@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 12:55:39 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/06/13 18:21:58 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/06/17 15:17:40 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,6 @@ char	*get_word(char **str)
 	i = -1;
 	while (++i < len)
 		tmp[i] = (*str)[i];
-	*str += len;
+	*str += len - 1;
 	return (tmp);
 }

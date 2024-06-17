@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 15:41:58 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/06/13 10:07:36 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/06/17 17:33:51 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,14 @@ char	*ft_strtrim(char const *s1, char const *set)
 		start++;
 	if (!s1[start])
 		return (ft_strdup(""));
-	end = start + ft_strlen(s1 + start) - 1;
+	end = start + ft_strlen(s1 + start);
 	while (end > 0 && is_in_set(s1[end], set))
 		end--;
 	trimmed_str = ft_calloc(end - start + 1, sizeof(char));
 	if (!trimmed_str)
 		return (NULL);
 	i = 0;
-	while (start <= end)
+	while (start < end)
 		trimmed_str[i++] = s1[start++];
 	trimmed_str[i] = '\0';
 	return (trimmed_str);
