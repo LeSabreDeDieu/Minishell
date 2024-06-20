@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 15:41:58 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/06/17 17:33:51 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/06/18 14:26:24 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ char	*ft_strtrim(char const *s1, char const *set)
 	if (!s1 || !set)
 		return (NULL);
 	start = 0;
-	end = 0;
 	while (s1[start] && is_in_set(s1[start], set))
 		start++;
 	if (!s1[start])

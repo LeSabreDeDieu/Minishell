@@ -1,33 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memmove.c                                       :+:      :+:    :+:   */
+/*   factory.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/06 16:51:55 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/06/18 14:25:57 by sgabsi           ###   ########.fr       */
+/*   Created: 2024/06/18 15:49:33 by sgabsi            #+#    #+#             */
+/*   Updated: 2024/06/18 16:33:06 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ast.h"
 
-void	*ft_memmove(void *dest, const void *src, size_t n)
+t_ast_factory	*get_ast_factory(void)
 {
-	unsigned char		*d;
-	unsigned const char	*s;
+	static t_ast_factory	factory;
 
-	d = (unsigned char *) dest;
-	s = (unsigned const char *) src;
-	if (d < s)
-		while (n--)
-			*d++ = *s++;
-	else
+	if (!factory.instanced)
 	{
-		d += (n - 1);
-		s += (n - 1);
-		while (n--)
-			*d-- = *s--;
+		factory.instanced = true;
+		factory.ast = NULL;
 	}
-	return (dest);
+	return (&factory);
 }
+

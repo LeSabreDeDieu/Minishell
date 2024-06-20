@@ -69,57 +69,42 @@ static void	tokenise_redirect_char(char **str)
 
 static void	tokenise2(char **str, t_token_config *conf)
 {
-	char	*tmp;
-
 	if (**str == conf->redirection[0] || **str == conf->redirection[1])
-	{
 		tokenise_redirect_char(str);
-		return ;
-	}
-	if (**str == conf->subshell_start)
-	{
-		tmp = ft_substr(*str, 1, (ft_strrchr(*str, ')') - *str) - 1);
-		if (!tmp)
-			return ;
-		tokenise_special_char(tmp, TOKEN_SUBSHELL);
-		*str += ft_strlen(tmp) + 2;
-		free(tmp);
-		return ;
-	}
-	if (**str == conf->variable)
+	else if (**str == conf->variable)
 	{
 		tokenise_special_char("$", TOKEN_VARIABLE);
 		*str += 1;
-		return ;
 	}
-	tokenise_word(str);
+	else
+		tokenise_word(str);
 	*str += 1;
 }
 
-void	tokenise(char **str, t_token_config *conf)
+char	*get_right_end(char *str)
+{
+	int		count;
+	char	*tmp;
+
+	count = 1;
+	tmp = str + 1;
+	while (*tmp)
+	{
+		if (*tmp == '(')
+			count++;
+		if (*tmp == ')')
+			count--;
+		if (count == 0)
+			break ;
+		tmp++;
+	}
+	return (tmp);
+}
+
+void	tokenise(char **str, t_token_config *conf, bool is_and_or)
 {
 	char	*tmp;
 
-	if (!*str || !**str || **str == ' ')
-		return ;
-	if (**str == '&' && *(*str + 1) == '&')
-	{
-		tokenise_special_char("&&", TOKEN_AND);
-		*str += 2;
-		return ;
-	}
-	if (**str == conf->pipe)
-	{
-		if (*(*str + 1) == conf->pipe)
-		{
-			tokenise_special_char("||", TOKEN_OR);
-			*str += 1;
-		}
-		else
-			tokenise_special_char("|", TOKEN_PIPE);
-		*str += 1;
-		return ;
-	}
 	if (**str == conf->double_quote)
 	{
 		tmp = ft_substr(*str, 0, (ft_strchr(*str + 1, '"') - *str) + 1);
@@ -128,9 +113,8 @@ void	tokenise(char **str, t_token_config *conf)
 		tokenise_special_char(tmp, TOKEN_DOUBLE_QUOTE);
 		*str += ft_strlen(tmp);
 		free(tmp);
-		return ;
 	}
-	if (**str == conf->simple_quote)
+	else if (**str == conf->simple_quote)
 	{
 		tmp = ft_substr(*str, 0, (ft_strchr(*str + 1, '\'') - *str) + 1);
 		if (!tmp)
@@ -140,5 +124,25 @@ void	tokenise(char **str, t_token_config *conf)
 		free(tmp);
 		return ;
 	}
-	tokenise2(str, conf);
+	else if (**str == conf->subshell_start)
+	{
+		tmp = ft_substr(*str, 0, (get_right_end(*str) - *str) + 1);
+		if (!tmp)
+			return ;
+		tokenise_special_char(tmp, TOKEN_SUBSHELL);
+		*str += ft_strlen(tmp) + 2;
+		free(tmp);
+	}
+	else if (is_and_or && ft_strchr(*str, '|') && ft_strstr(*str, "||") == NULL)
+	{
+		tokenise_special_char(*str, TOKEN_SUBSHELL);
+		*str += ft_strlen(*str);
+	}
+	else if (**str == conf->pipe)
+	{
+		tokenise_special_char("|", TOKEN_PIPE);
+		*str += 1;
+	}
+	else
+		tokenise2(str, conf);
 }

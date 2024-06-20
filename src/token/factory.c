@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 15:03:21 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/06/13 10:29:55 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/06/18 15:39:49 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,16 +63,20 @@ t_token	*create_token(char *value, t_token_type type)
 void	add_token(t_token *token)
 {
 	t_token_factory	*fac;
-	t_token			*current;
+	t_token_list	*current;
 
+	if (!token)
+		return ;
 	fac = get_token_factory();
-	if (!fac->token)
+	if (!fac->token_list)
 	{
-		fac->token = token;
+		fac->token_list = ft_calloc(1, sizeof(*fac->token_list));
+		fac->token_list->token = token;
 		return ;
 	}
-	current = fac->token;
+	current = fac->token_list;
 	while (current->next)
 		current = current->next;
-	current->next = token;
+	current->next = ft_calloc(1, sizeof(*current->next));
+	current->next->token = token;
 }

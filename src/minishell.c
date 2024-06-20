@@ -6,17 +6,19 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 23:31:50 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/06/17 17:57:08 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/06/19 15:47:17 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "builtins.h"
 #include "minishell.h"
 #include "tokens.h"
+#include "ast.h"
 
 static void	print_token(void)
 {
 	t_token_factory	*fac;
-	t_token			*current;
+	t_token_list	*current;
 	const char		*token_names[9] = {"AND", "OR", "SUBSHELL", "WORD",
 		"VARIABLE", "PIPE", "REDIRECTION", "DOUBLE_QUOTE",
 		"SIMPLE_QUOTE"};
@@ -24,16 +26,32 @@ static void	print_token(void)
 	fac = get_token_factory();
 	if (!fac)
 		return ;
-	current = fac->token;
+	if (fac->token_list == NULL)
+		return ;
+	current = fac->token_list;
 	printf("Tokenisation : \n");
 	while (current)
 	{
-		printf("[%s] => %%%s%%\n", token_names[current->type], current->value);
+		printf("[%s] => %%%s%%\n", token_names[current->token->type],
+			current->token->value);
 		if (!current->next)
 			break ;
 		current = current->next;
 	}
-	free_token();
+}
+
+static void	print_ast(t_ast *ast)
+{
+	const char		*token_names[9] = {"AND", "OR", "SUBSHELL", "WORD",
+		"VARIABLE", "PIPE", "REDIRECTION", "DOUBLE_QUOTE",
+		"SIMPLE_QUOTE"};
+
+	if (!ast)
+		return ;
+	printf("AST : [%s] => %%%s%%\n", token_names[ast->token->type],
+		ast->token->value);
+	print_ast(ast->left);
+	print_ast(ast->right);
 }
 
 int	main(int argc, char *argv[], char *envp[])
@@ -45,18 +63,20 @@ int	main(int argc, char *argv[], char *envp[])
 	if (!test_env_config())
 		return (0);
 	create_env(envp);
-	// print_env();
+	ft_putendl_fd("Welcome to minishell", 1);
 	while (true)
 	{
 		line = rl_gets();
 		if (!line)
-		{
-			free_env();
-			free_token();
-			return (0);
-		}
-		to_tokenise(line);
+			exit_shell();
+		to_tokenise(line, false);
+		free(line);
+		//pre_parse(&get_token_factory()->token_list);
 		print_token();
+		// printf("\n");
+		// get_ast_factory()->ast = create_ast(get_token_factory()->token_list);
+		print_ast(get_ast_factory()->ast);
+		free_token();
 	}
 	return (0);
 }

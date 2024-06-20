@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gabrielcaptari@student.42.fr>    +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:42:02 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/06/05 16:44:32 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/06/18 12:31:25 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "command.h"
 #include "env.h"
 
-int unset_command(char *argv[])
+int	unset_command(char *argv[])
 {
 	unset_env(*argv);
+	return (0);
 }
