@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+         #
+#    By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/05/28 23:23:20 by sgabsi            #+#    #+#              #
-#    Updated: 2024/06/05 16:42:16 by sgabsi           ###   ########.fr        #
+#    Created: 2024/05/28 23:23:20 by gcaptari          #+#    #+#              #
+#    Updated: 2024/06/26 14:39:38 by gcaptari         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,16 @@ SRC_UTILS_DIR 	=	$(SRCDIR)/utils
 SRC_UTILS_FILES	=	free.c \
 					len.c
 SRC_UTILS		=	$(addprefix $(SRC_UTILS_DIR)/, $(SRC_UTILS_FILES))
+
+#COMMAND
+SRC_COMMAND_DIR 	=	$(SRCDIR)/command
+SRC_COMMAND_FILES	=	command.c \
+						builtins/echo.c	\
+						builtins/unset.c \
+						builtins/env.c	\
+						builtins/cd.c
+SRC_COMMAND		=	$(addprefix $(SRC_COMMAND_DIR)/, $(SRC_COMMAND_FILES))
+
 #READ_LINE
 SRC_READ_LINE_DIR 	=	$(SRCDIR)/readline
 SRC_READ_LINE_FILES	=	get_line.c
@@ -52,6 +62,7 @@ SRC				=	$(SRC_ENV) \
 					$(SRC_TOKEN) \
 					$(SRC_UTILS) \
 					$(SRC_READ_LINE) \
+					$(SRC_COMMAND) \
 					$(SRCDIR)/minishell.c
 
 # Objects
