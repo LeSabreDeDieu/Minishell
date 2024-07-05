@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 11:48:24 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/05/30 14:56:49 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/06/17 15:23:43 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,13 @@ typedef struct s_list
 	void			*content;
 	struct s_list	*next;
 }					t_list;
+
+struct				s_bypass_trim
+{
+	size_t			len_start;
+	size_t			len_end;
+	size_t			real_len;
+};
 
 // MANDATORY
 /**

@@ -15,28 +15,49 @@
 #################
 
 # Directories
-SRC_SUBDIR	=	env utils token
+SRC_SUBDIR	=	command command/builtins env readline token utils
 SRCDIR		=	./src
 INCDIR		=	./include
 LIBDIR		=	./lib
 OBJDIR		=	obj
 
 # Sources
+#AST
+SRC_AST_DIR 		=	ast
+SRC_AST_FILES		=	create_ast.c \
+						factory.c \
+						free_ast.c \
+						pre_parse.c
+SRC_AST				=	$(addprefix $(SRC_AST_DIR)/, $(SRC_AST_FILES))
+
+#builtins
+SRC_BUILTINS_DIR 	=	builtins
+SRC_BUILTINS_FILES	=	cd.c \
+						echo.c \
+						env.c \
+						exit.c \
+						export.c \
+						pwd.c \
+						unset.c
+SRC_BUILTINS		=	$(addprefix $(SRC_BUILTINS_DIR)/, $(SRC_BUILTINS_FILES))
+
 #ENV
-SRC_ENV_DIR 	=	$(SRCDIR)/env
-SRC_ENV_FILES	=	env_factory.c \
-					env.c		\
-					parser.c	\
-					test.c
-SRC_ENV			=	$(addprefix $(SRC_ENV_DIR)/, $(SRC_ENV_FILES))
+SRC_ENV_DIR 		=	env
+SRC_ENV_FILES		=	env_factory.c \
+						env.c		\
+						parser.c	\
+						test.c
+SRC_ENV				=	$(addprefix $(SRC_ENV_DIR)/, $(SRC_ENV_FILES))
 
 #TOKEN
-SRC_TOKEN_DIR 	=	$(SRCDIR)/token
-SRC_TOKEN_FILES	=	factory.c \
-					tokenise.c \
-					totokenise.c \
-					utils.c
-SRC_TOKEN		=	$(addprefix $(SRC_TOKEN_DIR)/, $(SRC_TOKEN_FILES))
+SRC_TOKEN_DIR 		=	token
+SRC_TOKEN_FILES		=	factory.c \
+						tokenise_and_or.c \
+						tokenise.c \
+						totokenise.c \
+						utils.c	\
+						valid_token.c
+SRC_TOKEN			=	$(addprefix $(SRC_TOKEN_DIR)/, $(SRC_TOKEN_FILES))
 
 #UTILS
 SRC_UTILS_DIR 	=	$(SRCDIR)/utils
@@ -54,16 +75,19 @@ SRC_COMMAND_FILES	=	command.c \
 SRC_COMMAND		=	$(addprefix $(SRC_COMMAND_DIR)/, $(SRC_COMMAND_FILES))
 
 #READ_LINE
-SRC_READ_LINE_DIR 	=	$(SRCDIR)/readline
+SRC_READ_LINE_DIR 	=	readline
 SRC_READ_LINE_FILES	=	get_line.c
 SRC_READ_LINE		=	$(addprefix $(SRC_READ_LINE_DIR)/, $(SRC_READ_LINE_FILES))
 
-SRC				=	$(SRC_ENV) \
-					$(SRC_TOKEN) \
-					$(SRC_UTILS) \
-					$(SRC_READ_LINE) \
-					$(SRC_COMMAND) \
-					$(SRCDIR)/minishell.c
+SRC				= $(SRC_AST) \
+            $(SRC_ENV) \
+					  $(SRC_TOKEN) \
+					  $(SRC_UTILS) \
+					  $(SRC_READ_LINE) \
+					  $(SRC_COMMAND) \
+					  $(SRCDIR)/minishell.c
+
+SRC					=	$(addprefix $(SRCDIR)/, $(SRC_FILES))
 
 # Objects
 OBJ_SUBDIRS	=	$(SRC_SUBDIR:%=$(OBJDIR)/%)
@@ -79,7 +103,7 @@ NAME		=	minishell
 
 # Compiler
 CC			=	clang
-CFLAGS		=	-Wall -Werror -Wextra -MMD -g3
+CFLAGS		=	-Wall -Wextra -MMD -g3 #-Werror
 
 OPTIONS		=	-I $(INCDIR) -I $(LIBFT_DIR)/includes
 LFLAGS		=	-L $(LIBFT_DIR) -lft -lreadline -lcurses

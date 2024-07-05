@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 12:55:39 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/06/13 10:09:47 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/06/20 13:52:39 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ static size_t	get_len_word(char *str)
 	{
 		if (str[size] == '<' || str[size] == '>' || str[size] == '|'
 			|| str[size] == '"' || str[size] == '\'' || str[size] == '('
-			|| str[size] == ')' || str[size] == '$')
+			|| str[size] == ')' || str[size] == '$' || str[size] == '\n'
+			|| ft_strncmp(&str[size], "&&", 2) == 0 || str[size] == ' ')
 			break ;
 		size++;
 	}
@@ -45,6 +46,6 @@ char	*get_word(char **str)
 	i = -1;
 	while (++i < len)
 		tmp[i] = (*str)[i];
-	*str += len;
+	*str += len - 1;
 	return (tmp);
 }

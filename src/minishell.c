@@ -10,60 +10,73 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "builtins.h"
 #include "minishell.h"
 #include "tokens.h"
+#include "ast.h"
 
-// static void	print_token(void)
-// {
-// 	t_token_factory	*fac;
-// 	t_token			*current;
-// 	const char		*token_names[8] = {"WORD", "VARIABLE", "PIPE",
-// 		"REDIRECTION", "SUBSHELL", "DOUBLE_QUOTE",
-// 		"SIMPLE_QUOTE"};
+static void	print_token(void)
+{
+	t_token_factory	*fac;
+	t_token_list	*current;
+	const char		*token_names[9] = {"AND", "OR", "SUBSHELL", "WORD",
+		"VARIABLE", "PIPE", "REDIRECTION", "DOUBLE_QUOTE",
+		"SIMPLE_QUOTE"};
 
-// 	fac = get_token_factory();
-// 	if (!fac)
-// 		return ;
-// 	current = fac->token;
-// 	printf("Tokenisation : \n");
-// 	while (current)
-// 	{
-// 		printf("[%s] => #%s#\n", token_names[current->type], current->value);
-// 		if (!current->next)
-// 			break ;
-// 		current = current->next;
-// 	}
-// }
+	fac = get_token_factory();
+	if (!fac)
+		return ;
+	if (fac->token_list == NULL)
+		return ;
+	current = fac->token_list;
+	printf("Tokenisation : \n");
+	while (current)
+	{
+		printf("[%s] => %%%s%%\n", token_names[current->token->type],
+			current->token->value);
+		if (!current->next)
+			break ;
+		current = current->next;
+	}
+}
+
+static void	print_ast(t_ast *ast)
+{
+	const char		*token_names[9] = {"AND", "OR", "SUBSHELL", "WORD",
+		"VARIABLE", "PIPE", "REDIRECTION", "DOUBLE_QUOTE",
+		"SIMPLE_QUOTE"};
+
+	if (!ast)
+		return ;
+	printf("AST : [%s] => %%%s%%\n", token_names[ast->token->type],
+		ast->token->value);
+	print_ast(ast->left);
+	print_ast(ast->right);
+}
 
 int	main(int argc, char *argv[], char *envp[])
 {
+	char	*line;
 	(void)argc;
 	(void)argv;
-	char *argv_c[3];
-	// char *line;
 
 	if (!test_env_config())
 		return (0);
-	create_env(envp); 
-	print_env();
-	unset_command(argc, argv);
-	ft_putstr_fd("\n--------------------------------------------------------\n", 1);
-	argv_c[1] = "cd";
-	argv_c[2] = "..";
-	cd_command(3, argv_c);
-	env_command(0, NULL);
-	free_env();
-	// while (true)
-	// {
-	// 	line = rl_gets();
-	// 	if (!line)
-	// 	{
-	// 		free_env();
-	// 		return (0);
-	// 	}
-	// 	to_tokenise(argv[1]);
-	// 	print_token();
-	// 		printf("%s\n", line);
-	// 	}
+	create_env(envp);
+	ft_putendl_fd("Welcome to minishell", 1);
+	while (true)
+	{
+		line = rl_gets();
+		if (!line)
+			exit_shell();
+		to_tokenise(line, false);
+		free(line);
+		//pre_parse(&get_token_factory()->token_list);
+		print_token();
+		// printf("\n");
+		// get_ast_factory()->ast = create_ast(get_token_factory()->token_list);
+		print_ast(get_ast_factory()->ast);
+		free_token();
+	}
 	return (0);
 }

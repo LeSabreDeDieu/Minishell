@@ -29,10 +29,15 @@ typedef enum e_token_type
 
 typedef struct s_token
 {
-	struct s_token	*next;
-	char			*value;
-	t_token_type	type;
-}					t_token;
+	char				*value;
+	t_token_type		type;
+}						t_token;
+
+typedef struct s_token_list
+{
+	t_token				*token;
+	struct s_token_list	*next;
+}						t_token_list;
 
 typedef struct s_token_config
 {
@@ -49,7 +54,7 @@ typedef struct s_token_config
 
 typedef struct s_token_factory
 {
-	t_token			*token;
+	t_token_list	*token_list;
 	t_token_config	config;
 	bool			instanced;
 }					t_token_factory;
@@ -61,10 +66,13 @@ t_token			*parse_token(char *value);
 t_token			*create_token(char *value, t_token_type type);
 void			add_token(t_token *token);
 
-void			tokenise(char **str, t_token_config *conf);
-void			to_tokenise(char *prompt);
+void			tokenise(char **str, t_token_config *conf, bool is_and_or);
+void			to_tokenise(char *prompt, bool is_and_or);
+void			tokenise_and_or(char **str, t_token_config *conf);
 
 char			*get_word(char **str);
+
+bool			check_valid_token(void);
 
 void			free_token(void);
 

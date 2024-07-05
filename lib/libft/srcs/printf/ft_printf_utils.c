@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 15:50:41 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/06/02 18:17:43 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/06/18 14:26:37 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ int	ft_printnbr(int n)
 	int		len;
 	char	*num;
 
-	len = 0;
 	num = ft_itoa(n);
 	len = ft_printstr(num);
 	free(num);
