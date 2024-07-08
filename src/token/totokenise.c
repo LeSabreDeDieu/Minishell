@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   totokenise.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 13:40:56 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/07/05 14:28:56 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/07/08 10:24:33 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokens.h"
 #include "env.h"
-#include "builtins.h"
 #include "libft.h"
 #include <stdio.h>
 

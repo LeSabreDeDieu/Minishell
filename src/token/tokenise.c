@@ -75,10 +75,10 @@ static void	tokenise2(char **str, t_token_config *conf)
 	{
 		tokenise_special_char("$", TOKEN_VARIABLE);
 		*str += 1;
-		return ;
+	}else{
+		tokenise_word(str);
+		*str += 1;
 	}
-	tokenise_word(str);
-	*str += 1;
 }
 
 char	*get_right_end(char *str)

@@ -3,14 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gabrielcaptari@student.42.fr>    +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 23:31:50 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/07/05 13:13:32 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/07/08 10:45:47 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
 #include "minishell.h"
 #include "tokens.h"
 #include "ast.h"
@@ -68,7 +67,7 @@ int	main(int argc, char *argv[], char *envp[])
 	{
 		line = rl_gets();
 		if (!line)
-			exit_shell();
+			exit_command();
 		to_tokenise(line, false);
 		free(line);
 		pre_parse(&get_token_factory()->token_list);
