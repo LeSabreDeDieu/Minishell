@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:49:33 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/06/18 16:33:06 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/07/05 13:25:51 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,3 @@ t_ast_factory	*get_ast_factory(void)
 	}
 	return (&factory);
 }
-

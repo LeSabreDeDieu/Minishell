@@ -75,9 +75,9 @@ static void	tokenise2(char **str, t_token_config *conf)
 	{
 		tokenise_special_char("$", TOKEN_VARIABLE);
 		*str += 1;
+		return ;
 	}
-	else
-		tokenise_word(str);
+	tokenise_word(str);
 	*str += 1;
 }
 
@@ -86,17 +86,17 @@ char	*get_right_end(char *str)
 	int		count;
 	char	*tmp;
 
-	count = 1;
-	tmp = str + 1;
+	count = 0;
+	tmp = str;
 	while (*tmp)
 	{
 		if (*tmp == '(')
-			count++;
+			++count;
 		if (*tmp == ')')
-			count--;
+			--count;
+		++tmp;
 		if (count == 0)
 			break ;
-		tmp++;
 	}
 	return (tmp);
 }
@@ -126,11 +126,11 @@ void	tokenise(char **str, t_token_config *conf, bool is_and_or)
 	}
 	else if (**str == conf->subshell_start)
 	{
-		tmp = ft_substr(*str, 0, (get_right_end(*str) - *str) + 1);
+		tmp = ft_substr(*str, 0, (get_right_end(*str) - *str));
 		if (!tmp)
 			return ;
 		tokenise_special_char(tmp, TOKEN_SUBSHELL);
-		*str += ft_strlen(tmp) + 2;
+		*str += ft_strlen(tmp);
 		free(tmp);
 	}
 	else if (is_and_or && ft_strchr(*str, '|') && ft_strstr(*str, "||") == NULL)

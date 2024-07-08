@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 13:40:56 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/06/20 15:25:02 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/07/05 14:28:56 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,12 @@ void	to_tokenise(char *prompt, bool is_and_or)
 		{
 			tokenise_and_or(&tmp, conf);
 			free(save);
-			// if (!check_valid_token())
-			// {
-			// 	printf("minishell: lexical error\n");
-			// 	free_token();
-			// 	return ;
-			// }
+			if (!check_valid_token())
+			{
+				printf("minishell: lexical error\n");
+				free_token();
+				return ;
+			}
 			return ;
 		}
 		if (*tmp == ' ')
@@ -89,11 +89,11 @@ void	to_tokenise(char *prompt, bool is_and_or)
 		tokenise(&tmp, conf, is_and_or);
 	}
 	free(save);
-	// if (!check_valid_token())
-	// {
-	// 	printf("minishell: lexical error\n");
-	// 	free_token();
-	// 	return ;
-	// }
+	if (!check_valid_token())
+	{
+		printf("minishell: lexical error\n");
+		free_token();
+		return ;
+	}
 	return ;
 }

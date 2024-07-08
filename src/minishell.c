@@ -71,7 +71,7 @@ int	main(int argc, char *argv[], char *envp[])
 			exit_shell();
 		to_tokenise(line, false);
 		free(line);
-		//pre_parse(&get_token_factory()->token_list);
+		pre_parse(&get_token_factory()->token_list);
 		print_token();
 		// printf("\n");
 		// get_ast_factory()->ast = create_ast(get_token_factory()->token_list);

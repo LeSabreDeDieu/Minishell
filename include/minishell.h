@@ -36,9 +36,11 @@
 # include "libft.h"
 # include "utils.h"
 
-typedef struct	s_data
+typedef struct s_data
 {
+	t_env	*env;
+	t_token	*token;
 }				t_data;
 
-char *rl_gets(void);
+char	*rl_gets(void);
 #endif
