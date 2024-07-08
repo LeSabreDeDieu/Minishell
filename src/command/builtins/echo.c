@@ -3,63 +3,59 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gabrielcaptari@student.42.fr>    +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 14:45:31 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/06/20 13:22:46 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/07/08 13:03:02 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "command.h"
 #include "libft.h"
 
-static char	*ft_strjoin_with(char *name, char *separator, char *value)
+static bool	is_flags(char *flags)
 {
-	char	*tmp;
-	char	*final;
+	char	*move;
 
-	if (!name || !separator || !value)
-		return (NULL);
-	tmp = ft_strjoin(name, separator);
-	if (!tmp)
-		return (NULL);
-	final = ft_strjoin(tmp, value);
-	return (free(tmp), final);
+	if(!flags || !*flags)
+		return (false);
+	move = flags;
+	while(*move)
+	{
+		if(*move != 'n')
+			return (false);
+		++move;
+	}
+	return (true);
 }
 
 int	echo_command(int argc, char *argv[])
 {
 	char **tmp;
-	char *echo_tmp;
-	char *echo;
+	bool	no_EOF;
 
 	if(!argv)
 		return (125);
-	echo = NULL;
+	no_EOF = false;
 	if (argc > 1)
 	{
 		tmp = argv + 1;
 		if (!tmp || !*tmp)
 			return (125);
-		while (*tmp)
+		while (tmp && *tmp)
 		{
-			if (!echo)
+			if(**tmp == '-' && is_flags(*tmp + 1))
 			{
-				echo = ft_strdup(*tmp);
-				if (!echo)
-					return (125);
+				no_EOF = true;
+				++tmp;
+				continue ;
 			}
-			else
-			{
-				echo_tmp = echo;
-				echo = ft_strjoin_with(echo_tmp, " ", *tmp);
-				free(echo_tmp);
-				if(!echo)
-					return (125);
-			}
+			ft_putstr_fd(*tmp, 1);
+			ft_putstr_fd(" ", 1);
 			++tmp;
 		}
-		(ft_putstr_fd(echo, 1), free(echo));
+		if(!no_EOF)
+			ft_putstr_fd("\n", 1);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 12:08:49 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/07/08 10:23:37 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/07/08 12:27:49 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 # define COMMAND_H
 
 # include <stdbool.h>
-
+#include <string.h>
+#include <errno.h>
 typedef struct s_command
 {
 	char			*name;

@@ -6,12 +6,13 @@
 /*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 23:31:50 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/07/08 10:45:47 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/07/08 13:04:32 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "tokens.h"
+#include "command.h"
 #include "ast.h"
 
 static void	print_token(void)
@@ -58,11 +59,18 @@ int	main(int argc, char *argv[], char *envp[])
 	char	*line;
 	(void)argc;
 	(void)argv;
+	char *argv_v[5];
 
 	if (!test_env_config())
 		return (0);
 	create_env(envp);
 	ft_putendl_fd("Welcome to minishell", 1);
+	argv_v[0] = "cd";
+	argv_v[1] = "-fsdfsdfsdff";
+	argv_v[2] = "dfsdfsdsdfsdff";
+	argv_v[3] = "fgsfgdfg";
+	argv_v[4] = NULL;
+	echo_command(5, argv_v);
 	while (true)
 	{
 		line = rl_gets();
