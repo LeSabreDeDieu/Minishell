@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gabrielcaptari@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 23:31:50 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/07/05 16:42:21 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/07/05 13:13:32 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ static void	print_ast(t_ast *ast)
 int	main(int argc, char *argv[], char *envp[])
 {
 	char	*line;
-
 	(void)argc;
 	(void)argv;
+
 	if (!test_env_config())
 		return (0);
 	create_env(envp);

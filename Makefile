@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+         #
+#    By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/05/28 23:23:20 by sgabsi            #+#    #+#              #
-#    Updated: 2024/06/20 15:19:09 by sgabsi           ###   ########.fr        #
+#    Created: 2024/05/28 23:23:20 by gcaptari          #+#    #+#              #
+#    Updated: 2024/06/26 14:39:38 by gcaptari         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,12 +41,6 @@ SRC_BUILTINS_FILES	=	cd.c \
 						unset.c
 SRC_BUILTINS		=	$(addprefix $(SRC_BUILTINS_DIR)/, $(SRC_BUILTINS_FILES))
 
-#COMMAND
-SRC_COMMAND_DIR 	=	command
-SRC_COMMAND_FILES	=	$(SRC_BUILTINS)\
-						command.c
-SRC_COMMAND			=	$(addprefix $(SRC_COMMAND_DIR)/, $(SRC_COMMAND_FILES))
-
 #ENV
 SRC_ENV_DIR 		=	env
 SRC_ENV_FILES		=	env_factory.c \
@@ -66,22 +60,33 @@ SRC_TOKEN_FILES		=	factory.c \
 SRC_TOKEN			=	$(addprefix $(SRC_TOKEN_DIR)/, $(SRC_TOKEN_FILES))
 
 #UTILS
-SRC_UTILS_DIR 		=	utils
-SRC_UTILS_FILES		=	free.c \
-						len.c
-SRC_UTILS			=	$(addprefix $(SRC_UTILS_DIR)/, $(SRC_UTILS_FILES))
+SRC_UTILS_DIR 	=	$(SRCDIR)/utils
+SRC_UTILS_FILES	=	free.c \
+					len.c
+SRC_UTILS		=	$(addprefix $(SRC_UTILS_DIR)/, $(SRC_UTILS_FILES))
+
+#COMMAND
+SRC_COMMAND_DIR 	=	$(SRCDIR)/command
+SRC_COMMAND_FILES	=	command.c \
+						builtins/echo.c	\
+						builtins/unset.c \
+						builtins/env.c	\
+						builtins/cd.c
+SRC_COMMAND		=	$(addprefix $(SRC_COMMAND_DIR)/, $(SRC_COMMAND_FILES))
+
 #READ_LINE
 SRC_READ_LINE_DIR 	=	readline
 SRC_READ_LINE_FILES	=	get_line.c
 SRC_READ_LINE		=	$(addprefix $(SRC_READ_LINE_DIR)/, $(SRC_READ_LINE_FILES))
 
-SRC_FILES			=	$(SRC_AST) \
-						$(SRC_COMMAND) \
-						$(SRC_ENV) \
-						$(SRC_TOKEN) \
-						$(SRC_UTILS) \
-						$(SRC_READ_LINE) \
-						minishell.c
+SRC				= $(SRC_AST) \
+            $(SRC_ENV) \
+					  $(SRC_TOKEN) \
+					  $(SRC_UTILS) \
+					  $(SRC_READ_LINE) \
+					  $(SRC_COMMAND) \
+					  $(SRCDIR)/minishell.c
+
 SRC					=	$(addprefix $(SRCDIR)/, $(SRC_FILES))
 
 # Objects
