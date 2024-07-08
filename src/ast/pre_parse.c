@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 17:35:32 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/06/18 17:55:56 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/07/05 16:48:22 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ static char	*strjoin_free(char **s1, char **s2)
 	return (tmp);
 }
 
+#include <stdio.h>
+
 void	pre_parse(t_token_list **token)
 {
 	t_token_list	*current;
@@ -51,6 +53,7 @@ void	pre_parse(t_token_list **token)
 						&current->next->token->value);
 				free(current->next->token);
 				current->next = current->next->next;
+				continue;
 			}
 		}
 		if (current->token->type == TOKEN_REDIRECTION)

@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 12:55:39 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/06/20 13:52:39 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/07/05 14:26:54 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ static size_t	get_len_word(char *str)
 	{
 		if (str[size] == '<' || str[size] == '>' || str[size] == '|'
 			|| str[size] == '"' || str[size] == '\'' || str[size] == '('
-			|| str[size] == ')' || str[size] == '$' || str[size] == '\n'
+			|| str[size] == '$' || str[size] == '\n'
 			|| ft_strncmp(&str[size], "&&", 2) == 0 || str[size] == ' ')
 			break ;
-		size++;
+		++size;
 	}
 	return (size);
 }
@@ -43,9 +43,7 @@ char	*get_word(char **str)
 	tmp = ft_calloc(len + 1, sizeof(char));
 	if (!tmp)
 		return (NULL);
-	i = -1;
-	while (++i < len)
-		tmp[i] = (*str)[i];
+	ft_memmove(tmp, *str, len);
 	*str += len - 1;
 	return (tmp);
 }

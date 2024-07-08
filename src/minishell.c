@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 23:31:50 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/06/19 15:47:17 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/07/05 16:42:21 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	main(int argc, char *argv[], char *envp[])
 			exit_shell();
 		to_tokenise(line, false);
 		free(line);
-		//pre_parse(&get_token_factory()->token_list);
+		pre_parse(&get_token_factory()->token_list);
 		print_token();
 		// printf("\n");
 		// get_ast_factory()->ast = create_ast(get_token_factory()->token_list);
