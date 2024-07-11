@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 16:47:27 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/06/02 16:48:53 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/07/10 16:14:41 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "env.h"
 #include <stdbool.h>
 

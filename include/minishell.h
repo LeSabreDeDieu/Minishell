@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/28 23:32:17 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/05/30 15:22:58 by sgabsi           ###   ########.fr       */
+/*   Created: 2024/07/08 12:45:02 by sgabsi            #+#    #+#             */
+/*   Updated: 2024/07/10 17:27:23 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,12 @@
 # include "libft.h"
 # include "utils.h"
 
-typedef struct s_data
+typedef struct s_minishell
 {
-	t_env	*env;
-	t_token	*token;
-}				t_data;
+	t_tokens	*tokens;
+}				t_minishell;
 
-char	*rl_gets(void);
+char	*rl_gets( void );
+
+
 #endif
