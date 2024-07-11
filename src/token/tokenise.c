@@ -5,144 +5,84 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/03 09:34:55 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/06/03 09:34:55 by sgabsi           ###   ########.fr       */
+/*   Created: 2024/07/09 15:01:24 by sgabsi            #+#    #+#             */
+/*   Updated: 2024/07/10 17:36:04 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "minishell.h"
+#include "utils.h"
 #include "tokens.h"
 
-static void	tokenise_word(char **str)
+static int	tokenise_word(t_tokens *tokens, char **str)
 {
-	t_token	*token_tmp;
 	char	*tmp;
+	int		status;
 
 	tmp = get_word(str);
 	if (!tmp)
-		return ;
-	token_tmp = create_token(tmp, TOKEN_WORD);
-	if (!token_tmp)
-		return (free_token());
+		return (FAILURE);
+	status = add_token(tokens, create_token(tmp, TOKEN_WORD));
 	free(tmp);
-	add_token(token_tmp);
+	return (status);
 }
 
-static void	tokenise_special_char(char *str, int token)
+static int	tokenise_redirect_char(t_tokens *tokens,
+									char **str, t_token_type type)
 {
-	t_token	*token_tmp;
+	char	tmp[3];
 
-	token_tmp = create_token(str, token);
-	if (!token_tmp)
-		return (free_token());
-	add_token(token_tmp);
-}
-
-static void	tokenise_redirect_char(char **str)
-{
-	t_token	*token_tmp;
-	char	*tmp;
-
-	if (**str == '<')
+	ft_bzero(tmp, sizeof(tmp));
+	if (**str == tokens->token_config[type][0])
 	{
-		if (*(*str + 1) == '<')
-			tmp = "<<";
-		else
-			tmp = "<";
+		tmp[0] = tokens->token_config[type][0];
+		if (*(*str + 1) == tokens->token_config[type][0])
+			tmp[1] = tokens->token_config[type][0];
 	}
-	else
+	else if (**str == tokens->token_config[type][1])
 	{
-		if (*(*str + 1) == '>')
-			tmp = ">>";
-		else
-			tmp = ">";
+		tmp[0] = tokens->token_config[type][1];
+		if (*(*str + 1) == tokens->token_config[type][1])
+			tmp[1] = tokens->token_config[type][1];
 	}
 	*str += 1;
-	if (**str == '>' || **str == '<')
+	if (tmp[1])
 		*str += 1;
-	token_tmp = create_token(tmp, TOKEN_REDIRECTION);
-	if (!token_tmp)
-		return (free_token());
-	add_token(token_tmp);
+	return (add_token(tokens, create_token(tmp, type)));
 }
 
-static void	tokenise2(char **str, t_token_config *conf)
+int	tokenise(char **str, t_tokens *tokens, bool is_and_or)
 {
-	if (**str == conf->redirection[0] || **str == conf->redirection[1])
-		tokenise_redirect_char(str);
-	else if (**str == conf->variable)
-	{
-		tokenise_special_char("$", TOKEN_VARIABLE);
-		*str += 1;
-	}else{
-		tokenise_word(str);
-		*str += 1;
-	}
-}
+	int	status;
 
-char	*get_right_end(char *str)
-{
-	int		count;
-	char	*tmp;
-
-	count = 0;
-	tmp = str;
-	while (*tmp)
-	{
-		if (*tmp == '(')
-			++count;
-		if (*tmp == ')')
-			--count;
-		++tmp;
-		if (count == 0)
-			break ;
-	}
-	return (tmp);
-}
-
-void	tokenise(char **str, t_token_config *conf, bool is_and_or)
-{
-	char	*tmp;
-
-	if (**str == conf->double_quote)
-	{
-		tmp = ft_substr(*str, 0, (ft_strchr(*str + 1, '"') - *str) + 1);
-		if (!tmp)
-			return ;
-		tokenise_special_char(tmp, TOKEN_DOUBLE_QUOTE);
-		*str += ft_strlen(tmp);
-		free(tmp);
-	}
-	else if (**str == conf->simple_quote)
-	{
-		tmp = ft_substr(*str, 0, (ft_strchr(*str + 1, '\'') - *str) + 1);
-		if (!tmp)
-			return ;
-		tokenise_special_char(tmp, TOKEN_SIMPLE_QUOTE);
-		*str += ft_strlen(tmp);
-		free(tmp);
-		return ;
-	}
-	else if (**str == conf->subshell_start)
-	{
-		tmp = ft_substr(*str, 0, (get_right_end(*str) - *str));
-		if (!tmp)
-			return ;
-		tokenise_special_char(tmp, TOKEN_SUBSHELL);
-		*str += ft_strlen(tmp);
-		free(tmp);
-	}
+	if (**str == tokens->token_config[TOKEN_DOUBLE_QUOTE][0])
+		status = tokenise_quote(tokens, str, TOKEN_DOUBLE_QUOTE);
+	else if (**str == tokens->token_config[TOKEN_SIMPLE_QUOTE][0])
+		status = tokenise_quote(tokens, str, TOKEN_SIMPLE_QUOTE);
+	else if (**str == tokens->token_config[TOKEN_SUBSHELL][0])
+		status = tokenise_subshell(tokens, str, TOKEN_SUBSHELL);
 	else if (is_and_or && ft_strchr(*str, '|') && ft_strstr(*str, "||") == NULL)
 	{
-		tokenise_special_char(*str, TOKEN_SUBSHELL);
+		status = add_token(tokens, create_token(*str, TOKEN_SUBSHELL));
 		*str += ft_strlen(*str);
 	}
-	else if (**str == conf->pipe)
+	else if (**str == tokens->token_config[TOKEN_PIPE][0])
 	{
-		tokenise_special_char("|", TOKEN_PIPE);
-		*str += 1;
+		status = add_token(tokens, create_token("|", TOKEN_PIPE));
+		++(*str);
+	}
+	else if (**str == tokens->token_config[TOKEN_REDIRECTION][0]
+			|| **str == tokens->token_config[TOKEN_REDIRECTION][1])
+		status = tokenise_redirect_char(tokens, str, TOKEN_REDIRECTION);
+	else if (**str == tokens->token_config[TOKEN_VARIABLE][0])
+	{
+		status = add_token(tokens, create_token("$", TOKEN_VARIABLE));
+		++(*str);
 	}
 	else
-		tokenise2(str, conf);
+	{
+		status = tokenise_word(tokens, str);
+		++(*str);
+	}
+	return (status);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/02 14:36:34 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/06/02 18:28:30 by gcaptari         ###   ########.fr       */
+/*   Created: 2024/07/08 12:45:10 by sgabsi            #+#    #+#             */
+/*   Updated: 2024/07/10 16:24:25 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,11 @@
 
 void	free_str_tab(char **tabs);
 void	free_env(void);
+
+typedef enum e_error
+{
+	FAILURE = -1,
+	SUCCESS
+}	t_error;
 
 #endif
