@@ -6,7 +6,7 @@
 #    By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:19:20 by gcaptari          #+#    #+#              #
-#    Updated: 2024/07/19 12:49:14 by sgabsi           ###   ########.fr        #
+#    Updated: 2024/07/25 17:34:33 by sgabsi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,8 @@ OBJDIR		=	obj
 #AST
 SRC_AST_DIR 		=	ast
 SRC_AST_FILES		=	create_ast.c \
-						create_ast_value.c
+						create_ast_value.c \
+						free_ast.c
 SRC_AST				=	$(addprefix $(SRC_AST_DIR)/, $(SRC_AST_FILES))
 
 #ENV
@@ -95,7 +96,7 @@ NAME		=	minishell
 
 # Compiler
 CC			=	cc
-CFLAGS		=	-MMD -g3 -Wall -Wextra -Werror
+CFLAGS		=	-MMD -g3 -Wall -Wextra #-Werror
 
 OPTIONS		=	-I $(INCDIR) -I $(LIBFT_DIR)/includes
 LFLAGS		=	-L $(LIBFT_DIR) -lft -lreadline -lcurses

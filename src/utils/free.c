@@ -48,9 +48,9 @@ void	free_token(t_tokens *tokens)
 	t_token_list	*tmp;
 	t_token_list	*current;
 
-	current = tokens->first_token;
-	if (!current)
+	if (!tokens || !tokens->first_token)
 		return ;
+	current = tokens->first_token;
 	while (current)
 	{
 		tmp = current;

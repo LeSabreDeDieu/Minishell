@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:44:54 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/07/19 14:41:55 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/07/25 18:42:01 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ typedef struct s_ast_value
 {
 	t_redirection_list		*redirections;
 	char					**argv;
-	char					*name; //argv[0] or [&& or || or |]
+	char					*name;
 	int						argc;
 }	t_ast_value;
 
@@ -69,7 +69,8 @@ typedef struct s_ast
 	t_type_ast		type;
 }	t_ast;
 
-int	create_ast(t_minishell *data, t_tokens *tokens);
-int	create_ast_value(t_ast_value *value, t_token_list **tokens);
+int		create_ast(t_minishell *data, t_tokens *tokens);
+int		create_ast_value(t_ast_value *value, t_token_list **tokens);
+void    free_ast(t_ast *ast);
 
 #endif //AST_H

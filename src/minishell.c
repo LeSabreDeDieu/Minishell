@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:28:15 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/07/19 12:41:28 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/07/25 18:42:10 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,10 @@ int	minishell(t_minishell *data, char *prompt)
 	free(prompt);
 	print_token(data->tokens);
 	if (!check_valid_token(data->tokens))
-	{
-		ft_putendl_fd("TOKEN ERROR !", 2);
-		return (free(data->tokens), false);
-	}
+		return (ft_putendl_fd("TOKEN ERROR !", 2), false);
 	create_ast(data, data->tokens);
 	print_ast(data->ast);
+	free_ast(data->ast);
 	free_token(data->tokens);
 	return (0);
 }
@@ -52,9 +50,15 @@ int	main(int argc, char const *argv[], char *envp[])
 		if (!line)
 		{
 			free_env();
+			free_ast(data.ast);
 			free_token(data.tokens);
 			free(data.tokens);
 			exit(0);
+		}
+		if (!*line)
+		{
+			free(line);
+			continue ;
 		}
 		minishell(&data, line);
 	}

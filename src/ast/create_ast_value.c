@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_ast_value.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 11:55:12 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/07/19 14:46:13 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/07/25 18:22:24 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,6 @@ static int	create_ast_value_word(t_ast_value *value, t_token_list **tokens)
 			return (FAILURE);
 		current = current->next->next;
 	}
-	if(!current)
-		return (FAILURE);
 	i = 0;
 	tmp = current;
 	while (tmp && tmp->token->type == TOKEN_WORD)
@@ -92,15 +90,18 @@ static int	create_ast_value_word(t_ast_value *value, t_token_list **tokens)
 		value->argc++;
 		tmp = tmp->next;
 	}
-	value->argv = ft_calloc(value->argc + 1, sizeof(char *));
-	if (!value->argv)
-		return (FAILURE);
-	while (current && current->token->type == TOKEN_WORD)
+	if (value->argc != 0)
 	{
-		value->argv[i++] = current->token->value;
-		current = current->next;
+		value->argv = ft_calloc(value->argc + 1, sizeof(char *));
+		if (!value->argv)
+			return (FAILURE);
+		while (current && current->token->type == TOKEN_WORD)
+		{
+			value->argv[i++] = current->token->value;
+			current = current->next;
+		}
+		value->name = value->argv[0];
 	}
-	value->name = value->argv[0];
 	while (current && current->token && current->token->type == TOKEN_REDIRECTION)
 	{
 		if (current->next && add_list_redirection(&value->redirections, current->token,
@@ -126,22 +127,18 @@ int	create_ast_value(t_ast_value *value, t_token_list **tokens)
 	else if (current->token->type == TOKEN_SUBSHELL)
 	{
 		value->name = current->token->value;
-		value->redirections = NULL;
-		if (current->next && current->next->token->type == TOKEN_REDIRECTION)
+		current = current->next;
+		while (current && current->token->type == TOKEN_REDIRECTION)
 		{
-			current = current->next;
-			while (current && current->token->type == TOKEN_REDIRECTION)
-			{
-				if (current->next && add_list_redirection(&value->redirections, current->token,
-						current->next->token->value) == FAILURE)
-					return (FAILURE);
-				current = current->next->next;
-			}
+			if (current->next && add_list_redirection(&value->redirections, current->token,
+					current->next->token->value) == FAILURE)
+				return (FAILURE);
+			current = current->next->next;
 		}
 	}
 	if (!current)
 		*tokens = NULL;
 	else
-		*tokens = current->next;
+		*tokens = current;
 	return (SUCCESS);
 }
