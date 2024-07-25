@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:29:33 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/07/10 17:25:50 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/07/19 14:49:50 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,35 @@ void	print_token(t_tokens *tokens)
 			current->token->value);
 		current = current->next;
 	}
+}
+
+static void	print_ast_node(t_ast *ast)
+{
+	const char			*type_names[] = {"UNDEFINED", "AND", "OR", "SUBSHELL", "PIPE", "CMD"};
+	const char			*redi_type[] = {"HERE_DOC", "READ", "WRITE", "APPEND"};
+	t_redirection_list	*tmp;
+	size_t				index;
+
+	if (ast == NULL)
+		return ;
+	index = -1;
+	print_ast_node(ast->left);
+	printf("Type : %s\n", type_names[ast->type]);
+	printf("Name : %s\n", ast->value.name);
+	while (++index < (size_t)ast->value.argc)
+		printf("argv[%zu] : %s\n", index, ast->value.argv[index]);
+	tmp = ast->value.redirections;
+	while (tmp)
+	{
+		printf("\tRedirection type : %s\n", redi_type[tmp->redirection.flag]);
+		printf("\tFilename : %s\n", tmp->redirection.filename);
+		tmp = tmp->next;
+	}
+	print_ast_node(ast->right);
+}
+
+void	print_ast(t_ast *ast)
+{
+	printf("AST : \n");
+	print_ast_node(ast);
 }

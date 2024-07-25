@@ -14,6 +14,7 @@
 # define TOKENS_H
 
 # include <stdbool.h>
+# include "minishell.h"
 
 typedef struct s_minishell	t_minishell;
 

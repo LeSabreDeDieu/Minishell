@@ -6,7 +6,7 @@
 #    By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:19:20 by gcaptari          #+#    #+#              #
-#    Updated: 2024/07/10 17:33:16 by sgabsi           ###   ########.fr        #
+#    Updated: 2024/07/19 12:49:14 by sgabsi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@
 #################
 
 # Directories
-SRC_SUBDIR	=	command command/builtins env readline token utils
+SRC_SUBDIR	=	ast command command/builtins env readline token utils
 SRCDIR		=	./src
 INCDIR		=	./include
 LIBDIR		=	./lib
@@ -23,12 +23,10 @@ OBJDIR		=	obj
 
 # Sources
 #AST
-#SRC_AST_DIR 		=	ast
-#SRC_AST_FILES		=	create_ast.c \
-						factory.c \
-						free_ast.c \
-						pre_parse.c
-#SRC_AST				=	$(addprefix $(SRC_AST_DIR)/, $(SRC_AST_FILES))
+SRC_AST_DIR 		=	ast
+SRC_AST_FILES		=	create_ast.c \
+						create_ast_value.c
+SRC_AST				=	$(addprefix $(SRC_AST_DIR)/, $(SRC_AST_FILES))
 
 #ENV
 SRC_ENV_DIR 		=	env
@@ -73,7 +71,8 @@ SRC_READ_LINE		=	$(addprefix $(SRC_READ_LINE_DIR)/, $(SRC_READ_LINE_FILES))
 
 #$(SRC_AST)
 #$(SRC_COMMAND)
-SRC_FILES			= $(SRC_ENV) \
+SRC_FILES			= $(SRC_AST) \
+					  $(SRC_ENV) \
 					  $(SRC_TOKEN) \
 					  $(SRC_UTILS) \
 					  $(SRC_READ_LINE) \
@@ -131,7 +130,7 @@ pre_comp:
 	@echo "$(YELLOW)********* Début de la compilation du programme $(NAME) *********$(NC)"
 
 $(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $^ $(OPTIONS) $(LFLAGS) -o $@
+	@$(CC) $(CFLAGS) $^ $(OPTIONS) $(LFLAGS) -o $@
 	@echo -e "\r$(GREEN)********* Compilation terminée avec succès! *********$(NC)$(KL)"
 	@echo "$(GREEN)********* L'executable $(NAME) a été créée. *********$(NC)"
 

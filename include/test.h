@@ -6,10 +6,11 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:58:16 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/07/10 16:05:08 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/07/19 12:41:13 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 void	print_token(t_tokens *tokens);
+void	print_ast(t_ast *ast);

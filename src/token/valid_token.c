@@ -50,6 +50,9 @@ bool	check_valid_token(t_tokens *tokens)
 			&& counter_char_token(current->token->value,
 				'(') % 2 != counter_char_token(current->token->value, ')'))
 			return (false);
+		if (current->token->type == TOKEN_REDIRECTION && current->next->next
+			&& current->next->next->token->type == TOKEN_SUBSHELL)
+			return (false);
 		current = current->next;
 	}
 	return (true);

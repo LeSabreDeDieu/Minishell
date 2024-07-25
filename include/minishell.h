@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:45:02 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/07/10 17:27:23 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/07/19 12:50:37 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,21 @@
 # include <term.h>               // pour tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
 
 # include "env.h"
+# include "ast.h"
 # include "command.h"
 # include "tokens.h"
 # include "libft.h"
 # include "utils.h"
 
+typedef struct s_ast	t_ast;
+typedef struct s_tokens	t_tokens;
+
 typedef struct s_minishell
 {
+	t_ast		*ast;
 	t_tokens	*tokens;
+	bool		pipe;
+	t_list		pipe_lst;
 }				t_minishell;
 
 char	*rl_gets( void );
