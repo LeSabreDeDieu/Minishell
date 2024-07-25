@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:28:15 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/07/25 18:42:10 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/07/25 18:54:03 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	minishell(t_minishell *data, char *prompt)
 		return (ft_putendl_fd("TOKEN ERROR !", 2), false);
 	create_ast(data, data->tokens);
 	print_ast(data->ast);
-	free_ast(data->ast);
+	free_ast(&data->ast);
 	free_token(data->tokens);
 	return (0);
 }
@@ -50,7 +50,7 @@ int	main(int argc, char const *argv[], char *envp[])
 		if (!line)
 		{
 			free_env();
-			free_ast(data.ast);
+			free_ast(&data.ast);
 			free_token(data.tokens);
 			free(data.tokens);
 			exit(0);
