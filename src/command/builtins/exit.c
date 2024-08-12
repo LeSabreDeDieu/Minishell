@@ -6,7 +6,7 @@
 /*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 12:11:15 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/07/08 10:24:58 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/07/11 11:21:52 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,32 @@
 #include "ast.h"
 #include <stdio.h>
 
-void	exit_command(void)
+char	is_number(const char *str)
 {
+	const char *move;
+
+	move = str;
+	if (*move == '-')
+		++move;
+	while(*move && ft_isdigit(*move))
+		++move;
+	return (*move == 0);
+}
+
+int		exit_command(int argc, char *argv[])
+{
+	int	status;
+
+	status = 0;
+	if (argc >= 2)
+	{
+		if(!is_number(argv[1]))
+			return (245);
+		status = ft_atoi(argv[1]);
+	}
+
 	printf("exit\n");
 	free_env();
 	free_token();
-	free_ast(get_ast_factory()->ast);
-	exit(0);
+	exit(status);
 }

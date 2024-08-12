@@ -1,14 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   factory.c                                          :+:      :+:    :+:   */
+/*   free_children.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/18 15:49:33 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/07/11 11:19:57 by gcaptari         ###   ########.fr       */
+/*   Created: 2024/07/12 11:26:53 by gcaptari          #+#    #+#             */
+/*   Updated: 2024/07/12 11:27:39 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ast.h"
+#include "env.h"
+#include "tokens.h"
 
+void free_on_children(void)
+{
+	free_env();
+	free_token();
+}

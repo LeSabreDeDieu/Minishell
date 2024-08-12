@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_factory.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:16:09 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/06/18 12:31:09 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/07/12 11:21:36 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	add_env(t_env *env)
 		return ;
 	}
 	current = factory->env;
-	while (current->next)
+	while (current && current->next)
 		current = current->next;
 	current->next = env;
 }

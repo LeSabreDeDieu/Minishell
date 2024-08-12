@@ -35,6 +35,7 @@
 # include "tokens.h"
 # include "libft.h"
 # include "utils.h"
+size_t	len_array(char **array);
 
 typedef struct s_data
 {
