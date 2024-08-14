@@ -5,33 +5,37 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/03 14:01:22 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/06/03 14:01:22 by sgabsi           ###   ########.fr       */
+/*   Created: 2024/07/08 12:45:05 by sgabsi            #+#    #+#             */
+/*   Updated: 2024/07/10 17:35:39 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TOKENS_H
 # define TOKENS_H
+
 # include <stdbool.h>
+# include "minishell.h"
+
+typedef struct s_minishell	t_minishell;
 
 typedef enum e_token_type
 {
 	TOKEN_AND,
 	TOKEN_OR,
 	TOKEN_SUBSHELL,
-	TOKEN_WORD,
 	TOKEN_VARIABLE,
 	TOKEN_PIPE,
 	TOKEN_REDIRECTION,
 	TOKEN_DOUBLE_QUOTE,
-	TOKEN_SIMPLE_QUOTE
+	TOKEN_SIMPLE_QUOTE,
+	TOKEN_WORD
 }			t_token_type;
 
 typedef struct s_token
 {
-	char				*value;
-	t_token_type		type;
-}						t_token;
+	char			*value;
+	t_token_type	type;
+}					t_token;
 
 typedef struct s_token_list
 {
@@ -40,41 +44,30 @@ typedef struct s_token_list
 	struct s_token_list	*prev;
 }						t_token_list;
 
-typedef struct s_token_config
+typedef struct s_tokens
 {
-	char	*redirection;
-	char	*and;
-	char	*or;
-	char	pipe;
-	char	variable;
-	char	subshell_start;
-	char	subshell_end;
-	char	double_quote;
-	char	simple_quote;
-}			t_token_config;
+	t_token_list		*first_token;
+	char				*token_config[8];
+}						t_tokens;
 
-typedef struct s_token_factory
-{
-	t_token_list	*token_list;
-	t_token_config	config;
-	bool			instanced;
-}					t_token_factory;
+t_token	*create_token( char *value, t_token_type type );
+int		add_token( t_tokens *tokens, t_token *token );
 
-t_token_factory	*get_token_factory(void);
-t_token_config	*get_token_config(void);
+int		tokenise( char **str, t_tokens *tokens, bool and_or );
+void	to_tokenise( t_minishell *data, char *prompt );
+void	tokenise_prompt( t_tokens *tokens, char *prompt, bool is_and_or );
+void	tokenise_and_or( t_tokens *tokens, char **str );
 
-t_token			*parse_token(char *value);
-t_token			*create_token(char *value, t_token_type type);
-void			add_token(t_token *token);
+char	*get_word( char **str );
 
-void			tokenise(char **str, t_token_config *conf, bool is_and_or);
-void			to_tokenise(char *prompt, bool is_and_or);
-void			tokenise_and_or(char **str, t_token_config *conf);
+bool	check_valid_token( t_tokens *tokens );
 
-char			*get_word(char **str);
+void	free_token( t_tokens *tokens );
 
-bool			check_valid_token(void);
+int		tokenise_quote(t_tokens *tokens, char **str, t_token_type type);
+int		tokenise_subshell(t_tokens *tokens, char **str, t_token_type type);
 
-void			free_token(void);
+bool	check_is_in_shell(char *str);
+bool	contain_and_or(char *str);
 
 #endif

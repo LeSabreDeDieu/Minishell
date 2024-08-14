@@ -6,7 +6,7 @@
 #    By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:19:20 by gcaptari          #+#    #+#              #
-#    Updated: 2024/07/12 11:28:18 by gcaptari         ###   ########.fr        #
+#    Updated: 2024/08/14 14:32:32 by gcaptari         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@
 #################
 
 # Directories
-SRC_SUBDIR	=	command command/builtins env readline token utils
+SRC_SUBDIR	=	ast command command/builtins env readline token utils
 SRCDIR		=	./src
 INCDIR		=	./include
 LIBDIR		=	./lib
@@ -25,9 +25,8 @@ OBJDIR		=	obj
 #AST
 SRC_AST_DIR 		=	ast
 SRC_AST_FILES		=	create_ast.c \
-						factory.c \
-						free_ast.c \
-						pre_parse.c
+						create_ast_value.c \
+						free_ast.c
 SRC_AST				=	$(addprefix $(SRC_AST_DIR)/, $(SRC_AST_FILES))
 
 #ENV
@@ -40,9 +39,11 @@ SRC_ENV				=	$(addprefix $(SRC_ENV_DIR)/, $(SRC_ENV_FILES))
 
 #TOKEN
 SRC_TOKEN_DIR 		=	token
-SRC_TOKEN_FILES		=	factory.c \
-						tokenise_and_or.c \
+SRC_TOKEN_FILES		=	tokenise_and_or.c \
+						tokenise_quote.c \
+						tokenise_subshell.c \
 						tokenise.c \
+						tokens.c \
 						totokenise.c \
 						utils.c	\
 						valid_token.c
@@ -70,12 +71,15 @@ SRC_READ_LINE_DIR 	=	readline
 SRC_READ_LINE_FILES	=	get_line.c
 SRC_READ_LINE		=	$(addprefix $(SRC_READ_LINE_DIR)/, $(SRC_READ_LINE_FILES))
 
-SRC_FILES			= 	  $(SRC_AST) \
-            		  $(SRC_ENV) \
+#$(SRC_AST)
+#$(SRC_COMMAND)
+SRC_FILES			= $(SRC_AST) \
+					  $(SRC_ENV) \
+					  $(SRC_COMMAND) \
 					  $(SRC_TOKEN) \
 					  $(SRC_UTILS) \
 					  $(SRC_READ_LINE) \
-					  $(SRC_COMMAND) \
+					  test/print.c \
 					  minishell.c
 
 SRC					=	$(addprefix $(SRCDIR)/, $(SRC_FILES))
@@ -94,7 +98,7 @@ NAME		=	minishell
 
 # Compiler
 CC			=	cc
-CFLAGS		=	-Wall -Wextra -MMD -g3 #-Werror
+CFLAGS		=	-MMD -g3 -Wall -Wextra #-Werror
 
 OPTIONS		=	-I $(INCDIR) -I $(LIBFT_DIR)/includes
 LFLAGS		=	-L $(LIBFT_DIR) -lft -lreadline -lcurses
@@ -129,7 +133,7 @@ pre_comp:
 	@echo "$(YELLOW)********* Début de la compilation du programme $(NAME) *********$(NC)"
 
 $(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $^ $(OPTIONS) $(LFLAGS) -o $@
+	@$(CC) $(CFLAGS) $^ $(OPTIONS) $(LFLAGS) -o $@
 	@echo -e "\r$(GREEN)********* Compilation terminée avec succès! *********$(NC)$(KL)"
 	@echo "$(GREEN)********* L'executable $(NAME) a été créée. *********$(NC)"
 

@@ -3,61 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   totokenise.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/19 13:40:56 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/07/08 10:24:33 by gcaptari         ###   ########.fr       */
+/*   Created: 2024/07/08 14:03:20 by sgabsi            #+#    #+#             */
+/*   Updated: 2024/07/10 17:34:22 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokens.h"
-#include "env.h"
+#include "minishell.h"
 #include "libft.h"
-#include <stdio.h>
 
-static	bool	check_is_in_shell(char *str)
+void	tokenise_prompt(t_tokens *tokens, char *prompt, bool is_and_or)
 {
-	char	*search;
-	char	*and;
-	char	*or;
-
-	search = ft_strstr(str, "(");
-	if (!search)
-		return (1);
-	and = ft_strstr(str, "&&");
-	or = ft_strstr(str, "||");
-	if (and && and < search)
-		return (1);
-	if (or && or < search)
-		return (1);
-	search = ft_strstr(str, "\"");
-	if (!search)
-		return (1);
-	if (and && and < search)
-		return (1);
-	if (or && or < search)
-		return (1);
-	search = ft_strstr(str, "\'");
-	if (!search)
-		return (1);
-	if (and && and < search)
-		return (1);
-	if (or && or < search)
-		return (1);
-	return (0);
-}
-
-static bool	contain_and_or(char *str)
-{
-	return (*str != '(' && *str != '"' && *str != '\'' && check_is_in_shell(str)
-		&& (ft_strstr(str, "&&") != NULL || ft_strstr(str, "||") != NULL));
-}
-
-void	to_tokenise(char *prompt, bool is_and_or)
-{
-	t_token_config	*conf;
-	char			*save;
-	char			*tmp;
+	char	*save;
+	char	*tmp;
 
 	if (!prompt || !*prompt)
 		return ;
@@ -65,34 +25,43 @@ void	to_tokenise(char *prompt, bool is_and_or)
 	if (!tmp)
 		return ;
 	save = tmp;
-	conf = get_token_config();
 	while (*tmp)
 	{
 		if (contain_and_or(tmp))
 		{
-			tokenise_and_or(&tmp, conf);
+			tokenise_and_or(tokens, &tmp);
 			free(save);
-			if (!check_valid_token())
-			{
-				printf("minishell: lexical error\n");
-				free_token();
-				return ;
-			}
+			check_valid_token(tokens);
 			return ;
 		}
-		if (*tmp == ' ')
-		{
+		while (*tmp == ' ')
 			tmp++;
-			continue ;
-		}
-		tokenise(&tmp, conf, is_and_or);
+		tokenise(&tmp, tokens, is_and_or);
 	}
 	free(save);
-	if (!check_valid_token())
-	{
-		printf("minishell: lexical error\n");
-		free_token();
-		return ;
-	}
+	check_valid_token(tokens);
 	return ;
+}
+
+void	to_tokenise(t_minishell *data, char *prompt)
+{
+	t_tokens	*tokens;
+
+	if (!data->tokens)
+	{
+		tokens = ft_calloc(1, sizeof(t_tokens));
+		tokens->first_token = NULL;
+		tokens->token_config[0] = "&&";
+		tokens->token_config[1] = "||";
+		tokens->token_config[2] = "()";
+		tokens->token_config[3] = "$";
+		tokens->token_config[4] = "|";
+		tokens->token_config[5] = "<>";
+		tokens->token_config[6] = "\"";
+		tokens->token_config[7] = "'";
+		data->tokens = tokens;
+	}
+	else
+		tokens = data->tokens;
+	tokenise_prompt(tokens, prompt, false);
 }

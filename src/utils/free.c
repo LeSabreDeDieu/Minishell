@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/30 15:19:27 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/05/30 15:55:09 by sgabsi           ###   ########.fr       */
+/*   Created: 2024/07/10 15:48:08 by sgabsi            #+#    #+#             */
+/*   Updated: 2024/07/10 17:15:58 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	free_str_tab(char **tabs)
 
 	move = tabs;
 	while (*move)
-		free(*move++);
+		free(*move);
 	free(tabs);
 }
 
@@ -43,16 +43,14 @@ void	free_env(void)
 	}
 }
 
-void	free_token(void)
+void	free_token(t_tokens *tokens)
 {
-	t_token_factory	*fac;
 	t_token_list	*tmp;
 	t_token_list	*current;
 
-	fac = get_token_factory();
-	current = fac->token_list;
-	if (!current)
+	if (!tokens || !tokens->first_token)
 		return ;
+	current = tokens->first_token;
 	while (current)
 	{
 		tmp = current;
@@ -65,5 +63,5 @@ void	free_token(void)
 		}
 		free(tmp);
 	}
-	fac->token_list = NULL;
+	tokens->first_token = NULL;
 }

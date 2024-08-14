@@ -6,15 +6,16 @@
 /*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 11:26:53 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/07/12 11:27:39 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/08/14 14:25:21 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include "tokens.h"
 
-void free_on_children(void)
+void free_on_children(t_minishell *minishell)
 {
 	free_env();
-	free_token();
+	free_token(minishell->tokens);
+	free_ast(minishell->ast);
 }

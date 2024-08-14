@@ -6,7 +6,7 @@
 /*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 12:11:15 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/07/11 11:21:52 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/08/14 14:46:06 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	is_number(const char *str)
 	return (*move == 0);
 }
 
-int		exit_command(int argc, char *argv[])
+int		exit_command(t_minishell *minishell, int argc, char *argv[])
 {
 	int	status;
 
@@ -40,7 +40,6 @@ int		exit_command(int argc, char *argv[])
 	}
 
 	printf("exit\n");
-	free_env();
-	free_token();
+	free_on_children(minishell);
 	exit(status);
 }

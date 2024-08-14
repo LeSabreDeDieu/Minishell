@@ -53,5 +53,3 @@ dkms.conf
 
 # Local files
 minishell
-.vscode/
-.idea

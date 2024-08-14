@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/28 23:31:50 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/07/17 16:18:40 by gcaptari         ###   ########.fr       */
+/*   Created: 2024/07/08 12:28:15 by sgabsi            #+#    #+#             */
+/*   Updated: 2024/08/14 14:48:27 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,88 +14,57 @@
 #include "command.h"
 #include "minishell.h"
 #include "tokens.h"
+#include "libft.h"
+#include "stdbool.h"
 
-static void	print_token(void)
+#include "test.h"
+
+int	minishell(t_minishell *data, char *prompt)
 {
-	t_token_factory	*fac;
-	t_token_list	*current;
-	const char		*token_names[9] = {"AND", "OR", "SUBSHELL", "WORD",
-				"VARIABLE", "PIPE", "REDIRECTION", "DOUBLE_QUOTE",
-				"SIMPLE_QUOTE"};
-
-	fac = get_token_factory();
-	if (!fac)
-		return ;
-	if (fac->token_list == NULL)
-		return ;
-	current = fac->token_list;
-	printf("Tokenisation : \n");
-	while (current)
-	{
-		printf("[%s] => %%%s%%\n", token_names[current->token->type],
-			current->token->value);
-		if (!current->next)
-			break ;
-		current = current->next;
-	}
+	to_tokenise(data, prompt);
+	free(prompt);
+	print_token(data->tokens);
+	if (!check_valid_token(data->tokens))
+		return (ft_putendl_fd("TOKEN ERROR !", 2), false);
+	create_ast(data, data->tokens);
+	print_ast(data->ast);
+	free_ast(&data->ast);
+	free_token(data->tokens);
+	return (0);
 }
 
-static void	print_ast(t_ast *ast)
+int	main(int argc, char const *argv[], char *envp[])
 {
-	const char	*token_names[9] = {"AND", "OR", "SUBSHELL", "WORD", "VARIABLE",
-			"PIPE", "REDIRECTION", "DOUBLE_QUOTE", "SIMPLE_QUOTE"};
+	char		*line;
+	t_minishell	data;
 
-	if (!ast)
-		return ;
-	print_ast(ast->left);
-	print_ast(ast->right);
-}
-
-int	main(int argc, char *argv[], char *envp[])
-{
-	char	*line;
-	char	**v_argv;
-	t_ast_value test;
-	t_redirection_list redir_list[3] = {NULL, NULL, NULL};
-	t_redirection redir[3] = {NULL, NULL, NULL};
-
-	redir[0].filename = "pp1";
-	redir[0].flag = READ;
-	redir[1].filename = "pp2";
-	redir[1].flag = READ;
-	redir[2].filename = "pp3";
-	redir[2].flag = READ;
-	redir_list[0].next = &redir_list[1];
-	redir_list[1].next = &redir_list[2];
-	redir_list[0].redirection = &redir[0];
-	redir_list[1].redirection = &redir[1];
-	redir_list[2].redirection = &redir[2];
-	(void)argc;
 	(void)argv;
+	if (argc != 1)
+	{
+		ft_putstr_fd("What did you do that ?", 2);
+		ft_putstr_fd("why did you gave to me some arguments ?\n", 2);
+	}
+	ft_bzero(&data, sizeof(t_minishell));
 	create_env(envp);
-	if (!test_env_config())
-		return (0);
-	ft_bzero(&test, sizeof(test));
 	ft_putendl_fd("Welcome to minishell", 1);
-	test.redirections = &redir_list[0];
 	while (true)
 	{
 		line = rl_gets();
 		printf("%p\n", line);
 		if (!line)
-			exit_command(1, NULL);
-		to_tokenise(line, false);
-		v_argv = ft_split(line, ' ');
-		free(line);
-		test.argv = v_argv;
-		test.name = v_argv[0];
-		test.argc = len_array(v_argv);
-		print_token();
-		execute_simple(&test, envp);
-		free_str_tab(v_argv);
-		// printf("\n");
-		// get_ast_factory()->ast = create_ast(get_token_factory()->token_list);
-		free_token();
+		{
+			free_env();
+			free_ast(&data.ast);
+			free_token(data.tokens);
+			free(data.tokens);
+			exit(0);
+		}
+		if (!*line)
+		{
+			free(line);
+			continue ;
+		}
+		minishell(&data, line);
 	}
 	return (0);
 }
