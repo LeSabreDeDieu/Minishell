@@ -6,13 +6,14 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:03:20 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/07/10 17:34:22 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/08/19 12:04:50 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokens.h"
 #include "minishell.h"
 #include "libft.h"
+#include "string.h"
 
 void	tokenise_prompt(t_tokens *tokens, char *prompt, bool is_and_or)
 {

@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:45:02 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/07/19 12:50:37 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/08/19 11:47:41 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,5 @@ typedef struct s_minishell
 }				t_minishell;
 
 char	*rl_gets( void );
-
 
 #endif

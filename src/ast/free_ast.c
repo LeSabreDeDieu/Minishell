@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 17:16:29 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/07/25 18:35:00 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/08/19 11:28:42 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,6 @@ void	free_ast(t_ast **ast)
 		free_ast(&(*ast)->left);
 		free_ast(&(*ast)->right);
 	}
-	free(ast);
+	free(*ast);
 	*ast = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:29:33 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/07/25 18:04:59 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/08/19 11:30:57 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,6 @@ static void	print_ast_node(t_ast *ast)
 
 void	print_ast(t_ast *ast)
 {
-	printf("AST : \n");
+	printf("\nAST : \n");
 	print_ast_node(ast);
 }

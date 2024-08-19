@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:31:34 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/07/25 18:39:18 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/08/19 11:46:38 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static t_ast	*create_nodes(t_token_list *tokens)
 		else if (tokens->token->type == TOKEN_PIPE)
 			ast->type = AST_PIPE;
 		ft_bzero(&ast->value, sizeof(t_ast_value));
-		if(tokens)
+		if (tokens)
 			ast->right = create_nodes(tokens->next);
 	}
 	else if (tokens && (tokens->token->type != TOKEN_AND
@@ -52,7 +52,7 @@ static t_ast	*create_nodes(t_token_list *tokens)
 			|| tokens->token->type != TOKEN_PIPE))
 		ast->right = create_nodes(tokens);
 	else
-		return (left);
+		return (free(ast), left);
 	return (ast);
 }
 
