@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+         #
+#    By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:19:20 by gcaptari          #+#    #+#              #
-#    Updated: 2024/08/14 14:32:32 by gcaptari         ###   ########.fr        #
+#    Updated: 2024/08/21 13:01:14 by sgabsi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,8 @@ OBJDIR		=	obj
 SRC_AST_DIR 		=	ast
 SRC_AST_FILES		=	create_ast.c \
 						create_ast_value.c \
-						free_ast.c
+						free_ast.c	\
+						utils.c
 SRC_AST				=	$(addprefix $(SRC_AST_DIR)/, $(SRC_AST_FILES))
 
 #ENV
@@ -98,7 +99,7 @@ NAME		=	minishell
 
 # Compiler
 CC			=	cc
-CFLAGS		=	-MMD -g3 -Wall -Wextra #-Werror
+CFLAGS		=	-MMD -g3 -Wall -Wextra -Wshadow -Wunused #-Werror
 
 OPTIONS		=	-I $(INCDIR) -I $(LIBFT_DIR)/includes
 LFLAGS		=	-L $(LIBFT_DIR) -lft -lreadline -lcurses

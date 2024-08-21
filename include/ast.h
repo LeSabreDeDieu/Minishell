@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:44:54 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/08/14 14:36:37 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/08/21 13:03:18 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ typedef struct s_token_list		t_token_list;
 
 typedef enum e_type_ast
 {
-	AST_AND = 1,
+	AST_AND,
 	AST_OR,
 	AST_SUBSHELL,
 	AST_PIPE,
@@ -72,6 +72,9 @@ typedef struct s_ast
 int								create_ast(t_minishell *data, t_tokens *tokens);
 int								create_ast_value(t_ast_value *value,
 									t_token_list **tokens);
+t_ast							*create_nodes(t_token_list *tokens);
+void							create_nodes_special(t_token_list *tokens,
+									t_ast *left, t_ast *ast);
 void							free_ast(t_ast **ast);
 
 #endif // AST_H

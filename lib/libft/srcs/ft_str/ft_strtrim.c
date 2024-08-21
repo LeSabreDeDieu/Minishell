@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 15:41:58 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/06/18 14:26:24 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/08/19 12:19:11 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ static int	is_in_set(char c, const char *set)
 
 char	*ft_strtrim(char const *s1, char const *set)
 {
+	char	*trimmed_str;
 	size_t	start;
 	size_t	end;
-	char	*trimmed_str;
 	size_t	i;
 
 	if (!s1 || !set)
@@ -38,8 +38,8 @@ char	*ft_strtrim(char const *s1, char const *set)
 		start++;
 	if (!s1[start])
 		return (ft_strdup(""));
-	end = start + ft_strlen(s1 + start);
-	while (end > 0 && is_in_set(s1[end], set))
+	end = ft_strlen(s1);
+	while (end > start && is_in_set(s1[end - 1], set))
 		end--;
 	trimmed_str = ft_calloc(end - start + 1, sizeof(char));
 	if (!trimmed_str)
@@ -47,6 +47,6 @@ char	*ft_strtrim(char const *s1, char const *set)
 	i = 0;
 	while (start < end)
 		trimmed_str[i++] = s1[start++];
-	trimmed_str[i] = '\0';
+	trimmed_str[i] = 0;
 	return (trimmed_str);
 }
