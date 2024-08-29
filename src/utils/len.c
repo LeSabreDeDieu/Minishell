@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   len.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:55:05 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/07/10 15:56:55 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/08/14 14:25:31 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,14 @@ size_t	len_env(void)
 		current = current->next;
 	}
 	return (len);
+}
+
+size_t	len_array(char **array)
+{
+	char **move;
+
+	move = array;
+	while (*move)
+		++move;
+	return (move - array);
 }

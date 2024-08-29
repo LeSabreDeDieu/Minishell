@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_line.c                                         :+:      :+:    :+:   */
+/*   free_children.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/10 16:16:19 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/08/21 08:19:40 by sgabsi           ###   ########.fr       */
+/*   Created: 2024/07/12 11:26:53 by gcaptari          #+#    #+#             */
+/*   Updated: 2024/08/21 13:05:26 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "env.h"
+#include "tokens.h"
 
-char	*rl_gets(void)
+void	free_on_children(t_minishell *minishell)
 {
-	char	*line;
-
-	line = readline("$> ");
-	if (!line)
-		return (NULL);
-	if (*line)
-		add_history(line);
-	return (line);
+	free_env();
+	free_token(minishell->tokens);
+	free_ast(&minishell->ast);
 }

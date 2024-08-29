@@ -1,25 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_line.c                                         :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gabrielcaptari@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/10 16:16:19 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/08/21 08:19:40 by sgabsi           ###   ########.fr       */
+/*   Created: 2024/06/20 13:43:37 by gcaptari          #+#    #+#             */
+/*   Updated: 2024/06/20 13:43:47 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "command.h"
+#include "env.h"
 
-char	*rl_gets(void)
+int env_command(int argc, char *argv[])
 {
-	char	*line;
-
-	line = readline("$> ");
-	if (!line)
-		return (NULL);
-	if (*line)
-		add_history(line);
-	return (line);
+	(void) argc;
+	(void) argv;
+	print_env();
+	return (0);
 }

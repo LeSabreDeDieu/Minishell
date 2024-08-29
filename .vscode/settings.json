@@ -1,8 +1,12 @@
 {
 	"files.associations": {
+		"ast.h": "c",
+		"stdbool.h": "c",
+		"stdio.h": "c",
+		"tokens.h": "c",
+		"typeinfo": "c",
+		"command.h": "c",
 		"env.h": "c",
-		"minishell.h": "c",
-		"test.h": "c",
-		"type_traits": "c"
+		"errno.h": "c"
 	}
 }

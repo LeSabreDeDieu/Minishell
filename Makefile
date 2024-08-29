@@ -6,7 +6,7 @@
 #    By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:19:20 by gcaptari          #+#    #+#              #
-#    Updated: 2024/07/25 17:34:33 by sgabsi           ###   ########.fr        #
+#    Updated: 2024/08/21 13:01:14 by sgabsi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,8 @@ OBJDIR		=	obj
 SRC_AST_DIR 		=	ast
 SRC_AST_FILES		=	create_ast.c \
 						create_ast_value.c \
-						free_ast.c
+						free_ast.c	\
+						utils.c
 SRC_AST				=	$(addprefix $(SRC_AST_DIR)/, $(SRC_AST_FILES))
 
 #ENV
@@ -52,18 +53,19 @@ SRC_TOKEN			=	$(addprefix $(SRC_TOKEN_DIR)/, $(SRC_TOKEN_FILES))
 #UTILS
 SRC_UTILS_DIR 	=	utils
 SRC_UTILS_FILES	=	free.c \
+					free_children.c	\
 					len.c
 SRC_UTILS		=	$(addprefix $(SRC_UTILS_DIR)/, $(SRC_UTILS_FILES))
 
 #COMMAND
-#SRC_COMMAND_DIR 	=	command
-#SRC_COMMAND_FILES	=	command.c \
+SRC_COMMAND_DIR 	=	command
+SRC_COMMAND_FILES	=	command.c \
 						builtins/echo.c	\
 						builtins/unset.c \
 						builtins/env.c	\
 						builtins/cd.c	\
 						builtins/exit.c
-#SRC_COMMAND		=	$(addprefix $(SRC_COMMAND_DIR)/, $(SRC_COMMAND_FILES))
+SRC_COMMAND		=	$(addprefix $(SRC_COMMAND_DIR)/, $(SRC_COMMAND_FILES))
 
 #READ_LINE
 SRC_READ_LINE_DIR 	=	readline
@@ -74,6 +76,7 @@ SRC_READ_LINE		=	$(addprefix $(SRC_READ_LINE_DIR)/, $(SRC_READ_LINE_FILES))
 #$(SRC_COMMAND)
 SRC_FILES			= $(SRC_AST) \
 					  $(SRC_ENV) \
+					  $(SRC_COMMAND) \
 					  $(SRC_TOKEN) \
 					  $(SRC_UTILS) \
 					  $(SRC_READ_LINE) \
@@ -96,7 +99,7 @@ NAME		=	minishell
 
 # Compiler
 CC			=	cc
-CFLAGS		=	-MMD -g3 -Wall -Wextra #-Werror
+CFLAGS		=	-MMD -g3 -Wall -Wextra -Wshadow -Wunused #-Werror
 
 OPTIONS		=	-I $(INCDIR) -I $(LIBFT_DIR)/includes
 LFLAGS		=	-L $(LIBFT_DIR) -lft -lreadline -lcurses

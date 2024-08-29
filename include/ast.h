@@ -6,32 +6,31 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:44:54 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/08/19 11:47:31 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/08/29 09:47:28 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef AST_H
 # define AST_H
 
-# include <stdbool.h>
-
 # include "libft.h"
+# include "minishell.h"
 # include "tokens.h"
 # include "utils.h"
-# include "minishell.h"
+# include <stdbool.h>
 
-typedef struct s_minishell	t_minishell;
-typedef struct s_tokens		t_tokens;
-typedef struct s_token_list	t_token_list;
+typedef struct s_minishell		t_minishell;
+typedef struct s_tokens			t_tokens;
+typedef struct s_token_list		t_token_list;
 
 typedef enum e_type_ast
 {
-	AST_AND = 1,
+	AST_AND,
 	AST_OR,
 	AST_SUBSHELL,
 	AST_PIPE,
 	AST_CMD
-}	t_type_ast;
+}								t_type_ast;
 
 typedef enum e_type_redirection
 {
@@ -39,38 +38,43 @@ typedef enum e_type_redirection
 	READ,
 	WRITE,
 	APPEND
-}	t_type_redirection;
+}								t_type_redirection;
 
 typedef struct s_redirection
 {
-	char					*filename;
-	t_type_redirection		flag;
-}	t_redirection;
+	char						*filename;
+	int							fd;
+	t_type_redirection			flag;
+}								t_redirection;
 
 typedef struct s_redirection_list
 {
 	t_redirection				redirection;
 	struct s_redirection_list	*next;
-}	t_redirection_list;
+}								t_redirection_list;
 
 typedef struct s_ast_value
 {
-	t_redirection_list		*redirections;
-	char					**argv;
-	char					*name;
-	int						argc;
-}	t_ast_value;
+	t_redirection_list			*redirections;
+	char						**argv;
+	char						*name;
+	int							argc;
+}								t_ast_value;
 
 typedef struct s_ast
 {
-	struct s_ast	*left;
-	struct s_ast	*right;
-	t_ast_value		value;
-	t_type_ast		type;
-}	t_ast;
+	struct s_ast				*left;
+	struct s_ast				*right;
+	t_ast_value					value;
+	t_type_ast					type;
+}								t_ast;
 
-int		create_ast(t_minishell *data, t_tokens *tokens);
-int		create_ast_value(t_ast_value *value, t_token_list **tokens);
-void	free_ast(t_ast **ast);
+int								create_ast(t_minishell *data, t_tokens *tokens);
+int								create_ast_value(t_ast_value *value,
+									t_token_list **tokens);
+t_ast							*create_nodes(t_token_list *tokens);
+void							create_nodes_special(t_token_list *tokens,
+									t_ast *left, t_ast *ast);
+void							free_ast(t_ast **ast);
 
-#endif //AST_H
+#endif // AST_H

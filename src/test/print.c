@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:29:33 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/08/19 11:30:57 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/08/29 09:47:03 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	print_token(t_tokens *tokens)
 
 static void	print_ast_node(t_ast *ast)
 {
-	const char			*type_names[] = {"UNDEFINED", "AND", "OR", "SUBSHELL", "PIPE", "CMD"};
+	const char			*type_names[] = {"AND", "OR", "SUBSHELL", "PIPE", "CMD"};
 	const char			*redi_type[] = {"HERE_DOC", "READ", "WRITE", "APPEND"};
 	t_redirection_list	*tmp;
 	size_t				index;
@@ -54,6 +54,7 @@ static void	print_ast_node(t_ast *ast)
 		printf("\tFilename : %s\n", tmp->redirection.filename);
 		tmp = tmp->next;
 	}
+	printf("\n");
 	print_ast_node(ast->right);
 }
 

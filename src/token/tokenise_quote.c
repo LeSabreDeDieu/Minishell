@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:42:00 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/07/10 16:38:44 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/08/21 15:18:41 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	tokenise_quote(t_tokens *tokens, char **str, t_token_type type)
 					tokens->token_config[type][0]) - *str) + 1);
 	if (!tmp)
 		return (FAILURE);
-	add_token(tokens, create_token(tmp, type));
+	add_token(tokens, create_token(tmp, TOKEN_WORD));
 	*str += ft_strlen(tmp);
 	free(tmp);
 	return (SUCCESS);
