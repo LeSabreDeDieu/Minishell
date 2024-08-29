@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:01:24 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/08/22 14:17:35 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/08/29 12:09:59 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	tokenise(char **str, t_tokens *tokens, bool is_and_or)
 		status = tokenise_redirect_char(tokens, str, TOKEN_REDIRECTION);
 	else if (**str == tokens->token_config[TOKEN_VARIABLE][0])
 	{
-		status = add_token(tokens, create_token("$", TOKEN_WORD));
+		status = tokenise_word(tokens, str);
 		++(*str);
 	}
 	else

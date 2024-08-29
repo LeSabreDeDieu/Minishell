@@ -7,6 +7,8 @@
 		"typeinfo": "c",
 		"command.h": "c",
 		"env.h": "c",
-		"errno.h": "c"
+		"errno.h": "c",
+		"test.h": "c",
+		"libft.h": "c"
 	}
 }

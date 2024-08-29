@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:28:15 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/08/29 08:34:00 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/08/29 11:22:21 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,16 @@
 
 #include "test.h"
 
-int	minishell(t_minishell *data, char *prompt)
+static void	usage(int argc)
+{
+	if (argc != 1)
+	{
+		ft_putstr_fd("What did you do that ? ", 2);
+		ft_putstr_fd("Why did you gave to me some arguments ?\n\n", 2);
+	}
+}
+
+static int	traitement(t_minishell *data, char *prompt)
 {
 	to_tokenise(data, prompt);
 	free(prompt);
@@ -33,24 +42,17 @@ int	minishell(t_minishell *data, char *prompt)
 	return (0);
 }
 
-int	main(int argc, char const *argv[], char *envp[])
+static char	*minishell(char *envp[])
 {
-	char		*line;
 	t_minishell	data;
+	char		*line;
 
-	(void)argv;
-	if (argc != 1)
-	{
-		ft_putstr_fd("What did you do that ? ", 2);
-		ft_putstr_fd("why did you gave to me some arguments ?\n", 2);
-	}
-	ft_bzero(&data, sizeof(t_minishell));
 	create_env(envp);
+	ft_bzero(&data, sizeof(t_minishell));
 	ft_putendl_fd("Welcome to minishell", 1);
 	while (true)
 	{
 		line = rl_gets();
-		printf("%p\n", line);
 		if (!line)
 		{
 			free_env();
@@ -64,7 +66,15 @@ int	main(int argc, char const *argv[], char *envp[])
 			free(line);
 			continue ;
 		}
-		minishell(&data, line);
+		traitement(&data, line);
 	}
+}
+
+int	main(int argc, char const *argv[], char *envp[])
+{
+	(void)argv;
+
+	usage(argc);
+	minishell(envp);
 	return (0);
 }
