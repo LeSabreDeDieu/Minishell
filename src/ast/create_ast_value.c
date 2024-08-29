@@ -6,15 +6,20 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 11:55:12 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/08/21 12:51:42 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/08/21 13:46:44 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast.h"
 
-void	create_redirection(t_redirection *redir,
-						char *filename,
-						t_type_redirection flag)
+static bool	is_quote(t_token *token)
+{
+	return (token->type == TOKEN_DOUBLE_QUOTE
+		|| token->type == TOKEN_SIMPLE_QUOTE);
+}
+
+void	create_redirection(t_redirection *redir, char *filename,
+		t_type_redirection flag)
 {
 	redir->filename = filename;
 	redir->flag = flag;
@@ -36,9 +41,7 @@ int	get_type_redirection(char *str)
 	return (type);
 }
 
-int	add_list_redirection(t_redirection_list	**list,
-							t_token *type,
-							char *file)
+int	add_list_redirection(t_redirection_list **list, t_token *type, char *file)
 {
 	t_redirection_list	*current;
 
@@ -68,24 +71,25 @@ int	add_list_redirection(t_redirection_list	**list,
 
 static int	create_ast_value_word(t_ast_value *value, t_token_list **tokens)
 {
-	t_token_list		*current;
-	t_token_list		*tmp;
-	int					i;
+	t_token_list	*current;
+	t_token_list	*tmp;
+	int				i;
 
 	current = *tokens;
 	if (current->token->type != TOKEN_WORD
-		&& current->token->type != TOKEN_REDIRECTION)
+		&& current->token->type != TOKEN_REDIRECTION
+		&& !is_quote(current->token))
 		return (FAILURE);
 	while (current && current->token->type == TOKEN_REDIRECTION)
 	{
-		if (current->next && add_list_redirection(&value->redirections, current->token,
-				current->next->token->value) == FAILURE)
+		if (current->next && add_list_redirection(&value->redirections,
+				current->token, current->next->token->value) == FAILURE)
 			return (FAILURE);
 		current = current->next->next;
 	}
 	i = 0;
 	tmp = current;
-	while (tmp && tmp->token->type == TOKEN_WORD)
+	while (tmp && (tmp->token->type == TOKEN_WORD || is_quote(tmp->token)))
 	{
 		value->argc++;
 		tmp = tmp->next;
@@ -95,17 +99,19 @@ static int	create_ast_value_word(t_ast_value *value, t_token_list **tokens)
 		value->argv = ft_calloc(value->argc + 1, sizeof(char *));
 		if (!value->argv)
 			return (FAILURE);
-		while (current && current->token->type == TOKEN_WORD)
+		while (current && (current->token->type == TOKEN_WORD
+				|| is_quote(current->token)))
 		{
 			value->argv[i++] = current->token->value;
 			current = current->next;
 		}
 		value->name = value->argv[0];
 	}
-	while (current && current->token && current->token->type == TOKEN_REDIRECTION)
+	while (current && current->token
+		&& current->token->type == TOKEN_REDIRECTION)
 	{
-		if (current->next && add_list_redirection(&value->redirections, current->token,
-				current->next->token->value) == FAILURE)
+		if (current->next && add_list_redirection(&value->redirections,
+				current->token, current->next->token->value) == FAILURE)
 			return (FAILURE);
 		current = current->next->next;
 	}
@@ -120,8 +126,7 @@ int	create_ast_value(t_ast_value *value, t_token_list **tokens)
 	if (!tokens || !*tokens)
 		return (FAILURE);
 	current = *tokens;
-	ft_bzero(value, sizeof(*value));
-	if (current->token->type == TOKEN_WORD
+	if (current->token->type == TOKEN_WORD || is_quote(current->token)
 		|| current->token->type == TOKEN_REDIRECTION)
 		return (create_ast_value_word(value, tokens));
 	else if (current->token->type == TOKEN_SUBSHELL)
@@ -130,8 +135,8 @@ int	create_ast_value(t_ast_value *value, t_token_list **tokens)
 		current = current->next;
 		while (current && current->token->type == TOKEN_REDIRECTION)
 		{
-			if (current->next && add_list_redirection(&value->redirections, current->token,
-					current->next->token->value) == FAILURE)
+			if (current->next && add_list_redirection(&value->redirections,
+					current->token, current->next->token->value) == FAILURE)
 				return (FAILURE);
 			current = current->next->next;
 		}

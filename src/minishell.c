@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:28:15 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/08/21 10:20:30 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/08/29 08:34:00 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	main(int argc, char const *argv[], char *envp[])
 	(void)argv;
 	if (argc != 1)
 	{
-		ft_putstr_fd("What did you do that ?", 2);
+		ft_putstr_fd("What did you do that ? ", 2);
 		ft_putstr_fd("why did you gave to me some arguments ?\n", 2);
 	}
 	ft_bzero(&data, sizeof(t_minishell));

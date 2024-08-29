@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:29:33 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/08/21 12:42:15 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/08/29 08:18:03 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ static void	print_ast_node(t_ast *ast)
 		printf("\tFilename : %s\n", tmp->redirection.filename);
 		tmp = tmp->next;
 	}
+	printf("\n");
 	print_ast_node(ast->right);
 }
 
