@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 16:01:54 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/07/09 16:16:43 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/08/29 15:45:47 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@ int	tokenise_subshell(t_tokens *tokens, char **str, t_token_type type)
 {
 	char	*tmp;
 
-	tmp = ft_substr(*str, 0, get_right_end(*str) - *str);
+	tmp = ft_substr(*str, 1, (get_right_end(*str) - 2) - *str);
 	if (!tmp)
 		return (FAILURE);
 	add_token(tokens, create_token(tmp, type));
-	*str += ft_strlen(tmp);
+	*str += ft_strlen(tmp) + 2;
 	free(tmp);
 	return (SUCCESS);
 }

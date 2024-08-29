@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:34:59 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/08/21 13:34:29 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/08/29 15:45:28 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,13 @@ bool	check_valid_token(t_tokens *tokens)
 	if (!tokens || !tokens->first_token)
 		return (free_token(tokens), false);
 	current = tokens->first_token;
-	if (is_and_or_pipe(current->token) || (ft_strlen(current->token->value) == 1
-			&& (current->token->value[0] == '('
-				|| current->token->value[0] == ')')))
-		return (free_token(tokens), false);
 	while (current)
 	{
+		if (is_and_or_pipe(current->token)
+			|| (ft_strlen(current->token->value) == 1
+				&& (current->token->value[0] == '('
+					|| current->token->value[0] == ')')))
+			return (free_token(tokens), false);
 		if (!check_quotes(current, tokens))
 			return (false);
 		if (current->token->type == TOKEN_SUBSHELL
