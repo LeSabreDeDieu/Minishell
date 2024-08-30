@@ -6,7 +6,7 @@
 /*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 15:30:56 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/08/14 14:46:34 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/08/30 10:53:55 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <wait.h> // pour fork, wait, waitpid, wait3, wait4, stat, lstat, fstat
+
+enum e_close_fd {
+	CLOSE_STD_REDIR = 0,
+	CLOSE_STD_FAKE = 1
+};
 
 static bool is_exact_name(char *name, char *equal)
 {
@@ -70,7 +75,8 @@ static char	*search_command_on_path(char *name, t_env *path)
 	}
 	if (!cmd_file)
 		cmd_file = ft_strdup(name);
-	return (free_str_tab(tmp), cmd_file);
+	free_str_tab(tmp);
+	return (cmd_file);
 }
 
 static char	*get_real_command(char *name)
@@ -174,11 +180,16 @@ int	dup_all_redir(t_redirection_list *list)
 	return (status);
 }
 
-void	close_all_redir(t_redirection_list *list)
+void	close_all_redir(int fake_std[2], t_redirection_list *list, int mask)
 {
 	t_redirection_list	*current;
 	int					status;
 
+	if(mask & CLOSE_STD_REDIR)
+	{
+		close(fake_std[0]);
+		close(fake_std[1]);
+	}
 	current = list;
 	status = 0;
 	while (current)
@@ -198,6 +209,17 @@ void	fake_standard(int replace[2])
 {
 	replace[0] = dup(0);
 	replace[1] = dup(1);
+}
+
+int		fake_standard_pipe(int replace[2])
+{
+	int fake[2];
+	if(pipe(fake)){
+		replace[0] = fake[0];
+		replace[1] = fake[1];
+		return 0;
+	}
+	return -1;
 }
 
 int	close_fake_standard(int replace[2])
@@ -222,7 +244,7 @@ int	execute_simple( t_minishell *minishell, t_ast_value *value, char *envp[])
 		state = ENOENT;
 		if (dup_all_redir(value->redirections) != -1)
 			state = exceve_builtins(minishell, value->name, value->argc, value->argv);
-		(close_fake_standard(replace), close_all_redir(value->redirections));
+		close_all_redir(replace, value->redirections, CLOSE_STD_FAKE | CLOSE_STD_REDIR);
 		return (state);
 	}
 	child = fork();
@@ -239,24 +261,23 @@ int	execute_simple( t_minishell *minishell, t_ast_value *value, char *envp[])
 			(fork_error_message("Malloc failled"), exit(ENOMEM));
 		else if (dup_all_redir(value->redirections) == -1)
 		{
-			(close_fake_standard(replace),
-				close_all_redir(value->redirections));
+			close_all_redir(replace, value->redirections, CLOSE_STD_FAKE | CLOSE_STD_REDIR);
 			free(path);
 			exit(ENOENT);
 		}
 		if (execve(path, value->argv, envp) != 0)
 			command_error_message(value->name, "Command not found");
 		free(path);
-		(close_fake_standard(replace), close_all_redir(value->redirections));
-		free_on_children(minishell);
+		close_all_redir(replace, value->redirections, CLOSE_STD_FAKE | CLOSE_STD_REDIR);
+		free_minishell(minishell, FREE_AST | FREE_ENV);
 		exit(errno);
 	}
 	waitpid(child, &state, 0);
-	(close_fake_standard(replace), close_all_redir(value->redirections));
+	close_all_redir(replace, value->redirections, CLOSE_STD_FAKE | CLOSE_STD_REDIR);
 	return (WEXITSTATUS(state));
 }
 
-__pid_t	execute_pipe(t_minishell *minishell, t_ast_value *value, char *envp[])
+__pid_t	execute_pipe(t_minishell *minishell, int *std_in, t_ast_value *value, char *envp[])
 {
 	int		state;
 	char	*path;
@@ -264,7 +285,7 @@ __pid_t	execute_pipe(t_minishell *minishell, t_ast_value *value, char *envp[])
 	int		replace[2];
 
 	open_all_redirection(value->redirections);
-	fake_standard(replace);
+	fake_standard_pipe(replace);
 	child = fork();
 	if (child < 0)
 	{
@@ -273,43 +294,61 @@ __pid_t	execute_pipe(t_minishell *minishell, t_ast_value *value, char *envp[])
 	}
 	if (!child)
 	{
+
 		close_fake_standard(replace);
+		if (*std_in != -1)
+		{
+			dup2(*std_in, STDIN_FILENO);
+			close(*std_in);
+		}
+		if (dup_all_redir(value->redirections) == -1)
+		{
+			free(path);
+			close_all_redir(replace, value->redirections, CLOSE_STD_FAKE | CLOSE_STD_REDIR);
+			free_minishell(minishell, FREE_AST | FREE_ENV | FREE_PIPE);
+			exit(ENOENT);
+		}
 		if (is_builtin(value->name))
 		{
 			state = exceve_builtins(minishell, value->name, value->argc, value->argv);
-			(close_fake_standard(replace), close_all_redir(value->redirections));
-			free_on_children(minishell);
+			close_all_redir(replace, value->redirections, CLOSE_STD_FAKE | CLOSE_STD_REDIR);
+			free_minishell(minishell, FREE_AST | FREE_ENV | FREE_PIPE);
 			exit(state);
 		}
 		path = get_real_command(value->name);
 		if (!path)
 			(fork_error_message("Malloc failled"), exit(ENOMEM));
-		else if (dup_all_redir(value->redirections) == -1)
-		{
-			free(path);
-			(close_fake_standard(replace),
-				close_all_redir(value->redirections));
-			free_on_children(minishell);
-			exit(ENOENT);
-		}
+
 		if (execve(path, value->argv, envp) != 0)
 				command_error_message(value->name, "Command not found");
 		free(path);
-		(close_fake_standard(replace), close_all_redir(value->redirections));
-		free_on_children(minishell);
+		close_all_redir(replace, value->redirections, CLOSE_STD_FAKE | CLOSE_STD_REDIR);
+
+		free_minishell(minishell, FREE_AST | FREE_ENV | FREE_PIPE);
+		//free_on_children(minishell);
 		exit(errno);
 	}
-	(close_fake_standard(replace), close_all_redir(value->redirections));
+	if(*std_in)
+		*std_in = replace[0];
+	close_all_redir(replace, value->redirections, CLOSE_STD_FAKE | CLOSE_STD_REDIR);
 	return (child);
 }
 
-int	execute_subshell(t_ast_value *value, char *envp[])
+char *remove_paranthese(char *value)
+{
+	if(!*value)
+		return value;
+	value[0] = ' ';
+	value[ft_strlen(value) -1] = ' ';
+	return (value);
+}
+
+int	execute_subshell(t_minishell *data, t_ast_value *value)
 {
 	int		state;
 	__pid_t	child;
 	int		replace[2];
 
-	(void) envp;
 	open_all_redirection(value->redirections);
 	fake_standard(replace);
 	child = fork();
@@ -320,10 +359,17 @@ int	execute_subshell(t_ast_value *value, char *envp[])
 	}
 	if (!child)
 	{
-
+		if (dup_all_redir(value->redirections) == -1)
+		{
+			close_all_redir(replace, value->redirections, CLOSE_STD_FAKE | CLOSE_STD_REDIR);
+			free_minishell(data, FREE_AST | FREE_ENV | FREE_PIPE);
+			exit(ENOENT);
+		}
+		free_minishell(data, FREE_AST | FREE_PIPE);
+		minishell(data, remove_paranthese(value->name));
 		exit(errno);
 	}
 	waitpid(child, &state, 0);
-	(close_fake_standard(replace), close_all_redir(value->redirections));
+	close_all_redir(replace, value->redirections, CLOSE_STD_FAKE | CLOSE_STD_REDIR);
 	return (WEXITSTATUS(state));
 }

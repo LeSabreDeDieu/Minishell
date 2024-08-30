@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:48:08 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/07/10 17:15:58 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/08/30 10:57:17 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	free_str_tab(char **tabs)
 
 	move = tabs;
 	while (*move)
-		free(*move);
+		free(*move++);
 	free(tabs);
 }
 
@@ -64,4 +64,16 @@ void	free_token(t_tokens *tokens)
 		free(tmp);
 	}
 	tokens->first_token = NULL;
+}
+void	free_minishell(t_minishell *minishell, int action)
+{
+	if (action & FREE_AST)
+	{
+		free_token(minishell->tokens);
+		free_ast(&(minishell->ast));
+	}
+	if (action & FREE_ENV)
+		free_env();
+	if(action & FREE_SIGNAL)
+		;//TODO
 }

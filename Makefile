@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+         #
+#    By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:19:20 by gcaptari          #+#    #+#              #
-#    Updated: 2024/08/21 13:01:14 by sgabsi           ###   ########.fr        #
+#    Updated: 2024/08/30 10:56:14 by gcaptari         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,8 +26,10 @@ OBJDIR		=	obj
 SRC_AST_DIR 		=	ast
 SRC_AST_FILES		=	create_ast.c \
 						create_ast_value.c \
-						free_ast.c	\
-						utils.c
+						exec_ast.c \
+						utils.c \
+						free_ast.c \
+						free_ast.c
 SRC_AST				=	$(addprefix $(SRC_AST_DIR)/, $(SRC_AST_FILES))
 
 #ENV
