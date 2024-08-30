@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:01:24 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/08/29 12:09:59 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/08/30 09:51:29 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int	tokenise(char **str, t_tokens *tokens, bool is_and_or)
 {
 	int	status;
 
+	printf("%s\n", *str);
 	if (**str == tokens->token_config[TOKEN_DOUBLE_QUOTE][0])
 		status = tokenise_quote(tokens, str, TOKEN_DOUBLE_QUOTE);
 	else if (**str == tokens->token_config[TOKEN_SIMPLE_QUOTE][0])
@@ -74,15 +75,8 @@ int	tokenise(char **str, t_tokens *tokens, bool is_and_or)
 	else if (**str == tokens->token_config[TOKEN_REDIRECTION][0]
 			|| **str == tokens->token_config[TOKEN_REDIRECTION][1])
 		status = tokenise_redirect_char(tokens, str, TOKEN_REDIRECTION);
-	else if (**str == tokens->token_config[TOKEN_VARIABLE][0])
-	{
-		status = tokenise_word(tokens, str);
-		++(*str);
-	}
 	else
-	{
 		status = tokenise_word(tokens, str);
-		++(*str);
-	}
+	++(*str);
 	return (status);
 }

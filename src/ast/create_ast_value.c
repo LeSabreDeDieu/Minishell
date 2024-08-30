@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 11:55:12 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/08/21 13:46:44 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/08/30 10:37:09 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ static int	create_ast_value_word(t_ast_value *value, t_token_list **tokens)
 	t_token_list	*tmp;
 	int				i;
 
+	value->pid = -1;
 	current = *tokens;
 	if (current->token->type != TOKEN_WORD
 		&& current->token->type != TOKEN_REDIRECTION

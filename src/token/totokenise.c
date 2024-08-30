@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:03:20 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/08/19 12:04:50 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/08/30 09:13:23 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void	tokenise_prompt(t_tokens *tokens, char *prompt, bool is_and_or)
 		{
 			tokenise_and_or(tokens, &tmp);
 			free(save);
-			check_valid_token(tokens);
 			return ;
 		}
 		while (*tmp == ' ')
@@ -40,7 +39,6 @@ void	tokenise_prompt(t_tokens *tokens, char *prompt, bool is_and_or)
 		tokenise(&tmp, tokens, is_and_or);
 	}
 	free(save);
-	check_valid_token(tokens);
 	return ;
 }
 

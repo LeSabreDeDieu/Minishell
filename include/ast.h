@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:44:54 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/08/29 09:47:28 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/08/30 10:34:48 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_ast_value
 	char						**argv;
 	char						*name;
 	int							argc;
+	pid_t						pid;
 }								t_ast_value;
 
 typedef struct s_ast
