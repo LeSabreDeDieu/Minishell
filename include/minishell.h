@@ -6,7 +6,7 @@
 /*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:45:02 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/08/30 10:54:30 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/08/30 11:13:26 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,6 @@ typedef struct s_minishell
 }				t_minishell;
 
 char	*rl_gets( void );
-int	minishell(t_minishell *data, char *prompt);
+int		traitement(t_minishell *data, char *prompt);
 
 #endif

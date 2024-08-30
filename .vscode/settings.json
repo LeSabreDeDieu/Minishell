@@ -8,7 +8,12 @@
 		"command.h": "c",
 		"env.h": "c",
 		"errno.h": "c",
+<<<<<<< HEAD
 		"libft.h": "c",
 		"minishell.h": "c"
+=======
+		"test.h": "c",
+		"libft.h": "c"
+>>>>>>> origin/AST
 	}
 }

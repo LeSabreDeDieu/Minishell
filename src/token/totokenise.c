@@ -6,13 +6,14 @@
 /*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:03:20 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/08/30 10:51:15 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/08/30 11:12:43 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokens.h"
 #include "minishell.h"
 #include "libft.h"
+#include "string.h"
 
 void	tokenise_prompt(t_tokens *tokens, char *prompt, bool is_and_or)
 {
@@ -31,7 +32,6 @@ void	tokenise_prompt(t_tokens *tokens, char *prompt, bool is_and_or)
 		{
 			tokenise_and_or(tokens, &tmp);
 			free(save);
-			check_valid_token(tokens);
 			return ;
 		}
 		while (*tmp == ' ')
@@ -39,7 +39,6 @@ void	tokenise_prompt(t_tokens *tokens, char *prompt, bool is_and_or)
 		tokenise(&tmp, tokens, is_and_or);
 	}
 	free(save);
-	check_valid_token(tokens);
 	return ;
 }
 

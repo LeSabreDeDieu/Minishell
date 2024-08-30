@@ -6,7 +6,7 @@
 /*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:34:59 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/08/30 10:51:10 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/08/30 11:12:49 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,20 @@ static int	counter_char_token(char *str, char token)
 
 bool	check_quotes(t_token_list *current, t_tokens *tokens)
 {
-	if (current->token->type == TOKEN_DOUBLE_QUOTE
-		&& counter_char_token(current->token->value, '"') % 2 != 0)
-		return (free_token(tokens), false);
-	if (current->token->type == TOKEN_SIMPLE_QUOTE
-		&& counter_char_token(current->token->value, '\'') % 2 != 0)
-		return (free_token(tokens), false);
-	return (true);
+	char	*value;
+	char	type_quote;
+	char	is_quoted;
+
+	value = current->token->value;
+	while (*value)
+	{
+		if (*value == tokens->token_config[current->token->type][0]
+			&& is_quoted == 0 && *value != type_quote)
+		{
+			type_quote = tokens->token_config[current->token->type][0];
+			is_quoted = 1;
+		}
+	}
 }
 
 bool	check_valid_token(t_tokens *tokens)
@@ -53,14 +60,14 @@ bool	check_valid_token(t_tokens *tokens)
 	if (!tokens || !tokens->first_token)
 		return (free_token(tokens), false);
 	current = tokens->first_token;
-	if (is_and_or_pipe(current->token) || (ft_strlen(current->token->value) == 1
-			&& (current->token->value[0] == '('
-				|| current->token->value[0] == ')')))
+	if (is_and_or_pipe(current->token))
 		return (free_token(tokens), false);
 	while (current)
 	{
-		if (!check_quotes(current, tokens))
-			return (false);
+		if ((ft_strlen(current->token->value) == 1
+				&& (current->token->value[0] == '('
+					|| current->token->value[0] == ')')))
+			return (free_token(tokens), false);
 		if (current->token->type == TOKEN_SUBSHELL
 			&& counter_char_token(current->token->value,
 				'(') != counter_char_token(current->token->value, ')'))

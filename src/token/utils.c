@@ -6,7 +6,7 @@
 /*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:22:49 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/08/30 10:51:13 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/08/30 11:12:46 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,7 @@ static size_t	get_len_word(char *str)
 	while (str[size])
 	{
 		if (str[size] == '<' || str[size] == '>' || str[size] == '|'
-			|| str[size] == ' ' || str[size] == '('
-			|| str[size] == '$' || str[size] == '\n'
+			|| str[size] == ' ' || str[size] == '(' || str[size] == '\n'
 			|| ft_strncmp(&str[size], "&&", 2) == 0)
 			break ;
 		++size;
