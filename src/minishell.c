@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:28:15 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/08/30 11:13:15 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/08/30 12:50:23 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,10 @@ int	traitement(t_minishell *data, char *prompt)
 {
 	to_tokenise(data, prompt);
 	free(prompt);
-	//print_token(data->tokens);
 	if (!check_valid_token(data->tokens))
 		return (ft_putendl_fd("TOKEN ERROR !", 2), false);
 	create_ast(data, data->tokens);
 	test_execution(data, data->ast, false);
-	//print_ast(data->ast);
 	free_ast(&data->ast);
 	free_token(data->tokens);
 	return (0);

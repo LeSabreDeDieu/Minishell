@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 15:30:56 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/08/30 11:19:38 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/08/30 13:33:12 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -345,10 +345,11 @@ char *remove_paranthese(char *value)
 
 int	execute_subshell(t_minishell *data, t_ast_value *value)
 {
-	int		state;
-	__pid_t	child;
-	int		replace[2];
-	char *prompt;
+	int			state;
+	__pid_t		child;
+	int			replace[2];
+	char		*prompt;
+
 	open_all_redirection(value->redirections);
 	fake_standard(replace);
 	child = fork();
@@ -367,7 +368,7 @@ int	execute_subshell(t_minishell *data, t_ast_value *value)
 		}
 		free_minishell(data, FREE_AST | FREE_PIPE);
 		prompt = ft_strdup(value->name);
-		traitement(data, remove_paranthese(prompt));
+		traitement(data, prompt);
 		exit(errno);
 	}
 	waitpid(child, &state, 0);
