@@ -6,7 +6,7 @@
 /*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:45:10 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/08/30 10:52:26 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/08/30 14:23:51 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,14 @@ typedef enum e_error
 }	t_error;
 
 enum e_free {
-	FREE_AST = 0,
-	FREE_ENV = 1,
-	FREE_PATH = 1 << 1,
-	FREE_UNAME = 1 << 2,
-	FREE_PIPE = 1 << 3,
-	FREE_FD = 1 << 4,
-	FREE_SIGNAL = 1 << 5
+    FREE_AST = 1 << 0,
+    FREE_ENV = 1 << 1,
+    FREE_PATH = 1 << 2,
+    FREE_UNAME = 1 << 3,
+    FREE_PIPE = 1 << 4,
+    FREE_FD = 1 << 5,
+    FREE_SIGNAL = 1 << 6,
+    FREE_TOKEN = 1 << 7
 };
 
 #endif

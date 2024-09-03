@@ -6,7 +6,7 @@
 /*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:44:54 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/08/30 11:12:05 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/09/03 12:43:14 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_ast_value
 	char						*name;
 	int							argc;
 	pid_t						pid;
+	bool						last_cmd;
 }								t_ast_value;
 
 typedef struct s_ast

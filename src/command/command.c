@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 15:30:56 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/08/30 13:33:12 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/03 12:37:39 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,9 @@
 #include <wait.h> // pour fork, wait, waitpid, wait3, wait4, stat, lstat, fstat
 
 enum e_close_fd {
-	CLOSE_STD_REDIR = 0,
-	CLOSE_STD_FAKE = 1
+	CLOSE_STD_REDIR = 1 << 0,
+	CLOSE_STD_FAKE = 1 << 1,
+	CLOSE_PIPE = 1 << 2
 };
 
 static bool is_exact_name(char *name, char *equal)
@@ -185,23 +186,31 @@ void	close_all_redir(int fake_std[2], t_redirection_list *list, int mask)
 	t_redirection_list	*current;
 	int					status;
 
-	if(mask & CLOSE_STD_REDIR)
+	if(mask & CLOSE_STD_FAKE)
 	{
+		printf("iqsjdqlsdjqsdlkjqssdkjqsdlkqsjdqs\n");
 		close(fake_std[0]);
 		close(fake_std[1]);
 	}
-	current = list;
-	status = 0;
-	while (current)
+	if(mask & CLOSE_PIPE)
 	{
-		if (current->redirection.filename != NULL)
-			if ((int)current->redirection.flag == WRITE
-				&& current->redirection.fd != -1)
-				close(current->redirection.fd);
-			else if ((int)current->redirection.flag == READ
-				&& current->redirection.fd != -1)
-				close(current->redirection.fd);
-		current = current->next;
+		close(fake_std[1]);
+	}
+	if(mask & CLOSE_STD_REDIR)
+	{
+		current = list;
+		status = 0;
+		while (current)
+		{
+			if (current->redirection.filename != NULL)
+				if ((int)current->redirection.flag == WRITE
+					&& current->redirection.fd != -1)
+					close(current->redirection.fd);
+				else if ((int)current->redirection.flag == READ
+					&& current->redirection.fd != -1)
+					close(current->redirection.fd);
+			current = current->next;
+		}
 	}
 }
 
@@ -213,10 +222,7 @@ void	fake_standard(int replace[2])
 
 int		fake_standard_pipe(int replace[2])
 {
-	int fake[2];
-	if(pipe(fake)){
-		replace[0] = fake[0];
-		replace[1] = fake[1];
+	if(!pipe(replace)){
 		return 0;
 	}
 	return -1;
@@ -230,11 +236,12 @@ int	close_fake_standard(int replace[2])
 	close(replace[1]);
 }
 
-int	execute_simple( t_minishell *minishell, t_ast_value *value, char *envp[])
+int	execute_simple(t_minishell *minishell, t_ast_value *value)
 {
 	int		state;
 	char	*path;
 	__pid_t	child;
+	char	**envp;
 	int		replace[2];
 
 	open_all_redirection(value->redirections);
@@ -262,14 +269,17 @@ int	execute_simple( t_minishell *minishell, t_ast_value *value, char *envp[])
 		else if (dup_all_redir(value->redirections) == -1)
 		{
 			close_all_redir(replace, value->redirections, CLOSE_STD_FAKE | CLOSE_STD_REDIR);
+			free_minishell(minishell, FREE_AST | FREE_ENV);
 			free(path);
 			exit(ENOENT);
 		}
+		envp = env_to_tab();
 		if (execve(path, value->argv, envp) != 0)
 			command_error_message(value->name, "Command not found");
+		free_str_tab(envp);
 		free(path);
 		close_all_redir(replace, value->redirections, CLOSE_STD_FAKE | CLOSE_STD_REDIR);
-		free_minishell(minishell, FREE_AST | FREE_ENV);
+		free_minishell(minishell, FREE_AST | FREE_ENV | FREE_TOKEN);
 		exit(errno);
 	}
 	waitpid(child, &state, 0);
@@ -294,7 +304,6 @@ __pid_t	execute_pipe(t_minishell *minishell, int *std_in, t_ast_value *value, ch
 	}
 	if (!child)
 	{
-
 		close_fake_standard(replace);
 		if (*std_in != -1)
 		{
@@ -305,14 +314,14 @@ __pid_t	execute_pipe(t_minishell *minishell, int *std_in, t_ast_value *value, ch
 		{
 			free(path);
 			close_all_redir(replace, value->redirections, CLOSE_STD_FAKE | CLOSE_STD_REDIR);
-			free_minishell(minishell, FREE_AST | FREE_ENV | FREE_PIPE);
+			free_minishell(minishell, FREE_AST | FREE_ENV | FREE_TOKEN| FREE_PIPE);
 			exit(ENOENT);
 		}
 		if (is_builtin(value->name))
 		{
 			state = exceve_builtins(minishell, value->name, value->argc, value->argv);
 			close_all_redir(replace, value->redirections, CLOSE_STD_FAKE | CLOSE_STD_REDIR);
-			free_minishell(minishell, FREE_AST | FREE_ENV | FREE_PIPE);
+			free_minishell(minishell, FREE_AST | FREE_ENV | FREE_TOKEN| FREE_PIPE);
 			exit(state);
 		}
 		path = get_real_command(value->name);
@@ -324,23 +333,16 @@ __pid_t	execute_pipe(t_minishell *minishell, int *std_in, t_ast_value *value, ch
 		free(path);
 		close_all_redir(replace, value->redirections, CLOSE_STD_FAKE | CLOSE_STD_REDIR);
 
-		free_minishell(minishell, FREE_AST | FREE_ENV | FREE_PIPE);
+		free_minishell(minishell, FREE_AST | FREE_ENV | FREE_TOKEN| FREE_PIPE);
 		//free_on_children(minishell);
 		exit(errno);
 	}
-	if(*std_in)
-		*std_in = replace[0];
-	close_all_redir(replace, value->redirections, CLOSE_STD_FAKE | CLOSE_STD_REDIR);
+	printf("std_in %i => %i\n", *std_in, replace[0]);
+	if (*std_in)
+		close(*std_in);
+	*std_in = replace[0];
+	close_all_redir(replace, value->redirections, CLOSE_STD_REDIR | CLOSE_PIPE);
 	return (child);
-}
-
-char *remove_paranthese(char *value)
-{
-	if(!*value)
-		return value;
-	value[0] = ' ';
-	value[ft_strlen(value) -1] = ' ';
-	return (value);
 }
 
 int	execute_subshell(t_minishell *data, t_ast_value *value)
@@ -363,12 +365,13 @@ int	execute_subshell(t_minishell *data, t_ast_value *value)
 		if (dup_all_redir(value->redirections) == -1)
 		{
 			close_all_redir(replace, value->redirections, CLOSE_STD_FAKE | CLOSE_STD_REDIR);
-			free_minishell(data, FREE_AST | FREE_ENV | FREE_PIPE);
+			free_minishell(data, FREE_AST | FREE_ENV | FREE_TOKEN| FREE_PIPE);
 			exit(ENOENT);
 		}
-		free_minishell(data, FREE_AST | FREE_PIPE);
 		prompt = ft_strdup(value->name);
+		free_minishell(data, FREE_AST | FREE_PIPE);
 		traitement(data, prompt);
+		free_minishell(data, FREE_AST | FREE_ENV | FREE_TOKEN| FREE_PIPE);
 		exit(errno);
 	}
 	waitpid(child, &state, 0);

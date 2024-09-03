@@ -6,7 +6,7 @@
 /*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:03:20 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/08/30 11:12:43 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/08/30 14:43:20 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,10 @@ void	tokenise_prompt(t_tokens *tokens, char *prompt, bool is_and_or)
 			free(save);
 			return ;
 		}
-		while (*tmp == ' ')
+		if (*tmp == ' '){
 			tmp++;
+			continue;
+		}
 		tokenise(&tmp, tokens, is_and_or);
 	}
 	free(save);
