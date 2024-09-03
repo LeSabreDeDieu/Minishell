@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_ast.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:31:34 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/03 12:51:17 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/09/03 13:35:34 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,25 @@
 t_ast	*create_nodes(t_token_list *tokens)
 {
 	t_ast	*ast;
-	t_ast	*left;
+	t_ast	*right;
 
 	if (tokens == NULL)
 		return (NULL);
 	ast = ft_calloc(1, sizeof(t_ast));
 	if (!ast)
 		return (NULL);
-	left = ft_calloc(1, sizeof(t_ast));
-	if (!left)
+	right = ft_calloc(1, sizeof(t_ast));
+	if (!right)
 		return (free(ast), NULL);
-	left->type = AST_CMD;
+	right->type = AST_CMD;
 	if (tokens->token->type == TOKEN_SUBSHELL)
-		left->type = AST_SUBSHELL;
-	if (create_ast_value(&left->value, &tokens) == FAILURE)
-		return (free(left), free(ast), NULL);
+		right->type = AST_SUBSHELL;
+	if (create_ast_value(&right->value, &tokens) == FAILURE)
+		return (free(right), free(ast), NULL);
 	if (tokens)
-		create_nodes_special(tokens, left, ast);
+		create_nodes_special(tokens, right, ast);
 	else
-		return (free(ast), left);
+		return (free(ast), right);
 	return (ast);
 }
 
