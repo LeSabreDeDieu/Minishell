@@ -6,7 +6,7 @@
 /*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:22:49 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/08/30 11:12:46 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/09/03 17:15:13 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,6 @@ char	*get_word(char **str)
 	if (!tmp)
 		return (NULL);
 	ft_memmove(tmp, *str, len);
-	*str += len - 1;
+	*str += len;
 	return (tmp);
 }

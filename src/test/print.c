@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:29:33 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/03 13:42:23 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/03 14:51:36 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static void	print_ast_node(t_ast *ast)
 	index = -1;
 	print_ast_node(ast->left);
 	printf("Type : %s\n", type_names[ast->type]);
+	printf("LastCMD : %i\n", ast->value.last_cmd);
 	printf("Name : %s\n", ast->value.name);
 	while (++index < (size_t)ast->value.argc)
 		printf("argv[%zu] : %s\n", index, ast->value.argv[index]);

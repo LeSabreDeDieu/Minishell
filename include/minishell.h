@@ -6,7 +6,7 @@
 /*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:45:02 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/08/30 11:13:26 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/09/03 17:17:43 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <fcntl.h>              // pour open
 # include <sys/types.h>          // pour fork, wait, waitpid, wait3, wait4, stat, lstat, fstat
 # include <sys/wait.h>           // pour wait, waitpid, wait3, wait4
+# include <wait.h>           // pour wait, waitpid, wait3, wait4
 # include <signal.h>             // pour signal, sigaction, sigemptyset, sigaddset, kill
 # include <sys/stat.h>           // pour stat, lstat, fstat
 # include <dirent.h>             // pour opendir, readdir, closedir
@@ -44,8 +45,7 @@ typedef struct s_minishell
 {
 	t_ast		*ast;
 	t_tokens	*tokens;
-	bool		pipe;
-	t_list		pipe_lst;
+	int			current_status;
 }				t_minishell;
 
 char	*rl_gets( void );

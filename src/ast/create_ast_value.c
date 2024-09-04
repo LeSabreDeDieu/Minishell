@@ -6,7 +6,7 @@
 /*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 11:55:12 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/08/30 11:11:31 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/09/03 17:03:56 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	create_redirection(t_redirection *redir, char *filename,
 		t_type_redirection flag)
 {
 	redir->filename = filename;
+	redir->fd = -1;
 	redir->flag = flag;
 }
 

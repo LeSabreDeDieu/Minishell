@@ -6,7 +6,7 @@
 /*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 16:01:54 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/08/30 14:41:12 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/09/03 17:13:33 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	tokenise_subshell(t_tokens *tokens, char **str, t_token_type type)
 	if (!tmp)
 		return (FAILURE);
 	add_token(tokens, create_token(tmp, type));
-	*str += ft_strlen(tmp) + 1;
+	*str += ft_strlen(tmp) + 2;
 	free(tmp);
 	return (SUCCESS);
 }
