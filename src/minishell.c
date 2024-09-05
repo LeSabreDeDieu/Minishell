@@ -77,4 +77,3 @@ int	main(int argc, char const *argv[], char *envp[])
 	minishell(envp);
 	return (0);
 }
-

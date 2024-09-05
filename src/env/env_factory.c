@@ -17,7 +17,7 @@
 t_env_factory	*get_env_factory(void)
 {
 	static t_env_factory	factory;
-
+ 
 	if (!factory.instanced)
 	{
 		factory.instanced = 1;
