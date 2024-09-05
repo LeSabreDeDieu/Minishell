@@ -6,7 +6,7 @@
 /*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:44:54 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/04 12:59:40 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/09/05 18:24:21 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "libft.h"
 # include "minishell.h"
 # include "tokens.h"
+# include "redirections.h"
 # include "utils.h"
 # include <stdbool.h>
 
@@ -32,26 +33,6 @@ typedef enum e_type_ast
 	AST_CMD
 }								t_type_ast;
 
-typedef enum e_type_redirection
-{
-	HERE_DOC,
-	READ,
-	WRITE,
-	APPEND
-}								t_type_redirection;
-
-typedef struct s_redirection
-{
-	char						*filename;
-	int							fd;
-	t_type_redirection			flag;
-}								t_redirection;
-
-typedef struct s_redirection_list
-{
-	t_redirection				redirection;
-	struct s_redirection_list	*next;
-}								t_redirection_list;
 
 typedef struct s_ast_value
 {
@@ -60,7 +41,8 @@ typedef struct s_ast_value
 	char						*name;
 	int							argc;
 	pid_t						pid;
-	int							pipe[2];
+	int							fd_in;
+	int							fd_out;
 	bool						last_cmd;
 }								t_ast_value;
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:20:04 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/07/10 16:12:10 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/05 11:40:15 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,9 @@ void	create_env(char *envp[])
 	t_env			*new;
 
 	if (!envp)
+	{
 		return ;
+	}
 	move = envp;
 	while (*move)
 	{

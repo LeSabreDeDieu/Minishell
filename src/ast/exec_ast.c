@@ -3,14 +3,14 @@
 #include "command.h"
 #include "minishell.h"
 
-void	test_execution_pipe(t_minishell *minishell, int *std_in, int *nb_pipe,
-		t_ast *ast_current)
+void	test_execution_pipe(t_minishell *minishell, int *std_in, t_ast *ast_current)
 {
 	char	**env;
+	int		ret;
 
 	if (!ast_current)
 		return ;
-	test_execution_pipe(minishell, std_in, nb_pipe, ast_current->right);
+	test_execution_pipe(minishell, std_in, ast_current->right);
 	if (ast_current->type == AST_CMD)
 	{
 		env = env_to_tab();
@@ -19,7 +19,7 @@ void	test_execution_pipe(t_minishell *minishell, int *std_in, int *nb_pipe,
 		if (ast_current->value.last_cmd)
 			execute_pipe_last(minishell, std_in, &ast_current->value, env);
 		else
-			execute_pipe(minishell, std_in, &ast_current->value, env);
+			execute_pipe(minishell, std_in, &ast_current->value);
 		free_str_tab(env);
 	}
 	else if (ast_current->type == AST_SUBSHELL)
@@ -28,11 +28,16 @@ void	test_execution_pipe(t_minishell *minishell, int *std_in, int *nb_pipe,
 	}
 	if (ast_current->value.last_cmd)
 	{
-		waitpid(ast_current->value.pid, &minishell->current_status, WEXITED);
+		ret = 0;
+		while(ret >= 0)
+			ret = waitpid(ast_current->value.pid, &minishell->current_status, WNOHANG);
 		minishell->current_status = WEXITSTATUS(minishell->current_status);
-		printf("pid => %i\n", ast_current->value.pid);
+		ret = 0;
+		while (ret >= 0){
+			ret = wait3(NULL,WNOHANG /* | WEXITED */, NULL);
+		}
 	}
-	test_execution_pipe(minishell, std_in, nb_pipe, ast_current->left);
+	test_execution_pipe(minishell, std_in, ast_current->left);
 }
 
 void	test_execution(t_minishell *minishell, t_ast *ast)
@@ -44,7 +49,7 @@ void	test_execution(t_minishell *minishell, t_ast *ast)
 	pipe = 0;
 	if (ast->type == AST_PIPE)
 	{
-		test_execution_pipe(minishell, &std_in, &pipe, ast);
+		test_execution_pipe(minishell, &std_in, ast);
 		return ;
 	}
 	if (ast->right)

@@ -6,7 +6,7 @@
 #    By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:19:20 by gcaptari          #+#    #+#              #
-#    Updated: 2024/08/30 10:56:14 by gcaptari         ###   ########.fr        #
+#    Updated: 2024/09/05 18:41:50 by gcaptari         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,6 +62,8 @@ SRC_UTILS		=	$(addprefix $(SRC_UTILS_DIR)/, $(SRC_UTILS_FILES))
 #COMMAND
 SRC_COMMAND_DIR 	=	command
 SRC_COMMAND_FILES	=	command.c \
+						exec/pipe/pipe.c \
+						exec/pipe/utils.c \
 						builtins/echo.c	\
 						builtins/unset.c \
 						builtins/env.c	\

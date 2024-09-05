@@ -6,7 +6,7 @@
 /*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 12:11:15 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/08/30 14:24:30 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/09/04 15:06:19 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int		exit_command(t_minishell *minishell, int argc, char *argv[])
 {
 	int	status;
 
-	status = 0;
+	status = minishell->current_status;
 	if (argc >= 2)
 	{
 		if(!is_number(argv[1]))

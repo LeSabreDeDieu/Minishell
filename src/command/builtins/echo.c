@@ -6,7 +6,7 @@
 /*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 14:45:31 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/07/08 13:03:02 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/09/05 10:24:15 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ int	echo_command(int argc, char *argv[])
 				continue ;
 			}
 			ft_putstr_fd(*tmp, 1);
-			ft_putstr_fd(" ", 1);
+			if (*(tmp  + 1 )!= NULL)
+				ft_putstr_fd(" ", 1);
 			++tmp;
 		}
 		if(!no_EOF)
