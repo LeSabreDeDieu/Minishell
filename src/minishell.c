@@ -3,56 +3,77 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gabrielcaptari@student.42.fr>    +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/28 23:31:50 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/05/31 16:34:58 by gcaptari         ###   ########.fr       */
+/*   Created: 2024/07/08 12:28:15 by sgabsi            #+#    #+#             */
+/*   Updated: 2024/09/03 17:31:56 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
+#include "ast.h"
+#include "command.h"
 #include "minishell.h"
+#include "tokens.h"
+#include "libft.h"
+#include "stdbool.h"
 
-void	ft_handle_signal(int signum, siginfo_t *info, void *context)
+#include "test.h"
+
+static void	usage(int argc)
 {
-	char	*str;
-
-	(void)info;
-	(void)context;
-	str = get_env("USER")->value;
-	if (signum == SIGINT)
+	if (argc != 1)
 	{
-		rl_replace_line("\0", 1);
-		rl_redisplay();
+		ft_putstr_fd("What did you do that ? ", 2);
+		ft_putstr_fd("Why did you gave to me some arguments ?\n\n", 2);
 	}
-	return ;
 }
 
-int	main(int argc, char *argv[], char *envp[])
+int	traitement(t_minishell *data, char *prompt)
 {
-	// struct sigaction	sa;
-	// char	*prompt;
+	to_tokenise(data, prompt);
+	free(prompt);
+	if (!check_valid_token(data->tokens))
+		return (ft_putendl_fd("TOKEN ERROR !", 2), false);
+	create_ast(data, data->tokens);
+	test_execution(data, data->ast);
+	free_ast(&data->ast);
+	free_token(data->tokens);
+	return (0);
+}
 
-	(void)argc;
-	(void)argv;
+static char	*minishell(char *envp[])
+{
+	t_minishell	data;
+	char		*line;
+
 	create_env(envp);
-	print_env();
-	free_env();
-	// sa.sa_sigaction = &ft_handle_signal;
-	// sa.sa_flags = SA_SIGINFO;
-	// sigaction(SIGINT, &sa, NULL);
-	// sigaction(SIGQUIT, &sa, NULL);
-	// while (1)
-	// {
-	// 	printf("%s", get_env("USER").value);
-	// 	prompt = readline("> ");
-	// 	// if (!prompt)
-	// 	// {
-	// 	// 	free_env();
-	// 	// 	exit(0);
-	// 	// }
-	// 	// if (!rl_on_new_line())
-	// 	// 	printf("%s", prompt);
-	// }
+	ft_bzero(&data, sizeof(t_minishell));
+	ft_putendl_fd("Welcome to minishell", 1);
+	while (true)
+	{
+		line = rl_gets();
+		if (!line)
+		{
+			free_env();
+			free_ast(&data.ast);
+			free_token(data.tokens);
+			free(data.tokens);
+			exit(0);
+		}
+		if (!*line)
+		{
+			free(line);
+			continue ;
+		}
+		traitement(&data, line);
+	}
+}
+
+int	main(int argc, char const *argv[], char *envp[])
+{
+	(void)argv;
+
+	usage(argc);
+	minishell(envp);
 	return (0);
 }

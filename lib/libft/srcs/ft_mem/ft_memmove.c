@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 16:51:55 by sgabsi            #+#    #+#             */
-/*   Updated: 2023/11/16 14:53:13 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/06/18 14:25:57 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,11 @@
 
 void	*ft_memmove(void *dest, const void *src, size_t n)
 {
-	char		*d;
-	const char	*s;
+	unsigned char		*d;
+	unsigned const char	*s;
 
-	if (!dest && !src)
-		return (NULL);
-	d = dest;
-	s = src;
+	d = (unsigned char *) dest;
+	s = (unsigned const char *) src;
 	if (d < s)
 		while (n--)
 			*d++ = *s++;

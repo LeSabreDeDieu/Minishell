@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gcaptari <gabrielcaptari@student.42.fr>    +#+  +:+       +#+         #
+#    By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/05/28 23:23:20 by sgabsi            #+#    #+#              #
-#    Updated: 2024/05/31 14:35:03 by gcaptari         ###   ########.fr        #
+#    Created: 2024/07/08 10:19:20 by gcaptari          #+#    #+#              #
+#    Updated: 2024/09/05 18:41:50 by gcaptari         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,28 +15,79 @@
 #################
 
 # Directories
-SRC_SUBDIR	=	env utils
+SRC_SUBDIR	=	ast command command/builtins env readline token utils
 SRCDIR		=	./src
 INCDIR		=	./include
 LIBDIR		=	./lib
 OBJDIR		=	obj
 
 # Sources
+#AST
+SRC_AST_DIR 		=	ast
+SRC_AST_FILES		=	create_ast.c \
+						create_ast_value.c \
+						exec_ast.c \
+						utils.c \
+						free_ast.c \
+						free_ast.c
+SRC_AST				=	$(addprefix $(SRC_AST_DIR)/, $(SRC_AST_FILES))
+
 #ENV
-SRC_ENV_DIR 	=	$(SRCDIR)/env
-SRC_ENV_FILES	=	env_factory.c \
-					env.c		\
-					parser.c
-SRC_ENV			=	$(addprefix $(SRC_ENV_DIR)/, $(SRC_ENV_FILES))
+SRC_ENV_DIR 		=	env
+SRC_ENV_FILES		=	env_factory.c \
+						env.c		\
+						parser.c	\
+						test.c
+SRC_ENV				=	$(addprefix $(SRC_ENV_DIR)/, $(SRC_ENV_FILES))
+
+#TOKEN
+SRC_TOKEN_DIR 		=	token
+SRC_TOKEN_FILES		=	tokenise_and_or.c \
+						tokenise_quote.c \
+						tokenise_subshell.c \
+						tokenise.c \
+						tokens.c \
+						totokenise.c \
+						utils.c	\
+						valid_token.c
+SRC_TOKEN			=	$(addprefix $(SRC_TOKEN_DIR)/, $(SRC_TOKEN_FILES))
 
 #UTILS
-SRC_UTILS_DIR 	=	$(SRCDIR)/utils
-SRC_UTILS_FILES	=	free.c
+SRC_UTILS_DIR 	=	utils
+SRC_UTILS_FILES	=	free.c \
+					free_children.c	\
+					len.c
 SRC_UTILS		=	$(addprefix $(SRC_UTILS_DIR)/, $(SRC_UTILS_FILES))
 
-SRC				=	$(SRC_ENV) \
-					$(SRC_UTILS) \
-					$(SRCDIR)/minishell.c
+#COMMAND
+SRC_COMMAND_DIR 	=	command
+SRC_COMMAND_FILES	=	command.c \
+						exec/pipe/pipe.c \
+						exec/pipe/utils.c \
+						builtins/echo.c	\
+						builtins/unset.c \
+						builtins/env.c	\
+						builtins/cd.c	\
+						builtins/exit.c
+SRC_COMMAND		=	$(addprefix $(SRC_COMMAND_DIR)/, $(SRC_COMMAND_FILES))
+
+#READ_LINE
+SRC_READ_LINE_DIR 	=	readline
+SRC_READ_LINE_FILES	=	get_line.c
+SRC_READ_LINE		=	$(addprefix $(SRC_READ_LINE_DIR)/, $(SRC_READ_LINE_FILES))
+
+#$(SRC_AST)
+#$(SRC_COMMAND)
+SRC_FILES			= $(SRC_AST) \
+					  $(SRC_ENV) \
+					  $(SRC_COMMAND) \
+					  $(SRC_TOKEN) \
+					  $(SRC_UTILS) \
+					  $(SRC_READ_LINE) \
+					  test/print.c \
+					  minishell.c
+
+SRC					=	$(addprefix $(SRCDIR)/, $(SRC_FILES))
 
 # Objects
 OBJ_SUBDIRS	=	$(SRC_SUBDIR:%=$(OBJDIR)/%)
@@ -52,7 +103,7 @@ NAME		=	minishell
 
 # Compiler
 CC			=	cc
-CFLAGS		=	-Wall -Werror -Wextra -MMD -g3
+CFLAGS		=	-MMD -g3 -Wall -Wextra -Wshadow -Wunused #-Werror
 
 OPTIONS		=	-I $(INCDIR) -I $(LIBFT_DIR)/includes
 LFLAGS		=	-L $(LIBFT_DIR) -lft -lreadline -lcurses
@@ -87,7 +138,7 @@ pre_comp:
 	@echo "$(YELLOW)********* Début de la compilation du programme $(NAME) *********$(NC)"
 
 $(NAME): $(OBJ)
-	@$(CC) $(CFLAGS) $(OBJ) $(OPTIONS) $(LFLAGS) -o $@
+	@$(CC) $(CFLAGS) $^ $(OPTIONS) $(LFLAGS) -o $@
 	@echo -e "\r$(GREEN)********* Compilation terminée avec succès! *********$(NC)$(KL)"
 	@echo "$(GREEN)********* L'executable $(NAME) a été créée. *********$(NC)"
 
@@ -108,9 +159,11 @@ $(LIBFT):
 clean:
 	@rm -rf $(OBJDIR)
 	@rm -f norm.log
+	@make -sC $(LIBFT_DIR) clean
 	@echo "$(YELLOW)********* Suppression des fichiers objets *********$(NC)"
 
 fclean: clean
+	@make -sC $(LIBFT_DIR) fclean
 	@rm -f $(NAME)
 	@echo "$(RED)********* Suppression de l'executable $(NAME) *********$(NC)"
 

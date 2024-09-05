@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/28 23:32:17 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/05/30 15:22:58 by sgabsi           ###   ########.fr       */
+/*   Created: 2024/07/08 12:45:02 by sgabsi            #+#    #+#             */
+/*   Updated: 2024/09/05 17:57:40 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,25 @@
 # include <termios.h>            // pour tcsetattr, tcgetattr
 # include <curses.h>             // pour tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
 # include <term.h>               // pour tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
+
 # include "env.h"
+# include "ast.h"
 # include "command.h"
+# include "tokens.h"
 # include "libft.h"
+# include "utils.h"
 
-typedef struct	s_data
+typedef struct s_ast	t_ast;
+typedef struct s_tokens	t_tokens;
+
+typedef struct s_minishell
 {
-}				t_data;
+	t_ast		*ast;
+	t_tokens	*tokens;
+	int			current_status;
+}				t_minishell;
 
-void	free_str_tab(char **tabs);
+char	*rl_gets( void );
+int		traitement(t_minishell *data, char *prompt);
 
 #endif
