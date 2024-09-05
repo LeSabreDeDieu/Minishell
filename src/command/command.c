@@ -203,10 +203,8 @@ void	close_all_redir(t_ast_value *value, int action)
 		close(value->fd_in);
 		close(value->fd_out);
 	}
-	if(action & CLOSE_PIPE){
+	if(action & CLOSE_PIPE)
 		close(value->fd_out);
-		printf("dfxcwxcwxcliusdfdoifj %i\n", value->fd_out);
-	}
 	if (action & CLOSE_FD_REDIR)
 	{
 		current = value->redirections;
@@ -314,6 +312,7 @@ __pid_t	execute_pipe_last(t_minishell *minishell, int *pipe_in, t_ast_value *val
 	char	*path;
 	__pid_t	child;
 	int		test;
+	char	*buff;
 
 	if (open_all_redirection(value->redirections) == FAILURE)
 		return (FAILURE);
@@ -357,8 +356,6 @@ __pid_t	execute_pipe_last(t_minishell *minishell, int *pipe_in, t_ast_value *val
 		free_minishell(minishell, FREE_ALL);
 		exit(errno);
 	}
-	printf("std_in %i\n in : %i \t out : %i\n", *pipe_in, value->fd_in,
-		value->fd_out);
 	if (*pipe_in != -1)
 		close(*pipe_in);
 	close_all_redir(value, CLOSE_FD_REDIR | CLOSE_DUP_STD);

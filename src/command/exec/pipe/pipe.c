@@ -59,7 +59,8 @@ void	execute_pipe(t_minishell *minishell, int *pipe_in, t_ast_value *value)
 		return (fork_error_message(strerror(errno)));
 	if (!value->pid)
 	{
-		if (*pipe_in == -1)
+		close(value->fd_in);
+		if (*pipe_in != -1)
 			(dup2(*pipe_in, STDIN_FILENO), close(*pipe_in));
 		dup2(value->fd_out, STDOUT_FILENO);
 		close(value->fd_out);
@@ -67,7 +68,6 @@ void	execute_pipe(t_minishell *minishell, int *pipe_in, t_ast_value *value)
 			exit(ENOENT);
 		execution_cmd_pipe(minishell, value);
 	}
-	printf("cmd : %s\nstd_in %i\n in : %i \t out : %i\n", value->name, *pipe_in, value->fd_in, value->fd_out);
 	if(*pipe_in != -1)
 		close(*pipe_in);
 	close_all_redir(value, CLOSE_FD_REDIR | CLOSE_PIPE);

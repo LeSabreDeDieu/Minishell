@@ -39,7 +39,7 @@ int		exit_command(t_minishell *minishell, int argc, char *argv[])
 		status = ft_atoi(argv[1]);
 	}
 
-	printf("exit\n");
+	ft_putendl_fd("exit", 1);
 	free_minishell(minishell, FREE_AST | FREE_ENV | FREE_TOKEN);
 	exit(status);
 }

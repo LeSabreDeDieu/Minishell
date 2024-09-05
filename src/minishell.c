@@ -31,12 +31,10 @@ static void	usage(int argc)
 int	traitement(t_minishell *data, char *prompt)
 {
 	to_tokenise(data, prompt);
-	print_token(data->tokens);
 	free(prompt);
 	if (!check_valid_token(data->tokens))
 		return (ft_putendl_fd("TOKEN ERROR !", 2), false);
 	create_ast(data, data->tokens);
-	//print_ast(data->ast);
 	test_execution(data, data->ast);
 	free_ast(&data->ast);
 	free_token(data->tokens);
