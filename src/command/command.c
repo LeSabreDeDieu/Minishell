@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 15:30:56 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/09/05 19:38:09 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/09/05 22:13:31 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast.h"
 #include "command.h"
-#include "minishell.h"
 #include "env.h"
+#include "minishell.h"
 #include <fcntl.h>
 #include <stdio.h>
 
@@ -134,6 +134,7 @@ int	open_all_redirection(t_redirection_list *list)
 	while (current)
 	{
 		if (current->redirection.filename != NULL)
+		{
 			if ((int)current->redirection.flag == WRITE)
 			{
 				current->redirection.fd = open(current->redirection.filename,
@@ -149,6 +150,7 @@ int	open_all_redirection(t_redirection_list *list)
 			else if ((int)current->redirection.flag == READ)
 				current->redirection.fd = open(current->redirection.filename,
 						O_RDONLY, 0644);
+		}
 		current = current->next;
 	}
 	return (status);
@@ -164,6 +166,7 @@ int	dup_all_redir(t_redirection_list *list)
 	while (current)
 	{
 		if (current->redirection.filename != NULL)
+		{
 			if ((int)current->redirection.flag == WRITE
 				&& current->redirection.fd != -1)
 			{
@@ -188,6 +191,7 @@ int	dup_all_redir(t_redirection_list *list)
 				status = -1;
 				break ;
 			}
+		}
 		current = current->next;
 	}
 	return (status);
@@ -203,7 +207,7 @@ void	close_all_redir(t_ast_value *value, int action)
 		close(value->fd_in);
 		close(value->fd_out);
 	}
-	if(action & CLOSE_PIPE)
+	if (action & CLOSE_PIPE)
 		close(value->fd_out);
 	if (action & CLOSE_FD_REDIR)
 	{
@@ -211,14 +215,16 @@ void	close_all_redir(t_ast_value *value, int action)
 		status = 0;
 		while (current)
 		{
-			if (current->redirection.filename != NULL && current->redirection.fd != -1)
+			if (current->redirection.filename != NULL
+				&& current->redirection.fd != -1)
 				close(current->redirection.fd);
 			current = current->next;
 		}
 	}
 }
 
-int	safe_dup_all_redir(t_minishell *data, t_ast_value *value, int action_mini, int action_redir)
+int	safe_dup_all_redir(t_minishell *data, t_ast_value *value, int action_mini,
+		int action_redir)
 {
 	if (dup_all_redir(value->redirections) == -1)
 	{
@@ -237,7 +243,7 @@ void	dup_standard(t_ast_value *value)
 	value->fd_out = dup(STDOUT_FILENO);
 }
 
-int	close_dup_standard(t_ast_value *value)
+void	close_dup_standard(t_ast_value *value)
 {
 	if (value->fd_in != -1)
 	{
@@ -305,18 +311,16 @@ int	execute_simple(t_minishell *minishell, t_ast_value *value)
 	return (0);
 }
 
-__pid_t	execute_pipe_last(t_minishell *minishell, int *pipe_in, t_ast_value *value,
-		char *envp[])
+__pid_t	execute_pipe_last(t_minishell *minishell, int *pipe_in,
+		t_ast_value *value, char *envp[])
 {
 	int		state;
 	char	*path;
-	__pid_t	child;
 	int		test;
-	char	*buff;
 
 	if (open_all_redirection(value->redirections) == FAILURE)
 		return (FAILURE);
-	test =  dup(STDOUT_FILENO);
+	test = dup(STDOUT_FILENO);
 	value->fd_out = test;
 	value->pid = fork();
 	if (value->pid < 0)
@@ -333,16 +337,14 @@ __pid_t	execute_pipe_last(t_minishell *minishell, int *pipe_in, t_ast_value *val
 			dup2(*pipe_in, STDIN_FILENO);
 			close(*pipe_in);
 		}
-		if (safe_dup_all_redir(minishell, value, FREE_ALL, CLOSE_FD_REDIR  | CLOSE_DUP_STD) == -1)
-		{
-			free(path);
+		if (safe_dup_all_redir(minishell, value, FREE_ALL,
+				CLOSE_FD_REDIR | CLOSE_DUP_STD) == -1)
 			exit(ENOENT);
-		}
 		if (is_builtin(value->name))
 		{
 			state = exceve_builtins(minishell, value->name, value->argc,
 					value->argv);
-			close_all_redir(value, CLOSE_FD_REDIR| CLOSE_DUP_STD);
+			close_all_redir(value, CLOSE_FD_REDIR | CLOSE_DUP_STD);
 			free_minishell(minishell, FREE_ALL);
 			exit(state);
 		}
@@ -352,7 +354,7 @@ __pid_t	execute_pipe_last(t_minishell *minishell, int *pipe_in, t_ast_value *val
 		if (execve(path, value->argv, envp) != 0)
 			command_error_message(value->name, "Command not found");
 		free(path);
-		close_all_redir(value, CLOSE_FD_REDIR| CLOSE_DUP_STD);
+		close_all_redir(value, CLOSE_FD_REDIR | CLOSE_DUP_STD);
 		free_minishell(minishell, FREE_ALL);
 		exit(errno);
 	}
@@ -398,4 +400,3 @@ int	execute_subshell(t_minishell *data, t_ast_value *value)
 	data->current_status = (WEXITSTATUS(state));
 	return (0);
 }
-

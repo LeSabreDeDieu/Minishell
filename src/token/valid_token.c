@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   valid_token.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:34:59 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/08/30 11:12:49 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/09/05 22:15:21 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ bool	check_quotes(t_token_list *current, t_tokens *tokens)
 			is_quoted = 1;
 		}
 	}
+	return (true);
 }
 
 bool	check_valid_token(t_tokens *tokens)
