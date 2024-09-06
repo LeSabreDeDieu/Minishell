@@ -6,7 +6,7 @@
 #    By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:19:20 by gcaptari          #+#    #+#              #
-#    Updated: 2024/09/05 18:41:50 by gcaptari         ###   ########.fr        #
+#    Updated: 2024/09/06 01:39:14 by gcaptari         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,6 +62,7 @@ SRC_UTILS		=	$(addprefix $(SRC_UTILS_DIR)/, $(SRC_UTILS_FILES))
 #COMMAND
 SRC_COMMAND_DIR 	=	command
 SRC_COMMAND_FILES	=	command.c \
+						wait.c     \
 						exec/pipe/pipe.c \
 						exec/pipe/utils.c \
 						builtins/echo.c	\
@@ -76,6 +77,11 @@ SRC_READ_LINE_DIR 	=	readline
 SRC_READ_LINE_FILES	=	get_line.c
 SRC_READ_LINE		=	$(addprefix $(SRC_READ_LINE_DIR)/, $(SRC_READ_LINE_FILES))
 
+#SIGNAL
+SRC_SIGNAL_DIR 	=	signal
+SRC_SIGNAL_FILES	=	signal.c
+SRC_SIGNAL		=	$(addprefix $(SRC_SIGNAL_DIR)/, $(SRC_SIGNAL_FILES))
+
 #$(SRC_AST)
 #$(SRC_COMMAND)
 SRC_FILES			= $(SRC_AST) \
@@ -84,6 +90,7 @@ SRC_FILES			= $(SRC_AST) \
 					  $(SRC_TOKEN) \
 					  $(SRC_UTILS) \
 					  $(SRC_READ_LINE) \
+					  $(SRC_SIGNAL) \
 					  test/print.c \
 					  minishell.c
 

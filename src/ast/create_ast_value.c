@@ -6,7 +6,7 @@
 /*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 11:55:12 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/05 18:39:56 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/09/06 00:45:15 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,21 @@ static int	create_ast_value_word(t_ast_value *value, t_token_list **tokens)
 	}
 	i = 0;
 	tmp = current;
-	while (tmp && (tmp->token->type == TOKEN_WORD || is_quote(tmp->token)))
+	while (tmp && (tmp->token->type == TOKEN_WORD
+			|| tmp->token->type == TOKEN_REDIRECTION || is_quote(tmp->token)))
 	{
-		value->argc++;
-		tmp = tmp->next;
+		while (tmp && (tmp->token->type == TOKEN_WORD || is_quote(tmp->token)))
+		{
+			value->argc++;
+			tmp = tmp->next;
+		}
+		while (tmp && tmp->token && tmp->token->type == TOKEN_REDIRECTION)
+		{
+			if (tmp->next && add_list_redirection(&value->redirections,
+					tmp->token, tmp->next->token->value) == FAILURE)
+				return (FAILURE);
+			tmp = tmp->next->next;
+		}
 	}
 	if (value->argc != 0)
 	{
@@ -104,20 +115,24 @@ static int	create_ast_value_word(t_ast_value *value, t_token_list **tokens)
 		if (!value->argv)
 			return (FAILURE);
 		while (current && (current->token->type == TOKEN_WORD
+				|| current->token->type == TOKEN_REDIRECTION
 				|| is_quote(current->token)))
 		{
-			value->argv[i++] = current->token->value;
-			current = current->next;
+			while (current && (current->token->type == TOKEN_WORD
+					|| is_quote(current->token)))
+			{
+				value->argv[i++] = current->token->value;
+				current = current->next;
+			}
+			while (current && current->token
+				&& current->token->type == TOKEN_REDIRECTION)
+			{
+				if (!current->next)
+					return (FAILURE);
+				current = current->next->next;
+			}
 		}
 		value->name = value->argv[0];
-	}
-	while (current && current->token
-		&& current->token->type == TOKEN_REDIRECTION)
-	{
-		if (current->next && add_list_redirection(&value->redirections,
-				current->token, current->next->token->value) == FAILURE)
-			return (FAILURE);
-		current = current->next->next;
 	}
 	*tokens = current;
 	return (SUCCESS);

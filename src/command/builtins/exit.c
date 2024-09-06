@@ -6,7 +6,7 @@
 /*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 12:11:15 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/04 15:06:19 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/09/06 04:54:06 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ int		exit_command(t_minishell *minishell, int argc, char *argv[])
 			return (245);
 		status = ft_atoi(argv[1]);
 	}
-
 	ft_putendl_fd("exit", 1);
-	free_minishell(minishell, FREE_AST | FREE_ENV | FREE_TOKEN);
+	printf("fdsqlfkjsdlkfdsj %i\n", status);
+	free_minishell(minishell, FREE_ALL);
 	exit(status);
 }

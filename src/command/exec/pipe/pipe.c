@@ -51,14 +51,15 @@ void execution_cmd_pipe(t_minishell *minishell, t_ast_value *value)
 
 void	execute_pipe(t_minishell *minishell, int *pipe_in, t_ast_value *value)
 {
-	if (open_all_redirection(value->redirections) == FAILURE)
-		return ;
 	create_pipe(value);
 	value->pid = fork();
 	if (value->pid < 0)
 		return (fork_error_message(strerror(errno)));
 	if (!value->pid)
 	{
+		//signal(SIGQUIT, SIG_DFL);
+		if (open_all_redirection(value->redirections) == FAILURE)
+			exit(errno);
 		close(value->fd_in);
 		if (*pipe_in != -1)
 			(dup2(*pipe_in, STDIN_FILENO), close(*pipe_in));

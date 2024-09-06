@@ -6,7 +6,7 @@
 /*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:48:08 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/03 10:37:34 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/09/06 04:14:15 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	free_token(t_tokens *tokens)
 	t_token_list	*tmp;
 	t_token_list	*current;
 
+	printf("dfsdkfjsdlifjk %p\n", tokens);
 	if (!tokens || !tokens->first_token)
 		return ;
 	current = tokens->first_token;
@@ -72,8 +73,10 @@ void	free_minishell(t_minishell *minishell, int action)
 		free_token(minishell->tokens);
 		free_ast(&minishell->ast);
 	}
-	if (action & FREE_TOKEN)
+	if ((action & FREE_TOKEN )&& minishell->tokens)
+	{
 		free(minishell->tokens);
+	}
 	if (action & FREE_ENV)
 		free_env();
 	if(action & FREE_SIGNAL)

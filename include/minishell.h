@@ -6,7 +6,7 @@
 /*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:45:02 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/05 17:57:40 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/09/06 02:19:45 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@
 # include "libft.h"
 # include "utils.h"
 
+extern int g_signal;
+
 typedef struct s_ast	t_ast;
 typedef struct s_tokens	t_tokens;
 
@@ -49,5 +51,6 @@ typedef struct s_minishell
 
 char	*rl_gets( void );
 int		traitement(t_minishell *data, char *prompt);
+void	init_signal(void);
 
 #endif
