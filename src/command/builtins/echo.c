@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 14:45:31 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/09/05 10:24:15 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/09/09 18:26:43 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ static bool	is_flags(char *flags)
 {
 	char	*move;
 
-	if(!flags || !*flags)
+	if (!flags || !*flags)
 		return (false);
 	move = flags;
-	while(*move)
+	while (*move)
 	{
-		if(*move != 'n')
+		if (*move != 'n')
 			return (false);
 		++move;
 	}
@@ -31,10 +31,10 @@ static bool	is_flags(char *flags)
 
 int	echo_command(int argc, char *argv[])
 {
-	char **tmp;
+	char	**tmp;
 	bool	no_EOF;
 
-	if(!argv)
+	if (!argv)
 		return (125);
 	no_EOF = false;
 	if (argc > 1)
@@ -44,18 +44,18 @@ int	echo_command(int argc, char *argv[])
 			return (125);
 		while (tmp && *tmp)
 		{
-			if(**tmp == '-' && is_flags(*tmp + 1))
+			if (**tmp == '-' && is_flags(*tmp + 1))
 			{
 				no_EOF = true;
 				++tmp;
 				continue ;
 			}
 			ft_putstr_fd(*tmp, 1);
-			if (*(tmp  + 1 )!= NULL)
+			if (*(tmp + 1) != NULL)
 				ft_putstr_fd(" ", 1);
 			++tmp;
 		}
-		if(!no_EOF)
+		if (!no_EOF)
 			ft_putstr_fd("\n", 1);
 	}
 	return (0);

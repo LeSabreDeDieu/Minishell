@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+         #
+#    By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:19:20 by gcaptari          #+#    #+#              #
-#    Updated: 2024/09/05 18:41:50 by gcaptari         ###   ########.fr        #
+#    Updated: 2024/09/06 00:13:57 by sgabsi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,14 +76,19 @@ SRC_READ_LINE_DIR 	=	readline
 SRC_READ_LINE_FILES	=	get_line.c
 SRC_READ_LINE		=	$(addprefix $(SRC_READ_LINE_DIR)/, $(SRC_READ_LINE_FILES))
 
-#$(SRC_AST)
-#$(SRC_COMMAND)
+#Expension
+SRC_EXPENSION_DIR 	=	expension
+SRC_EXPENSION_FILES	=	formator.c
+SRC_EXPENSION		=	$(addprefix $(SRC_EXPENSION_DIR)/, $(SRC_EXPENSION_FILES))
+
+# Files
 SRC_FILES			= $(SRC_AST) \
 					  $(SRC_ENV) \
 					  $(SRC_COMMAND) \
 					  $(SRC_TOKEN) \
 					  $(SRC_UTILS) \
 					  $(SRC_READ_LINE) \
+					  $(SRC_EXPENSION) \
 					  test/print.c \
 					  minishell.c
 

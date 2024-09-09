@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_ast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 17:16:29 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/08/30 11:12:20 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/09/09 15:52:18 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,22 @@ static void	free_redirection_list(t_redirection_list *list)
 
 void	free_ast(t_ast **ast)
 {
+	int	i;
+
 	if (!(*ast))
 		return ;
 	if ((*ast)->type == AST_CMD)
 	{
+		i = 0;
 		if ((*ast)->value.argc != 0)
+		{
+			while (i < (*ast)->value.argc)
+			{
+				if ((*ast)->value.argv[i])
+					free((*ast)->value.argv[i++]);
+			}
 			free((*ast)->value.argv);
+		}
 		free_redirection_list((*ast)->value.redirections);
 	}
 	else

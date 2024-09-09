@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 15:30:56 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/09/05 22:13:31 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/09 14:35:47 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -302,7 +302,7 @@ int	execute_simple(t_minishell *minishell, t_ast_value *value)
 		free_str_tab(envp);
 		free(path);
 		close_all_redir(value, CLOSE_DUP_STD | CLOSE_FD_REDIR);
-		free_minishell(minishell, FREE_AST | FREE_ENV | FREE_TOKEN);
+		free_minishell(minishell, FREE_ALL);
 		exit(errno);
 	}
 	waitpid(child, &state, 0);
