@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expension.h                                        :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/05 22:16:42 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/10 22:45:52 by sgabsi           ###   ########.fr       */
+/*   Created: 2024/09/10 22:04:53 by sgabsi            #+#    #+#             */
+/*   Updated: 2024/09/10 22:09:26 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXPENSION_H
-# define EXPENSION_H
+#include "env.h"
 
-# include "ast.h"
-# include "minishell.h"
+void	add_shlvl(void)
+{
+	t_env	*env;
+	char	*env_value;
+	int		shlvl;
 
-typedef struct s_ast_value	t_ast_value;
-
-void	expend_variable(t_ast_value *value);
-void	to_dequote(t_ast_value *value);
-void	expand_wildcard(const char *pattern, char ***argv, int *argc);
-
-//Utils
-bool	is_in_quote(char c, bool is_in_quote);
-
-#endif
+	shlvl = 0;
+	env = get_env("SHLVL");
+	if (env)
+		env_value = env->value;
+	shlvl = ft_atoi(env_value);
+	env_value = ft_itoa(++shlvl);
+	set_env("SHLVL", env_value);
+}

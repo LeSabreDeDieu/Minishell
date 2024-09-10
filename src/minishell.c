@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:28:15 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/10 16:14:58 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/10 22:10:09 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int	traitement(t_minishell *data, char *prompt)
 	if (!check_valid_token(data->tokens))
 		return (ft_putendl_fd("TOKEN ERROR !", 2), false);
 	create_ast(data, data->tokens);
-	// print_ast(data->ast);
 	test_execution(data, data->ast);
 	free_token(data->tokens);
 	free_ast(&data->ast);
@@ -47,6 +46,7 @@ static char	*minishell(char *envp[])
 	char		*line;
 
 	create_env(envp);
+	add_shlvl();
 	ft_bzero(&data, sizeof(t_minishell));
 	ft_putendl_fd("Welcome to minishell", 1);
 	while (true)

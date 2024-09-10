@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 22:16:19 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/10 16:52:02 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/10 22:48:41 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,11 @@ void	expend_variable(t_ast_value *value)
 			if (value->argv[i][j] == '$' && value->argv[i][j + 1] != '$'
 				&& !is_quoted)
 				expend_variable_from_env(value, i, &j);
+			if (value->argv[i][j] == '*')
+			{
+				expand_wildcard(&(value->argv[i][j]), &value->argv, &value->argc);
+				i += value->argc - i;
+			}
 			++j;
 		}
 		++i;

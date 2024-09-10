@@ -6,7 +6,7 @@
 #    By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:19:20 by gcaptari          #+#    #+#              #
-#    Updated: 2024/09/10 17:31:41 by sgabsi           ###   ########.fr        #
+#    Updated: 2024/09/10 22:47:04 by sgabsi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ SRC_ENV_DIR 		=	env
 SRC_ENV_FILES		=	env_factory.c \
 						env.c		\
 						parser.c	\
+						utils.c		\
 						test.c
 SRC_ENV				=	$(addprefix $(SRC_ENV_DIR)/, $(SRC_ENV_FILES))
 
@@ -80,6 +81,7 @@ SRC_READ_LINE		=	$(addprefix $(SRC_READ_LINE_DIR)/, $(SRC_READ_LINE_FILES))
 SRC_EXPENSION_DIR 	=	expension
 SRC_EXPENSION_FILES	=	dequoting.c \
 						formator.c \
+						wildcard.c \
 						utils.c
 SRC_EXPENSION		=	$(addprefix $(SRC_EXPENSION_DIR)/, $(SRC_EXPENSION_FILES))
 

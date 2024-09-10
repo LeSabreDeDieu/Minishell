@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:29:33 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/03 14:51:36 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/09/10 22:29:00 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,3 +64,13 @@ void	print_ast(t_ast *ast)
 	printf("\nAST : \n");
 	print_ast_node(ast);
 }
+
+void	ft_print_result_list(char **list, int size)
+{
+	int	i;
+
+	i = 0;
+	while (i < size)
+		printf("%s\n", list[i++]);
+}
+
