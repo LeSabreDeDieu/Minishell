@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:34:59 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/05 22:15:21 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/10 15:43:45 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ bool	check_valid_token(t_tokens *tokens)
 		return (free_token(tokens), false);
 	while (current)
 	{
+		if (current->token->type == TOKEN_REDIRECTION && current->next == NULL)
+			return (free_token(tokens), false);
 		if ((ft_strlen(current->token->value) == 1
 				&& (current->token->value[0] == '('
 					|| current->token->value[0] == ')')))

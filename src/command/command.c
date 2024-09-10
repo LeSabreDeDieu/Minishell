@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 15:30:56 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/09/09 14:35:47 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/10 16:14:38 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,10 +202,13 @@ void	close_all_redir(t_ast_value *value, int action)
 	t_redirection_list	*current;
 	int					status;
 
+	// printf("name : %s\nfd_in : %p => %i, fd_out : %p => %i\n",value->name, &value->fd_in, value->fd_in, &value->fd_out, value->fd_out);
 	if (action & CLOSE_DUP_STD)
 	{
-		close(value->fd_in);
-		close(value->fd_out);
+		if (value->fd_in != -1)
+			close(value->fd_in);
+		if (value->fd_out != -1)
+			close(value->fd_out);
 	}
 	if (action & CLOSE_PIPE)
 		close(value->fd_out);
@@ -266,6 +269,8 @@ int	execute_simple(t_minishell *minishell, t_ast_value *value)
 
 	if (open_all_redirection(value->redirections) == FAILURE)
 		return (FAILURE);
+	if (value->name == NULL || value->argc == 0)
+		return (close_all_redir(value, CLOSE_FD_REDIR), -1);
 	dup_standard(value);
 	if (is_builtin(value->name))
 	{

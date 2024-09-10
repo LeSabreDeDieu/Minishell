@@ -1,26 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expension.h                                        :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/05 22:16:42 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/10 17:29:39 by sgabsi           ###   ########.fr       */
+/*   Created: 2024/09/10 16:24:32 by sgabsi            #+#    #+#             */
+/*   Updated: 2024/09/10 16:37:13 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXPENSION_H
-# define EXPENSION_H
+#include "expension.h"
 
-# include "ast.h"
-
-typedef struct s_ast_value	t_ast_value;
-
-void	expend_variable(t_ast_value *value);
-void	to_dequote(t_ast_value *value);
-
-//Utils
-bool	is_in_quote(char c, bool is_in_quote);
-
-#endif
+bool	is_in_quote(char c, bool is_quoted)
+{
+	if (c == '"' && is_quoted == false)
+		return (true);
+	else if (c == '"' && is_quoted == true)
+		return (false);
+	else
+		return (is_quoted);
+}

@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 11:48:24 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/09 14:44:54 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/10 17:32:22 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -464,6 +464,8 @@ char				*get_next_line(int fd);
 char				*ft_strjoin_gnl(char *s1, char const *s2);
 
 char				*ft_str_replace(char *str, char *old_sub, char *new_sub);
+
+char				*ft_strndup(const char *s1, size_t n);
 
 int					ft_printf(const char *format, ...);
 int					ft_printstr(char *str);

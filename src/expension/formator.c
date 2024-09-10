@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 22:16:19 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/09 18:31:33 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/10 16:52:02 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*get_end(char *str)
 	tmp = str;
 	while (*tmp)
 	{
-		if (*tmp == ' ' || *tmp == '$')
+		if (*tmp == ' ' || *tmp == '$' || *tmp == '\'' || *tmp == '"')
 			break ;
 		tmp++;
 	}
@@ -44,7 +44,7 @@ void	get_pid_as_string(char *pid_str)
 	close(fd);
 	while (buffer[i] != ' ' && buffer[i] != '\0')
 	{
-		if (i < (int) sizeof(pid_str) - 1)
+		if (i < (int)sizeof(pid_str) - 1)
 			pid_str[i] = buffer[i];
 		i++;
 	}
@@ -66,27 +66,46 @@ void	expend_variable_from_env(t_ast_value *value, int i, int *j)
 	free(to_exp);
 }
 
+int	pos_next_quote(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && str[i] != '\'')
+	{
+		i++;
+	}
+	return (i);
+}
+
 void	expend_variable(t_ast_value *value)
 {
 	int		i;
 	int		j;
 	char	pid_str[16];
+	bool	is_quoted;
 
-	if (!value)
+	if (!value || !value->argv || !value->argc)
 		return ;
 	i = 0;
+	is_quoted = false;
 	while (value->argv[i] && i < value->argc)
 	{
 		j = 0;
 		while (value->argv[i][j])
 		{
-			if (value->argv[i][j] == '$' && value->argv[i][j + 1] == '$')
+			is_quoted = is_in_quote(value->argv[i][j], is_quoted);
+			if (value->argv[i][j] == '\'' && !is_quoted)
+				j += pos_next_quote(&value->argv[i][j + 1]) + 1;
+			if (value->argv[i][j] == '$' && value->argv[i][j + 1] == '$'
+				&& !is_quoted)
 			{
 				ft_bzero(pid_str, sizeof(char *));
 				get_pid_as_string(pid_str);
 				value->argv[i] = ft_str_replace(value->argv[i], "$$", pid_str);
 			}
-			if (value->argv[i][j] == '$' && value->argv[i][j + 1] != '$')
+			if (value->argv[i][j] == '$' && value->argv[i][j + 1] != '$'
+				&& !is_quoted)
 				expend_variable_from_env(value, i, &j);
 			++j;
 		}
