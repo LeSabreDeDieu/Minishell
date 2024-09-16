@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:45:00 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/07/08 13:02:15 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/10 22:09:48 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,7 @@ void						create_env( char *envp[] );
 
 t_parsing_env				parser_env( char *env );
 char						**env_to_tab( void );
+
+void						add_shlvl(void);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:45:02 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/06 02:19:45 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/09/16 16:46:40 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,25 @@ extern int g_signal;
 typedef struct s_ast	t_ast;
 typedef struct s_tokens	t_tokens;
 
+# define SHELL_NAME "SanicShell"
+
+typedef struct s_data_minishell
+{
+	char		*username;
+	char		*path;
+}				t_data_minishell;
+
 typedef struct s_minishell
 {
-	t_ast		*ast;
-	t_tokens	*tokens;
-	int			current_status;
+	t_data_minishell	data;
+	t_ast				*ast;
+	t_tokens			*tokens;
+	int					current_status;
 }				t_minishell;
 
 char	*rl_gets( void );
 int		traitement(t_minishell *data, char *prompt);
+void	set_env_from_void(void);
 void	init_signal(void);
 
 #endif

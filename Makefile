@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+         #
+#    By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:19:20 by gcaptari          #+#    #+#              #
-#    Updated: 2024/09/06 01:39:14 by gcaptari         ###   ########.fr        #
+#    Updated: 2024/09/16 13:58:34 by sgabsi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ SRC_ENV_DIR 		=	env
 SRC_ENV_FILES		=	env_factory.c \
 						env.c		\
 						parser.c	\
+						utils.c		\
 						test.c
 SRC_ENV				=	$(addprefix $(SRC_ENV_DIR)/, $(SRC_ENV_FILES))
 
@@ -49,6 +50,7 @@ SRC_TOKEN_FILES		=	tokenise_and_or.c \
 						tokens.c \
 						totokenise.c \
 						utils.c	\
+						utils2.c \
 						valid_token.c
 SRC_TOKEN			=	$(addprefix $(SRC_TOKEN_DIR)/, $(SRC_TOKEN_FILES))
 
@@ -56,7 +58,8 @@ SRC_TOKEN			=	$(addprefix $(SRC_TOKEN_DIR)/, $(SRC_TOKEN_FILES))
 SRC_UTILS_DIR 	=	utils
 SRC_UTILS_FILES	=	free.c \
 					free_children.c	\
-					len.c
+					len.c \
+					minishell_utils.c
 SRC_UTILS		=	$(addprefix $(SRC_UTILS_DIR)/, $(SRC_UTILS_FILES))
 
 #COMMAND
@@ -77,6 +80,17 @@ SRC_READ_LINE_DIR 	=	readline
 SRC_READ_LINE_FILES	=	get_line.c
 SRC_READ_LINE		=	$(addprefix $(SRC_READ_LINE_DIR)/, $(SRC_READ_LINE_FILES))
 
+#Expension
+SRC_EXPENSION_DIR 	=	expension
+SRC_EXPENSION_FILES	=	dequoting.c \
+						formator.c \
+						wildcard.c \
+						utils.c	\
+						utils2.c
+SRC_EXPENSION		=	$(addprefix $(SRC_EXPENSION_DIR)/, $(SRC_EXPENSION_FILES))
+
+# Files
+
 #SIGNAL
 SRC_SIGNAL_DIR 	=	signal
 SRC_SIGNAL_FILES	=	signal.c
@@ -90,6 +104,7 @@ SRC_FILES			= $(SRC_AST) \
 					  $(SRC_TOKEN) \
 					  $(SRC_UTILS) \
 					  $(SRC_READ_LINE) \
+					  $(SRC_EXPENSION) \
 					  $(SRC_SIGNAL) \
 					  test/print.c \
 					  minishell.c

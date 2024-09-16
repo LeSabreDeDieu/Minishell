@@ -43,7 +43,7 @@ t_parsing_env	parser_env(char *envp)
 {
 	char	*key;
 	char	*value;
-
+  
 	key = parser_get_key(envp);
 	if (!key)
 		return ((t_parsing_env){.name = NULL, .value = NULL});

@@ -7,14 +7,16 @@
 
 static void	fork_error_message(char *error)
 {
-	ft_putstr_fd("sanic: ", 2);
+	ft_putstr_fd(SHELL_NAME, 2);
+	ft_putstr_fd(": ", 2);
 	ft_putstr_fd("fork: ", 2);
 	ft_putstr_fd(error, 2);
 	ft_putstr_fd("\n", 2);
 }
 static void	command_error_message(char *command, char *error)
 {
-	ft_putstr_fd("sanic: ", 2);
+	ft_putstr_fd(SHELL_NAME, 2);
+	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(command, 2);
 	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(error, 2);

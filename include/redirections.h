@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 17:52:37 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/09/05 18:54:07 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/09/05 22:10:51 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,5 @@ void							close_all_redir(t_ast_value *value, int action);
 int								safe_dup_all_redir(t_minishell *data,
 									t_ast_value *value, int action_mini,
 									int action_redir);
-int								close_dup_standard(t_ast_value *value);
+void							close_dup_standard(t_ast_value *value);
 #endif

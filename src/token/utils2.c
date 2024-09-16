@@ -1,26 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/06 17:45:26 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/11 23:29:55 by sgabsi           ###   ########.fr       */
+/*   Created: 2024/09/16 13:51:41 by sgabsi            #+#    #+#             */
+/*   Updated: 2024/09/16 13:57:43 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "tokens.h"
 
-char	*ft_strchr(const char *str, int c)
+bool	is_space_in_quotes(char *str)
 {
-	if (!str || c == 0)
-		return (NULL);
-	while (*str || c == 0)
+	int		quote;
+	int		i;
+
+	quote = 0;
+	i = 0;
+	while (str[i])
 	{
-		if (*str == (char)c)
-			return ((char *)str);
-		str++;
+		if (str[i] == '\'' || str[i] == '\"')
+			quote = !quote;
+		if (str[i] == ' ' && quote)
+			return (1);
+		++i;
 	}
-	return (NULL);
+	return (0);
 }

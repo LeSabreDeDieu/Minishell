@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_ast_value.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 11:55:12 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/06 00:45:15 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/09/09 15:56:08 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ static int	create_ast_value_word(t_ast_value *value, t_token_list **tokens)
 			while (current && (current->token->type == TOKEN_WORD
 					|| is_quote(current->token)))
 			{
-				value->argv[i++] = current->token->value;
+				value->argv[i++] = ft_strdup(current->token->value);
 				current = current->next;
 			}
 			while (current && current->token

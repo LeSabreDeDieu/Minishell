@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:48:08 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/06 04:14:15 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/09/16 16:47:24 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,19 +66,15 @@ void	free_token(t_tokens *tokens)
 	}
 	tokens->first_token = NULL;
 }
+
 void	free_minishell(t_minishell *minishell, int action)
 {
 	if (action & FREE_AST)
-	{
-		free_token(minishell->tokens);
 		free_ast(&minishell->ast);
-	}
-	if ((action & FREE_TOKEN )&& minishell->tokens)
-	{
+	if ((action & FREE_TOKEN) && minishell->tokens)
 		free(minishell->tokens);
-	}
 	if (action & FREE_ENV)
 		free_env();
-	if(action & FREE_SIGNAL)
-		;//TODO
+	if (action & FREE_UNAME)
+		free(minishell->data.username);
 }

@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:28:15 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/06 04:58:21 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/09/16 16:47:58 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast.h"
 #include "command.h"
-#include "minishell.h"
-#include "tokens.h"
 #include "libft.h"
+#include "minishell.h"
 #include "stdbool.h"
-
 #include "test.h"
+#include "tokens.h"
+#include <limits.h>
 
 static void	usage(int argc)
 {
@@ -36,9 +36,21 @@ int	traitement(t_minishell *data, char *prompt)
 		return (ft_putendl_fd("TOKEN ERROR !", 2), false);
 	create_ast(data, data->tokens);
 	test_execution(data, data->ast);
-	free_ast(&data->ast);
 	free_token(data->tokens);
+	free_ast(&data->ast);
 	return (0);
+}
+
+static void	init_minishell(t_minishell *data, char **envp)
+{
+	create_env(envp);
+  init_signal();
+	if (!envp[0])
+		set_env_from_void();
+	add_shlvl();
+	ft_bzero(data, sizeof(t_minishell));
+	data->data.username = getenv("PATH");
+	printf("Welcome %s\n", data->data.username);
 }
 
 static char	*minishell(char *envp[])
@@ -47,9 +59,7 @@ static char	*minishell(char *envp[])
 	char		*line;
 	int			dup_test;
 
-	init_signal();
-	create_env(envp);
-	ft_bzero(&data, sizeof(t_minishell));
+	init_minishell(&data, envp);
 	ft_putendl_fd("Welcome to minishell", 1);
 	while (true)
 	{
@@ -71,9 +81,8 @@ static char	*minishell(char *envp[])
 int	main(int argc, char const *argv[], char *envp[])
 {
 	(void)argv;
-
+	printf("\033]0;SanicShell\007");
 	usage(argc);
 	minishell(envp);
 	return (0);
 }
-

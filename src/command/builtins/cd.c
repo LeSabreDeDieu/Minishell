@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 15:38:21 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/09/05 12:52:39 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/09/16 16:12:16 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 
 static void	generic_error_message(char *path, char *error)
 {
-	ft_putstr_fd("sanic: ", 2);
-	ft_putstr_fd("cd: ", 2);
+	ft_putstr_fd(SHELL_NAME, 2);
+	ft_putstr_fd(": cd: ", 2);
 	ft_putstr_fd(path, 2);
 	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(error, 2);
@@ -38,8 +38,10 @@ static int	cd_with_argmuntes(t_env *current_pwd, char *argv[])
 			return (ft_putstr_fd("sanic: cd: « OLDPWD » not set\n", 2), 1);
 		if (chdir(old_pwd->value) == 0)
 		{
-			(ft_putstr_fd(old_pwd->value, 1), ft_putstr_fd("\n", 1), pwd = ft_strdup(old_pwd->value));
-			return (set_env("OLDPWD", current_pwd->value), set_env("PWD", pwd), free(pwd), 0);
+			(ft_putstr_fd(old_pwd->value, 1), ft_putstr_fd("\n", 1),
+				pwd = ft_strdup(old_pwd->value));
+			return (set_env("OLDPWD", current_pwd->value), set_env("PWD", pwd),
+				free(pwd), 0);
 		}
 	}
 	else if (chdir(argv[1]) == 0)
