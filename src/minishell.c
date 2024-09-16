@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:28:15 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/11 10:25:12 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/16 14:03:41 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "stdbool.h"
 #include "test.h"
 #include "tokens.h"
+#include <limits.h>
 
 static void	usage(int argc)
 {
@@ -40,13 +41,21 @@ int	traitement(t_minishell *data, char *prompt)
 	return (0);
 }
 
+static void	init_minishell(t_minishell *data, char **envp)
+{
+	create_env(envp);
+	if (!envp[0])
+		set_env_from_void();
+	add_shlvl();
+	ft_bzero(data, sizeof(t_minishell));
+}
+
 static char	*minishell(char *envp[])
 {
 	t_minishell	data;
 	char		*line;
 
-	create_env(envp);
-	ft_bzero(&data, sizeof(t_minishell));
+	init_minishell(&data, envp);
 	ft_putendl_fd("Welcome to minishell", 1);
 	while (true)
 	{
@@ -71,6 +80,7 @@ static char	*minishell(char *envp[])
 int	main(int argc, char const *argv[], char *envp[])
 {
 	(void)argv;
+	printf("\033]0;SanicShell\007");
 	usage(argc);
 	minishell(envp);
 	return (0);

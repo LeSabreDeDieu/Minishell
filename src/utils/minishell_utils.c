@@ -1,29 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/10 22:04:53 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/16 13:24:44 by sgabsi           ###   ########.fr       */
+/*   Created: 2024/09/16 13:14:37 by sgabsi            #+#    #+#             */
+/*   Updated: 2024/09/16 13:19:22 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
+#include "minishell.h"
 
-void	add_shlvl(void)
+void	set_env_from_void(void)
 {
-	t_env	*env;
-	char	*env_value;
-	int		shlvl;
+	char	*pwd;
 
-	shlvl = 0;
-	env = get_env("SHLVL");
-	if (env)
-		env_value = env->value;
-	shlvl = ft_atoi(env_value);
-	env_value = ft_itoa(++shlvl);
-	set_env("SHLVL", env_value);
-	free(env_value);
+	pwd = getcwd(NULL, 0);
+	set_env("PWD", pwd);
+	free(pwd);
+	set_env("SHLVL", "0");
+	set_env("_", "/usr/bin/env");
 }

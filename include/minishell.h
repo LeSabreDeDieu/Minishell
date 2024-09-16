@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:45:02 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/05 17:57:40 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/09/16 13:15:34 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,10 @@
 typedef struct s_ast	t_ast;
 typedef struct s_tokens	t_tokens;
 
+#define SHELL_NAME = "SanicShell"
 typedef struct s_minishell
 {
+	char		*username;
 	t_ast		*ast;
 	t_tokens	*tokens;
 	int			current_status;
@@ -49,5 +51,6 @@ typedef struct s_minishell
 
 char	*rl_gets( void );
 int		traitement(t_minishell *data, char *prompt);
+void	set_env_from_void(void);
 
 #endif

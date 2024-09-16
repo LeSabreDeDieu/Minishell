@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 00:46:46 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/16 12:42:19 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/16 13:09:04 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,11 @@ int	expand_wildcard(const char *pattern, char ***argv, int *argc)
 		return (SUCCESS);
 	count = count_matching_files(pattern);
 	if (count <= 0)
-		return (FAILURE);
+	{
+		ft_putstr_fd("SanicShell : no matches found: ", 2);
+		ft_putendl_fd(pattern, 2);
+		return(FAILURE);
+	}
 	new_size = *argc + count;
 	*argv = realloc_argv(*argv, *argc, new_size);
 	if (!*argv)

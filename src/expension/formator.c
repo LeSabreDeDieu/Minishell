@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 22:16:19 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/12 01:33:08 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/16 13:09:52 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,7 @@ int	expend(t_ast_value *value)
 			{
 				if (expand_wildcard(value->argv[i], &value->argv,
 						&value->argc) == FAILURE)
-				{
-					++i;
-					continue ;
-				}
+					return (FAILURE);
 				else
 				{
 					i = (value->argc - 1);
@@ -61,12 +58,6 @@ int	expend(t_ast_value *value)
 			}
 			++j;
 		}
-		++i;
-	}
-	i = 0;
-	while (value->argv[i] && i < value->argc)
-	{
-		printf("value->argv[%d] = %s\n", i, value->argv[i]);
 		++i;
 	}
 	value->name = value->argv[0];

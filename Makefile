@@ -6,7 +6,7 @@
 #    By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:19:20 by gcaptari          #+#    #+#              #
-#    Updated: 2024/09/11 23:15:01 by sgabsi           ###   ########.fr        #
+#    Updated: 2024/09/16 13:58:34 by sgabsi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,6 +50,7 @@ SRC_TOKEN_FILES		=	tokenise_and_or.c \
 						tokens.c \
 						totokenise.c \
 						utils.c	\
+						utils2.c \
 						valid_token.c
 SRC_TOKEN			=	$(addprefix $(SRC_TOKEN_DIR)/, $(SRC_TOKEN_FILES))
 
@@ -57,7 +58,8 @@ SRC_TOKEN			=	$(addprefix $(SRC_TOKEN_DIR)/, $(SRC_TOKEN_FILES))
 SRC_UTILS_DIR 	=	utils
 SRC_UTILS_FILES	=	free.c \
 					free_children.c	\
-					len.c
+					len.c \
+					minishell_utils.c
 SRC_UTILS		=	$(addprefix $(SRC_UTILS_DIR)/, $(SRC_UTILS_FILES))
 
 #COMMAND
