@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 00:46:46 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/12 01:40:22 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/16 12:42:19 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,9 @@ char	**realloc_argv(char **argv, int old_size, int new_size)
 		{
 			new_argv[j] = ft_strdup(argv[i]);
 			free(argv[i]);
-			++j;
+			j++;
 		}
-		++i;
+		i++;
 	}
 	free(argv);
 	return (new_argv);
@@ -120,6 +120,7 @@ int	expand_wildcard(const char *pattern, char ***argv, int *argc)
 	*argv = realloc_argv(*argv, *argc, new_size);
 	if (!*argv)
 		return (FAILURE);
+	*argc -= 1;
 	fill_result_list(pattern, *argv, argc);
 	free((char *)pattern);
 	return (SUCCESS);
