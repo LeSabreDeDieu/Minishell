@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:45:02 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/16 13:15:34 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/16 16:46:40 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,20 @@
 typedef struct s_ast	t_ast;
 typedef struct s_tokens	t_tokens;
 
-#define SHELL_NAME = "SanicShell"
-typedef struct s_minishell
+# define SHELL_NAME "SanicShell"
+
+typedef struct s_data_minishell
 {
 	char		*username;
-	t_ast		*ast;
-	t_tokens	*tokens;
-	int			current_status;
+	char		*path;
+}				t_data_minishell;
+
+typedef struct s_minishell
+{
+	t_data_minishell	data;
+	t_ast				*ast;
+	t_tokens			*tokens;
+	int					current_status;
 }				t_minishell;
 
 char	*rl_gets( void );

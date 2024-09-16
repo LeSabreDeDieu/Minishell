@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 15:30:56 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/09/10 16:14:38 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/16 16:10:31 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,14 +110,15 @@ int	exceve_builtins(t_minishell *minishell, char *name, int argc, char *argv[])
 }
 static void	fork_error_message(char *error)
 {
-	ft_putstr_fd("sanic: ", 2);
-	ft_putstr_fd("fork: ", 2);
+	ft_putstr_fd(SHELL_NAME, 2);
+	ft_putstr_fd(": fork: ", 2);
 	ft_putstr_fd(error, 2);
 	ft_putstr_fd("\n", 2);
 }
 static void	command_error_message(char *command, char *error)
 {
-	ft_putstr_fd("sanic: ", 2);
+	ft_putstr_fd(SHELL_NAME, 2);
+	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(command, 2);
 	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(error, 2);

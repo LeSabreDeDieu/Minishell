@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:48:08 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/10 15:40:35 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/16 16:47:24 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,7 @@ void	free_minishell(t_minishell *minishell, int action)
 		free(minishell->tokens);
 	}
 	if (action & FREE_ENV)
-		free_env();
+		free_env();	
+	if (action & FREE_UNAME)
+		free(minishell->data.username);
 }

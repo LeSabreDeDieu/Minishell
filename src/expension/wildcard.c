@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 00:46:46 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/16 13:09:04 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/16 16:08:26 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,17 +108,18 @@ void	fill_result_list(const char *pattern, char **argv, int *argc)
 
 int	expand_wildcard(const char *pattern, char ***argv, int *argc)
 {
-	int	count;
-	int	new_size;
+	int		count;
+	int		new_size;
 
 	if (wildcard_in_quote((char *)pattern))
 		return (SUCCESS);
 	count = count_matching_files(pattern);
 	if (count <= 0)
 	{
-		ft_putstr_fd("SanicShell : no matches found: ", 2);
-		ft_putendl_fd(pattern, 2);
-		return(FAILURE);
+		ft_putstr_fd(SHELL_NAME, 2);
+		ft_putstr_fd(" : no matches found: ", 2);
+		ft_putendl_fd((char *) pattern, 2);
+		return (FAILURE);
 	}
 	new_size = *argc + count;
 	*argv = realloc_argv(*argv, *argc, new_size);
