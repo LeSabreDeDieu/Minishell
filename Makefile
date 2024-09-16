@@ -65,6 +65,7 @@ SRC_UTILS		=	$(addprefix $(SRC_UTILS_DIR)/, $(SRC_UTILS_FILES))
 #COMMAND
 SRC_COMMAND_DIR 	=	command
 SRC_COMMAND_FILES	=	command.c \
+						wait.c     \
 						exec/pipe/pipe.c \
 						exec/pipe/utils.c \
 						builtins/echo.c	\
@@ -89,6 +90,14 @@ SRC_EXPENSION_FILES	=	dequoting.c \
 SRC_EXPENSION		=	$(addprefix $(SRC_EXPENSION_DIR)/, $(SRC_EXPENSION_FILES))
 
 # Files
+
+#SIGNAL
+SRC_SIGNAL_DIR 	=	signal
+SRC_SIGNAL_FILES	=	signal.c
+SRC_SIGNAL		=	$(addprefix $(SRC_SIGNAL_DIR)/, $(SRC_SIGNAL_FILES))
+
+#$(SRC_AST)
+#$(SRC_COMMAND)
 SRC_FILES			= $(SRC_AST) \
 					  $(SRC_ENV) \
 					  $(SRC_COMMAND) \
@@ -96,6 +105,7 @@ SRC_FILES			= $(SRC_AST) \
 					  $(SRC_UTILS) \
 					  $(SRC_READ_LINE) \
 					  $(SRC_EXPENSION) \
+					  $(SRC_SIGNAL) \
 					  test/print.c \
 					  minishell.c
 

@@ -3,7 +3,8 @@
 #include "command.h"
 #include "minishell.h"
 
-void	test_execution_pipe(t_minishell *minishell, int *std_in, t_ast *ast_current)
+void	test_execution_pipe(t_minishell *minishell, int *std_in,
+		t_ast *ast_current)
 {
 	char	**env;
 	int		ret;
@@ -29,18 +30,9 @@ void	test_execution_pipe(t_minishell *minishell, int *std_in, t_ast *ast_current
 	{
 		// execute_subshell(minishell, &ast_current->value);
 	}
-	if (ast_current->value.last_cmd)
-	{
-		ret = 0;
-		while(ret >= 0)
-			ret = waitpid(ast_current->value.pid, &minishell->current_status, WNOHANG);
-		minishell->current_status = WEXITSTATUS(minishell->current_status);
-		ret = 0;
-		while (ret >= 0){
-			ret = wait3(NULL,WNOHANG /* | WEXITED */, NULL);
-		}
-	}
 	test_execution_pipe(minishell, std_in, ast_current->left);
+	if (ast_current->value.last_cmd)
+		wait_process(minishell, &ast_current->value, true);
 }
 
 void	test_execution(t_minishell *minishell, t_ast *ast)
@@ -69,6 +61,7 @@ void	test_execution(t_minishell *minishell, t_ast *ast)
 	}
 	else if (ast->type == AST_SUBSHELL)
 		execute_subshell(minishell, &ast->value);
+	wait_process(minishell, &ast->value, false);
 	if (ast->left)
 		test_execution(minishell, ast->left);
 }

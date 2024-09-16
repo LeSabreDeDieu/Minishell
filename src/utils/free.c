@@ -48,6 +48,7 @@ void	free_token(t_tokens *tokens)
 	t_token_list	*tmp;
 	t_token_list	*current;
 
+	printf("dfsdkfjsdlifjk %p\n", tokens);
 	if (!tokens || !tokens->first_token)
 		return ;
 	current = tokens->first_token;
@@ -70,13 +71,10 @@ void	free_minishell(t_minishell *minishell, int action)
 {
 	if (action & FREE_AST)
 		free_ast(&minishell->ast);
-	if (action & FREE_TOKEN)
-	{
-		free_token(minishell->tokens);
+	if ((action & FREE_TOKEN) && minishell->tokens)
 		free(minishell->tokens);
-	}
 	if (action & FREE_ENV)
-		free_env();	
+		free_env();
 	if (action & FREE_UNAME)
 		free(minishell->data.username);
 }

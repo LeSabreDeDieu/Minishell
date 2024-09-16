@@ -38,8 +38,8 @@ int		exit_command(t_minishell *minishell, int argc, char *argv[])
 			return (245);
 		status = ft_atoi(argv[1]);
 	}
-
 	ft_putendl_fd("exit", 1);
-	free_minishell(minishell, FREE_AST | FREE_ENV | FREE_TOKEN);
+	printf("fdsqlfkjsdlkfdsj %i\n", status);
+	free_minishell(minishell, FREE_ALL);
 	exit(status);
 }

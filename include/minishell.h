@@ -37,6 +37,8 @@
 # include "libft.h"
 # include "utils.h"
 
+extern int g_signal;
+
 typedef struct s_ast	t_ast;
 typedef struct s_tokens	t_tokens;
 
@@ -59,5 +61,6 @@ typedef struct s_minishell
 char	*rl_gets( void );
 int		traitement(t_minishell *data, char *prompt);
 void	set_env_from_void(void);
+void	init_signal(void);
 
 #endif

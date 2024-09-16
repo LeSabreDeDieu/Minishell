@@ -149,9 +149,17 @@ int	open_all_redirection(t_redirection_list *list)
 				}
 			}
 			else if ((int)current->redirection.flag == READ)
+			{
 				current->redirection.fd = open(current->redirection.filename,
 						O_RDONLY, 0644);
-		}
+				if (current->redirection.fd == -1)
+				{
+					command_error_message(current->redirection.filename,
+						strerror(errno));
+					status = -1;
+					break ;
+				}
+			}
 		current = current->next;
 	}
 	return (status);
@@ -265,39 +273,40 @@ int	execute_simple(t_minishell *minishell, t_ast_value *value)
 {
 	int		state;
 	char	*path;
-	__pid_t	child;
 	char	**envp;
+	int		ret;
 
-	if (open_all_redirection(value->redirections) == FAILURE)
-		return (FAILURE);
-	if (value->name == NULL || value->argc == 0)
-		return (close_all_redir(value, CLOSE_FD_REDIR), -1);
 	dup_standard(value);
+  if (value->name == NULL || value->argc == 0)
+    return (ENOENT);
 	if (is_builtin(value->name))
 	{
-		state = ENOENT;
 		if (dup_all_redir(value->redirections) == 0)
-			state = exceve_builtins(minishell, value->name, value->argc,
+			minishell->current_status = exceve_builtins(minishell, value->name, value->argc,
 					value->argv);
+		else
+			minishell->current_status = ENOENT;
 		close_all_redir(value, CLOSE_DUP_STD | CLOSE_FD_REDIR);
 		return (state);
 	}
-	child = fork();
-	if (child < 0)
+	value->pid = fork();
+	if (value->pid < 0)
 	{
 		fork_error_message(strerror(errno));
 		minishell->current_status = errno;
 		return (-1);
 	}
-	if (!child)
+	if (!value->pid)
 	{
+		signal(SIGQUIT, SIG_DFL);
+		signal(SIGINT, SIG_DFL);
+		if (open_all_redirection(value->redirections) == FAILURE)
+			exit(errno);
 		close_dup_standard(value);
 		path = get_real_command(value->name);
 		if (!path)
 			(fork_error_message("Malloc failled"), exit(ENOMEM));
-		else if (safe_dup_all_redir(minishell, value,
-				FREE_AST | FREE_ENV | FREE_TOKEN,
-				CLOSE_DUP_STD | CLOSE_FD_REDIR) == -1)
+		else if (safe_dup_all_redir(minishell, value, FREE_ALL, CLOSE_DUP_STD | CLOSE_FD_REDIR) == -1)
 		{
 			free(path);
 			exit(ENOENT);
@@ -311,9 +320,7 @@ int	execute_simple(t_minishell *minishell, t_ast_value *value)
 		free_minishell(minishell, FREE_ALL);
 		exit(errno);
 	}
-	waitpid(child, &state, 0);
 	close_all_redir(value, CLOSE_DUP_STD | CLOSE_FD_REDIR);
-	minishell->current_status = WEXITSTATUS(state);
 	return (0);
 }
 
@@ -324,8 +331,6 @@ __pid_t	execute_pipe_last(t_minishell *minishell, int *pipe_in,
 	char	*path;
 	int		test;
 
-	if (open_all_redirection(value->redirections) == FAILURE)
-		return (FAILURE);
 	test = dup(STDOUT_FILENO);
 	value->fd_out = test;
 	value->pid = fork();
@@ -336,6 +341,11 @@ __pid_t	execute_pipe_last(t_minishell *minishell, int *pipe_in,
 	}
 	if (!value->pid)
 	{
+
+		signal(SIGQUIT, SIG_DFL);
+		signal(SIGINT, SIG_DFL);
+	  if (open_all_redirection(value->redirections) == FAILURE)
+		  exit(errno);
 		dup2(value->fd_out, STDOUT_FILENO);
 		close(value->fd_out);
 		if (*pipe_in != -1)
@@ -373,21 +383,23 @@ __pid_t	execute_pipe_last(t_minishell *minishell, int *pipe_in,
 int	execute_subshell(t_minishell *data, t_ast_value *value)
 {
 	int		state;
-	__pid_t	child;
 	char	*prompt;
 
-	if (open_all_redirection(value->redirections) == FAILURE)
-		return (FAILURE);
+
 	dup_standard(value);
-	child = fork();
-	if (child < 0)
+	value->pid = fork();
+	if (value->pid < 0)
 	{
 		data->current_status = errno;
 		fork_error_message(strerror(errno));
 		return (FAILURE);
 	}
-	if (!child)
+	if (!value->pid)
 	{
+		signal(SIGQUIT, SIG_DFL);
+		signal(SIGINT, SIG_DFL);
+		if (open_all_redirection(value->redirections) == FAILURE)
+			exit(errno);
 		close_dup_standard(value);
 		if (dup_all_redir(value->redirections) == -1)
 		{
@@ -401,8 +413,6 @@ int	execute_subshell(t_minishell *data, t_ast_value *value)
 		free_minishell(data, FREE_AST | FREE_ENV | FREE_TOKEN | FREE_PIPE);
 		exit(errno);
 	}
-	waitpid(child, &state, 0);
 	close_all_redir(value, CLOSE_DUP_STD | CLOSE_PIPE);
-	data->current_status = (WEXITSTATUS(state));
 	return (0);
 }
