@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 17:16:29 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/09 15:52:18 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/12 03:44:03 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ void	free_ast(t_ast **ast)
 			while (i < (*ast)->value.argc)
 			{
 				if ((*ast)->value.argv[i])
-					free((*ast)->value.argv[i++]);
+					free((*ast)->value.argv[i]);
+				i++;
 			}
 			free((*ast)->value.argv);
 		}

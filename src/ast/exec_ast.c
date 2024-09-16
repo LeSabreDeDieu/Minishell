@@ -13,7 +13,8 @@ void	test_execution_pipe(t_minishell *minishell, int *std_in, t_ast *ast_current
 	test_execution_pipe(minishell, std_in, ast_current->right);
 	if (ast_current->type == AST_CMD)
 	{
-		expend_variable(&ast_current->value);
+		if (expend(&ast_current->value) == FAILURE)
+			return ;
 		to_dequote(&ast_current->value);
 		env = env_to_tab();
 		if (!env)
@@ -61,7 +62,8 @@ void	test_execution(t_minishell *minishell, t_ast *ast)
 		return ;
 	if (ast->type == AST_CMD)
 	{
-		expend_variable(&ast->value);
+		if (expend(&ast->value) == FAILURE)
+			return ;
 		to_dequote(&ast->value);
 		execute_simple(minishell, &ast->value);
 	}

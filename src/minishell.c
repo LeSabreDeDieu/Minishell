@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:28:15 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/10 22:10:09 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/11 10:25:12 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ static char	*minishell(char *envp[])
 	char		*line;
 
 	create_env(envp);
-	add_shlvl();
 	ft_bzero(&data, sizeof(t_minishell));
 	ft_putendl_fd("Welcome to minishell", 1);
 	while (true)
