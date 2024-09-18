@@ -6,17 +6,11 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 11:55:12 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/09 15:56:08 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/17 17:50:13 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast.h"
-
-static bool	is_quote(t_token *token)
-{
-	return (token->type == TOKEN_DOUBLE_QUOTE
-		|| token->type == TOKEN_SIMPLE_QUOTE);
-}
 
 void	create_redirection(t_redirection *redir, char *filename,
 		t_type_redirection flag)
@@ -74,7 +68,6 @@ static int	create_ast_value_word(t_ast_value *value, t_token_list **tokens)
 {
 	t_token_list	*current;
 	t_token_list	*tmp;
-	int				i;
 
 	value->pid = -1;
 	value->fd_in = -1;
@@ -84,54 +77,14 @@ static int	create_ast_value_word(t_ast_value *value, t_token_list **tokens)
 		&& current->token->type != TOKEN_REDIRECTION
 		&& !is_quote(current->token))
 		return (FAILURE);
-	while (current && current->token->type == TOKEN_REDIRECTION)
-	{
-		if (current->next && add_list_redirection(&value->redirections,
-				current->token, current->next->token->value) == FAILURE)
-			return (FAILURE);
-		current = current->next->next;
-	}
-	i = 0;
-	tmp = current;
-	while (tmp && (tmp->token->type == TOKEN_WORD
-			|| tmp->token->type == TOKEN_REDIRECTION || is_quote(tmp->token)))
-	{
-		while (tmp && (tmp->token->type == TOKEN_WORD || is_quote(tmp->token)))
-		{
-			value->argc++;
-			tmp = tmp->next;
-		}
-		while (tmp && tmp->token && tmp->token->type == TOKEN_REDIRECTION)
-		{
-			if (tmp->next && add_list_redirection(&value->redirections,
-					tmp->token, tmp->next->token->value) == FAILURE)
-				return (FAILURE);
-			tmp = tmp->next->next;
-		}
-	}
+	create_redirection_list(&value, &current);
+	count_nb_arg(&value, &current);
 	if (value->argc != 0)
 	{
 		value->argv = ft_calloc(value->argc + 1, sizeof(char *));
 		if (!value->argv)
 			return (FAILURE);
-		while (current && (current->token->type == TOKEN_WORD
-				|| current->token->type == TOKEN_REDIRECTION
-				|| is_quote(current->token)))
-		{
-			while (current && (current->token->type == TOKEN_WORD
-					|| is_quote(current->token)))
-			{
-				value->argv[i++] = ft_strdup(current->token->value);
-				current = current->next;
-			}
-			while (current && current->token
-				&& current->token->type == TOKEN_REDIRECTION)
-			{
-				if (!current->next)
-					return (FAILURE);
-				current = current->next->next;
-			}
-		}
+		add_argv_value(&value, &current);
 		value->name = value->argv[0];
 	}
 	*tokens = current;

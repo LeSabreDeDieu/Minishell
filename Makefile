@@ -6,7 +6,7 @@
 #    By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:19:20 by gcaptari          #+#    #+#              #
-#    Updated: 2024/09/16 13:58:34 by sgabsi           ###   ########.fr        #
+#    Updated: 2024/09/17 16:25:28 by sgabsi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ OBJDIR		=	obj
 SRC_AST_DIR 		=	ast
 SRC_AST_FILES		=	create_ast.c \
 						create_ast_value.c \
+						create_ast_value_utils.c \
 						exec_ast.c \
 						utils.c \
 						free_ast.c \
@@ -57,6 +58,7 @@ SRC_TOKEN			=	$(addprefix $(SRC_TOKEN_DIR)/, $(SRC_TOKEN_FILES))
 #UTILS
 SRC_UTILS_DIR 	=	utils
 SRC_UTILS_FILES	=	free.c \
+					history.c \
 					free_children.c	\
 					len.c \
 					minishell_utils.c

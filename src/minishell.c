@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:28:15 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/16 16:47:58 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/17 17:32:03 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 #include "test.h"
 #include "tokens.h"
 #include <limits.h>
+
+int	g_signal;
 
 static void	usage(int argc)
 {
@@ -49,22 +51,21 @@ static void	init_minishell(t_minishell *data, char **envp)
 		set_env_from_void();
 	add_shlvl();
 	ft_bzero(data, sizeof(t_minishell));
-	data->data.username = getenv("PATH");
-	printf("Welcome %s\n", data->data.username);
+	data->data.username = get_uname();
 }
 
-static char	*minishell(char *envp[])
+static void minishell(char *envp[])
 {
 	t_minishell	data;
 	char		*line;
-	int			dup_test;
 
 	init_minishell(&data, envp);
+	read_history_from_file();
 	ft_putendl_fd("Welcome to minishell", 1);
 	while (true)
 	{
 		signal(SIGQUIT, SIG_IGN);
-		line = rl_gets();
+		line = rl_gets(create_display(&data));
 		g_signal = 0;
 		if (!line)
 			exit_command(&data, 1, NULL);
@@ -75,6 +76,7 @@ static char	*minishell(char *envp[])
 		}
 		init_signal();
 		traitement(&data, line);
+		ft_putstr_fd("\n", 1);
 	}
 }
 

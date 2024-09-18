@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:45:10 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/06 01:24:37 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/09/17 17:28:43 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ enum						e_free
 	FREE_FD = 1 << 5,
 	FREE_SIGNAL = 1 << 6,
 	FREE_TOKEN = 1 << 7,
-	FREE_ALL = FREE_AST | FREE_ENV | FREE_PATH | FREE_UNAME | FREE_PIPE | FREE_FD | FREE_SIGNAL | FREE_TOKEN
+	FREE_ALL = FREE_AST | FREE_ENV | FREE_PATH | FREE_UNAME | FREE_PIPE \
+				| FREE_FD | FREE_SIGNAL | FREE_TOKEN
 };
 
 #endif

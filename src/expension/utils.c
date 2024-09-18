@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:24:32 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/11 23:06:59 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/17 11:21:25 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ char	*get_end(char *str)
 	tmp = str;
 	while (*tmp)
 	{
-		if (*tmp == ' ' || *tmp == '$' || *tmp == '\'' || *tmp == '"'
-			|| *tmp == '*')
+		if (!ft_isalnum(*tmp))
 			break ;
 		tmp++;
 	}

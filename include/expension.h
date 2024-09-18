@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 22:16:42 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/11 23:36:59 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/17 11:10:11 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,9 @@
 
 typedef struct s_ast_value	t_ast_value;
 
-void	expend_variable(t_ast_value *value, int i, int *j, bool is_quoted);
 void	to_dequote(t_ast_value *value);
 int		expand_wildcard(const char *pattern, char ***argv, int *argc);
-int		expend(t_ast_value *value);
+int		expend(t_minishell *shell_data, t_ast_value *value);
 
 //Utils
 void	expend_variable_from_env(t_ast_value *value, int i, int *j);

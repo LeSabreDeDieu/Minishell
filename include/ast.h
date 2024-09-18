@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:44:54 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/16 12:22:29 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/17 17:23:59 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <stdbool.h>
 
 typedef struct s_minishell		t_minishell;
+typedef struct s_token			t_token;
 typedef struct s_tokens			t_tokens;
 typedef struct s_token_list		t_token_list;
 
@@ -32,7 +33,6 @@ typedef enum e_type_ast
 	AST_PIPE,
 	AST_CMD
 }								t_type_ast;
-
 
 typedef struct s_ast_value
 {
@@ -61,5 +61,15 @@ t_ast							*create_nodes(t_token_list *tokens);
 void							create_nodes_special(t_token_list *tokens,
 									t_ast *left, t_ast *ast);
 void							free_ast(t_ast **ast);
+
+//UTILS
+
+bool							is_quote(t_token *token);
+void							create_redirection_list(t_ast_value **value,
+									t_token_list **current);
+void							count_nb_arg(t_ast_value **value,
+									t_token_list **current);
+void							add_argv_value(t_ast_value **value,
+									t_token_list **current);
 
 #endif // AST_H

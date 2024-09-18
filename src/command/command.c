@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 15:30:56 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/09/16 16:10:31 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/17 12:23:08 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,7 @@ int	open_all_redirection(t_redirection_list *list)
 					break ;
 				}
 			}
+		}
 		current = current->next;
 	}
 	return (status);
@@ -209,7 +210,6 @@ int	dup_all_redir(t_redirection_list *list)
 void	close_all_redir(t_ast_value *value, int action)
 {
 	t_redirection_list	*current;
-	int					status;
 
 	// printf("name : %s\nfd_in : %p => %i, fd_out : %p => %i\n",value->name, &value->fd_in, value->fd_in, &value->fd_out, value->fd_out);
 	if (action & CLOSE_DUP_STD)
@@ -224,7 +224,6 @@ void	close_all_redir(t_ast_value *value, int action)
 	if (action & CLOSE_FD_REDIR)
 	{
 		current = value->redirections;
-		status = 0;
 		while (current)
 		{
 			if (current->redirection.filename != NULL
@@ -271,13 +270,11 @@ void	close_dup_standard(t_ast_value *value)
 
 int	execute_simple(t_minishell *minishell, t_ast_value *value)
 {
-	int		state;
 	char	*path;
 	char	**envp;
-	int		ret;
 
 	dup_standard(value);
-  if (value->name == NULL || value->argc == 0)
+  	if (value->name == NULL || value->argc == 0)
     return (ENOENT);
 	if (is_builtin(value->name))
 	{
@@ -287,7 +284,7 @@ int	execute_simple(t_minishell *minishell, t_ast_value *value)
 		else
 			minishell->current_status = ENOENT;
 		close_all_redir(value, CLOSE_DUP_STD | CLOSE_FD_REDIR);
-		return (state);
+		return (minishell->current_status);
 	}
 	value->pid = fork();
 	if (value->pid < 0)
@@ -382,7 +379,6 @@ __pid_t	execute_pipe_last(t_minishell *minishell, int *pipe_in,
 
 int	execute_subshell(t_minishell *data, t_ast_value *value)
 {
-	int		state;
 	char	*prompt;
 
 
