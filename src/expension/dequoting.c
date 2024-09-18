@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 12:40:30 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/10 19:43:13 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/18 15:42:41 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,47 @@ char	*sub_str_in_quote(char *str)
 	return (ft_substr(str, 1, i - 1));
 }
 
+void	dequote_quote(char *str, int *i, char **result, char **new_result)
+{
+	char	*temp;
+
+	if (!(*result))
+		(*new_result) = ft_substr(str, 0, (*i));
+	else
+	{
+		(*new_result) = ft_strdup((*result));
+		free((*result));
+	}
+	temp = sub_str_in_quote(&str[(*i)]);
+	if (new_result)
+		(*result) = ft_strjoin((*new_result), temp);
+	else
+		(*result) = ft_strdup(temp);
+	(*i) += ft_strlen(temp) + 2;
+	free(temp);
+	free((*new_result));
+}
+
+void	dequote_none_quote(char *str, int *i, char **result, char **new_result)
+{
+	char	*temp;
+
+	temp = ft_strndup(&str[(*i)], 1);
+	if ((*result))
+		(*new_result) = ft_strjoin((*result), temp);
+	else
+		(*new_result) = ft_strdup(temp);
+	free(temp);
+	free((*result));
+	(*result) = ft_strdup((*new_result));
+	free((*new_result));
+	++(*i);
+}
+
 char	*dequote(char *str)
 {
 	char	*result;
 	char	*new_result;
-	char	*temp;
 	int		i;
 
 	i = 0;
@@ -41,36 +77,9 @@ char	*dequote(char *str)
 	while (str[i])
 	{
 		if (str[i] == '\'' || str[i] == '"')
-		{
-			if (!result)
-				new_result = ft_substr(str, 0, i);
-			else
-			{
-				new_result = ft_strdup(result);
-				free(result);
-			}
-			temp = sub_str_in_quote(&str[i]);
-			if (new_result)
-				result = ft_strjoin(new_result, temp);
-			else
-				result = ft_strdup(temp);
-			i += ft_strlen(temp) + 2;
-			free(temp);
-			free(new_result);
-		}
+			dequote_quote(str, &i, &result, &new_result);
 		else
-		{
-			temp = ft_strndup(&str[i], 1);
-			if (result)
-				new_result = ft_strjoin(result, temp);
-			else
-				new_result = ft_strdup(temp);
-			free(temp);
-			free(result);
-			result = ft_strdup(new_result);
-			free(new_result);
-			++i;
-		}
+			dequote_none_quote(str, &i, &result, &new_result);
 	}
 	free(str);
 	return (result);

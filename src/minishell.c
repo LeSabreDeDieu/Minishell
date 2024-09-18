@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:28:15 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/17 17:32:03 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/18 17:53:34 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@
 #include "test.h"
 #include "tokens.h"
 #include <limits.h>
-
-int	g_signal;
 
 static void	usage(int argc)
 {
@@ -46,7 +44,7 @@ int	traitement(t_minishell *data, char *prompt)
 static void	init_minishell(t_minishell *data, char **envp)
 {
 	create_env(envp);
-  init_signal();
+	init_signal();
 	if (!envp[0])
 		set_env_from_void();
 	add_shlvl();
@@ -54,27 +52,31 @@ static void	init_minishell(t_minishell *data, char **envp)
 	data->data.username = get_uname();
 }
 
-static void minishell(char *envp[])
+static void	minishell(char *envp[])
 {
 	t_minishell	data;
 	char		*line;
 
 	init_minishell(&data, envp);
 	read_history_from_file();
-	ft_putendl_fd("Welcome to minishell", 1);
+	print_welcome();
 	while (true)
 	{
-		signal(SIGQUIT, SIG_IGN);
 		line = rl_gets(create_display(&data));
-		g_signal = 0;
-		if (!line)
+		if (g_signal == SIGINT)
+		{
+			g_signal = 0;
+			continue ;
+		}
+		else if (g_signal == SIGQUIT)
+			g_signal = 0;
+		else if (!line)
 			exit_command(&data, 1, NULL);
 		if (!*line)
 		{
 			free(line);
 			continue ;
 		}
-		init_signal();
 		traitement(&data, line);
 		ft_putstr_fd("\n", 1);
 	}

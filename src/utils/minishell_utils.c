@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:14:37 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/17 12:19:14 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/18 11:15:21 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,11 @@ char	*get_uname(void)
 	}
 	close(fd);
 	return (errno = ENOENT, NULL);
+}
+
+void	print_welcome(void)
+{
+	ft_putstr_fd("Welcome to ", 1);
+	ft_putstr_fd(SHELL_NAME, 1);
+	ft_putstr_fd("\n", 1);
 }

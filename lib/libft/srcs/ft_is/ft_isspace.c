@@ -1,31 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils2.c                                           :+:      :+:    :+:   */
+/*   ft_isspace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/16 13:51:41 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/18 15:03:15 by sgabsi           ###   ########.fr       */
+/*   Created: 2024/09/18 16:11:58 by sgabsi            #+#    #+#             */
+/*   Updated: 2024/09/18 16:20:09 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokens.h"
+#include "libft.h"
 
-bool	is_space_in_quotes(char *str)
+int	ft_isspace(int c)
 {
-	int		quote;
-	int		i;
-
-	quote = 0;
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '\'' || str[i] == '\"')
-			quote = !quote;
-		if (str[i] == ' ' && quote)
-			return (1);
-		++i;
-	}
+	if (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f'
+		|| c == '\r')
+		return (1);
 	return (0);
 }

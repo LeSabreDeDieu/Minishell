@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   len.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:55:05 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/08/14 14:25:31 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/09/18 15:03:56 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ size_t	len_env(void)
 
 size_t	len_array(char **array)
 {
-	char **move;
+	char	**move;
 
 	move = array;
 	while (*move)

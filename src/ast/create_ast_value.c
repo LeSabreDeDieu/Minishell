@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 11:55:12 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/17 17:50:13 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/18 09:53:42 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ int	add_list_redirection(t_redirection_list **list, t_token *type, char *file)
 static int	create_ast_value_word(t_ast_value *value, t_token_list **tokens)
 {
 	t_token_list	*current;
-	t_token_list	*tmp;
 
 	value->pid = -1;
 	value->fd_in = -1;

@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:34:59 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/10 15:43:45 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/18 15:08:05 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,16 @@ bool	check_quotes(t_token_list *current, t_tokens *tokens)
 	return (true);
 }
 
+bool	check_valid_token2(t_tokens *tokens, t_token_list *current)
+{
+	if (current->token->type == TOKEN_REDIRECTION && current->next->next
+		&& current->next->next->token->type == TOKEN_SUBSHELL)
+		return (free_token(tokens), false);
+	if (is_and_or_pipe(current->token) && current->next == NULL)
+		return (free_token(tokens), false);
+	return (true);
+}
+
 bool	check_valid_token(t_tokens *tokens)
 {
 	t_token_list	*current;
@@ -75,10 +85,7 @@ bool	check_valid_token(t_tokens *tokens)
 			&& counter_char_token(current->token->value,
 				'(') != counter_char_token(current->token->value, ')'))
 			return (free_token(tokens), false);
-		if (current->token->type == TOKEN_REDIRECTION && current->next->next
-			&& current->next->next->token->type == TOKEN_SUBSHELL)
-			return (free_token(tokens), false);
-		if (is_and_or_pipe(current->token) && current->next == NULL)
+		if (check_valid_token2(tokens, current) == false)
 			return (free_token(tokens), false);
 		current = current->next;
 	}

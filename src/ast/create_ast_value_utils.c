@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:21:34 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/17 17:41:33 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/18 09:51:08 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ bool	is_quote(t_token *token)
 		|| token->type == TOKEN_SIMPLE_QUOTE);
 }
 
-void	create_redirection_list(t_ast_value **value, t_token_list **current)
+int	create_redirection_list(t_ast_value **value, t_token_list **current)
 {
 	while ((*current) && (*current)->token->type == TOKEN_REDIRECTION)
 	{
@@ -27,9 +27,10 @@ void	create_redirection_list(t_ast_value **value, t_token_list **current)
 			return (FAILURE);
 		(*current) = (*current)->next->next;
 	}
+	return (SUCCESS);
 }
 
-void	count_nb_arg(t_ast_value **value, t_token_list **current)
+int	count_nb_arg(t_ast_value **value, t_token_list **current)
 {
 	t_token_list	*tmp;
 
@@ -50,9 +51,10 @@ void	count_nb_arg(t_ast_value **value, t_token_list **current)
 			tmp = tmp->next->next;
 		}
 	}
+	return (SUCCESS);
 }
 
-void	add_argv_value(t_ast_value **value, t_token_list **current)
+int	add_argv_value(t_ast_value **value, t_token_list **current)
 {
 	int	i;
 
@@ -75,4 +77,5 @@ void	add_argv_value(t_ast_value **value, t_token_list **current)
 			(*current) = (*current)->next->next;
 		}
 	}
+	return (SUCCESS);
 }

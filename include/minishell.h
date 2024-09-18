@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:45:02 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/17 17:31:24 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/18 17:54:18 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@
 # include "utils.h"
 # include "color.h"
 
-extern int				g_signal;
+extern volatile int		g_signal;
 
 typedef struct s_ast	t_ast;
 typedef struct s_tokens	t_tokens;
@@ -88,5 +88,8 @@ char	*get_uname(void);
 int		add_history_file(char *line);
 int		read_history_from_file(void);
 int		clear_history_file(void);
+
+//UTILS
+void	print_welcome(void);
 
 #endif

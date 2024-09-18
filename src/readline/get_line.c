@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 16:16:19 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/17 16:01:10 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/18 17:44:02 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,8 @@ char	*create_display(t_minishell *shell_data)
 {
 	char	*prompt[12];
 	char	*final;
-	char 	*tmp;
 
-	prompt[0] =	CYAN_RL;
+	prompt[0] = CYAN_RL;
 	prompt[1] = shell_data->data.username;
 	prompt[2] = RESET_RL;
 	prompt[3] = "@";
@@ -66,11 +65,10 @@ char	*create_display(t_minishell *shell_data)
 	prompt[6] = RESET_RL;
 	prompt[7] = "> ";
 	prompt[8] = NULL;
-	final = assemble(prompt);
+	final = assemble((const char **)prompt);
 	free(prompt[5]);
 	return (final);
 }
-
 
 char	*rl_gets(char *prompt)
 {

@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 14:36:35 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/07/10 16:13:11 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/18 12:13:55 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_parsing_env	parser_env(char *envp)
 {
 	char	*key;
 	char	*value;
-  
+
 	key = parser_get_key(envp);
 	if (!key)
 		return ((t_parsing_env){.name = NULL, .value = NULL});

@@ -6,35 +6,35 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:28:07 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/17 15:06:58 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/18 15:04:15 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int		create_history(void)
+static int	create_history(void)
 {
-	int		fd;
+	int	fd;
 
 	fd = open("/tmp/.sanicshell_history", O_CREAT | O_RDWR | O_APPEND, 0666);
 	if (fd == -1)
 	{
 		ft_putstr_fd("Error: can't create history file\n", 2);
-		return(FAILURE);
+		return (FAILURE);
 	}
 	close(fd);
 	return (SUCCESS);
 }
 
-int		add_history_file(char *line)
+int	add_history_file(char *line)
 {
-	int		fd;
+	int	fd;
 
 	fd = open("/tmp/.sanicshell_history", O_WRONLY | O_APPEND);
 	if (fd == -1)
 	{
 		ft_putstr_fd("Error: can't open history file\n", 2);
-		return(FAILURE);
+		return (FAILURE);
 	}
 	ft_putendl_fd(line, fd);
 	close(fd);
@@ -42,7 +42,7 @@ int		add_history_file(char *line)
 	return (SUCCESS);
 }
 
-int		read_history_from_file(void)
+int	read_history_from_file(void)
 {
 	int		fd;
 	char	*line;
@@ -69,9 +69,9 @@ int		read_history_from_file(void)
 	return (SUCCESS);
 }
 
-int		clear_history_file(void)
+int	clear_history_file(void)
 {
-	int		fd;
+	int	fd;
 
 	fd = open("/tmp/.sanicshell_history", O_TRUNC);
 	if (fd == -1)
@@ -82,4 +82,3 @@ int		clear_history_file(void)
 	close(fd);
 	return (SUCCESS);
 }
-
