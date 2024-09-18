@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 11:48:24 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/10 17:32:22 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/18 16:23:50 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,6 +189,13 @@ int					ft_isascii(int c);
  * @return 1 if 'c' is a digit, 0 otherwise.
  */
 int					ft_isdigit(int c);
+
+/**
+ * @brief Checks if the given character 'c' is a space character.
+ * @param c The character to check.
+ * @return 1 if 'c' is a space character, 0 otherwise.
+ */
+int					ft_isspace(int c);
 
 /**
  * @brief Checks if the given character 'c' is a printable character.
@@ -463,11 +470,50 @@ char				*get_next_line(int fd);
  */
 char				*ft_strjoin_gnl(char *s1, char const *s2);
 
+/**
+ * @brief Replaces the first occurrences of 'old_sub' in 'str' with 'new_sub'.
+ * @param str The string to search in.
+ * @param old_sub The substring to replace.
+ * @param new_sub The substring to replace with.
+ * @return The new string with all occurrences of 'old_sub' replaced with 
+ * 'new_sub'.
+ * or NULL if the allocation fails.
+ */
 char				*ft_str_replace(char *str, char *old_sub, char *new_sub);
 
+
+/**
+ * @brief Duplicates the first 'n' characters of the string 's1'.
+ * @param s1 The string to duplicate.
+ * @param n The number of characters to duplicate.
+ * @return A pointer to the duplicated string, or NULL if the allocation fails.
+ */
 char				*ft_strndup(const char *s1, size_t n);
 
+/**
+ * @brief Writes formatted output to the standard output.
+ * @param format The format string.
+ * @return The number of characters printed, or a negative value 
+ * if an error occurs.
+ * @note The format string can contain format specifiers that begin 
+ * with a percent sign (%).
+ * Each format specifier starts with a percent sign (%) and ends with 
+ * a conversion specifier.
+ * The conversion specifier is a character that specifies the type
+ *  of conversion to be applied.
+ * The format specifiers supported by this function are:
+ * - %c: Character
+ * - %s: String
+ * - %d: Signed decimal integer
+ * - %i: Signed decimal integer
+ * - %u: Unsigned decimal integer
+ * - %x: Unsigned hexadecimal integer (lowercase)
+ * - %X: Unsigned hexadecimal integer (uppercase)
+ * - %p: Pointer
+ * - %%: Percent sign
+ */
 int					ft_printf(const char *format, ...);
+
 int					ft_printstr(char *str);
 int					ft_printnbr(int n);
 int					ft_printpourcent(void);

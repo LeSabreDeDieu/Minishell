@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 14:45:31 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/09/09 18:26:43 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/18 16:42:29 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,5 @@ int	echo_command(int argc, char *argv[])
 		if (!no_EOF)
 			ft_putstr_fd("\n", 1);
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }

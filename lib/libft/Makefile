@@ -6,7 +6,7 @@
 #    By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/07 13:44:09 by sgabsi            #+#    #+#              #
-#    Updated: 2024/09/09 13:48:50 by sgabsi           ###   ########.fr        #
+#    Updated: 2024/09/18 16:20:12 by sgabsi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,8 @@ SRCS_IS_LIST		=	ft_isalnum.c		\
 						ft_isalpha.c		\
 						ft_isascii.c		\
 						ft_isdigit.c		\
-						ft_isprint.c
+						ft_isprint.c		\
+						ft_isspace.c
 SRCS_IS				=	$(addprefix $(SRCS_IS_DIR)/, $(SRCS_IS_LIST))
 
 #ft_lst

@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:48:08 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/16 16:47:24 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/17 12:14:23 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	free_token(t_tokens *tokens)
 	t_token_list	*tmp;
 	t_token_list	*current;
 
-	printf("dfsdkfjsdlifjk %p\n", tokens);
 	if (!tokens || !tokens->first_token)
 		return ;
 	current = tokens->first_token;

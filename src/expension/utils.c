@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:24:32 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/11 23:06:59 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/18 15:55:24 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ char	*get_end(char *str)
 	tmp = str;
 	while (*tmp)
 	{
-		if (*tmp == ' ' || *tmp == '$' || *tmp == '\'' || *tmp == '"'
-			|| *tmp == '*')
+		if (!ft_isalnum(*tmp))
 			break ;
 		tmp++;
 	}
@@ -55,7 +54,7 @@ void	get_pid_as_string(char *pid_str)
 	close(fd);
 	while (buffer[i] != ' ' && buffer[i] != '\0')
 	{
-		if (i < (int)sizeof(pid_str) - 1)
+		if (i < (int) sizeof(pid_str) - 1)
 			pid_str[i] = buffer[i];
 		i++;
 	}

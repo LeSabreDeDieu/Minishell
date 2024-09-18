@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_line.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 16:16:19 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/06 04:51:39 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/09/18 17:44:02 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,45 +31,54 @@ char	*assemble(const char **display)
 	return (display_final);
 }
 
-char *create_diplaye(void){
-	char	*prompt[12];
+char	*get_cwd_prompt(t_minishell *shell_data)
+{
 	char	*cwd;
-	t_env	*data;
-	char	*final;
+	char	*tmp;
+	char	*result;
 
-	data = get_env("USER");
-	if (data && data->value)
-		prompt[0] = data->value;
-	else
-		prompt[0] = "";
-	prompt[1] = "@";
 	cwd = getcwd(NULL, 0);
 	if (cwd)
-		prompt[2] = cwd;
+	{
+		tmp = ft_strjoin("/home/", shell_data->data.username);
+		result = ft_str_replace(cwd, tmp, "~");
+		if (result == NULL)
+			result = cwd;
+		free(tmp);
+	}
 	else
-		prompt[2] = "";
-	prompt[3] = ">";
-	prompt[4] = NULL;
-	final = assemble(prompt);
-	free(cwd);
+		result = "";
+	return (result);
+}
+
+char	*create_display(t_minishell *shell_data)
+{
+	char	*prompt[12];
+	char	*final;
+
+	prompt[0] = CYAN_RL;
+	prompt[1] = shell_data->data.username;
+	prompt[2] = RESET_RL;
+	prompt[3] = "@";
+	prompt[4] = GREEN_RL;
+	prompt[5] = get_cwd_prompt(shell_data);
+	prompt[6] = RESET_RL;
+	prompt[7] = "> ";
+	prompt[8] = NULL;
+	final = assemble((const char **)prompt);
+	free(prompt[5]);
 	return (final);
 }
 
-
-char	*rl_gets(void)
+char	*rl_gets(char *prompt)
 {
 	char	*line;
-	t_env	*pwd;
-	t_env	*home;
-	char	*test;
 
-	test = create_diplaye();
-	line = readline(test);
-	free(test);
+	line = readline(prompt);
+	free(prompt);
 	if (!line)
 		return (NULL);
 	if (*line)
-		add_history(line);
-
+		add_history_file(line);
 	return (line);
 }

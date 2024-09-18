@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 12:11:15 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/16 13:28:16 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/18 16:38:41 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ int		exit_command(t_minishell *minishell, int argc, char *argv[])
 			return (245);
 		status = ft_atoi(argv[1]);
 	}
-	ft_putendl_fd("exit", 1);
-	printf("fdsqlfkjsdlkfdsj %i\n", status);
 	free_minishell(minishell, FREE_ALL);
+	printf("\033]0;exit\007");
+	printf("status: %d\n", status);
 	exit(status);
 }

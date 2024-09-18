@@ -6,13 +6,13 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:22:49 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/16 14:14:15 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/18 14:58:48 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include "tokens.h"
 #include "libft.h"
+#include "tokens.h"
+#include <stdio.h>
 
 static bool	check_is_in_shell_2(char *str, char *and, char *or)
 {
@@ -70,7 +70,7 @@ static size_t	get_len_word(char *str)
 	while (str[size])
 	{
 		if (str[size] == '<' || str[size] == '>' || str[size] == '|'
-			|| str[size] == ' '	|| str[size] == '('	|| str[size] == '\n'
+			|| str[size] == ' ' || str[size] == '(' || str[size] == '\n'
 			|| ft_strncmp(&str[size], "&&", 2) == 0)
 			break ;
 		else if (str[size] == '\'' || str[size] == '\"')

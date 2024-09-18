@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   totokenise.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:03:20 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/08/30 14:43:20 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/09/18 14:56:42 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,14 @@ void	tokenise_prompt(t_tokens *tokens, char *prompt, bool is_and_or)
 			free(save);
 			return ;
 		}
-		if (*tmp == ' '){
+		if (*tmp == ' ')
+		{
 			tmp++;
-			continue;
+			continue ;
 		}
 		tokenise(&tmp, tokens, is_and_or);
 	}
 	free(save);
-	return ;
 }
 
 void	to_tokenise(t_minishell *data, char *prompt)
