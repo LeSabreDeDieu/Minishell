@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 22:16:19 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/18 16:35:44 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/19 14:08:19 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,11 @@ int	expend(t_minishell *shell_data, t_ast_value *value)
 	is_quoted = false;
 	while (value->argv[++pos.i] && pos.i < value->argc)
 	{
-		pos.j = -1;
-		while (value->argv[pos.i][++pos.j])
+		pos.j = 0;
+		printf("old argv[%d] = %s\n", pos.i, value->argv[pos.i]);
+		while (value->argv[pos.i][pos.j])
 		{
+			//printf("argv[%d][%d] = %c\n", pos.i, pos.j, value->argv[pos.i][pos.j]);
 			is_quoted = is_in_dquote(value->argv[pos.i][pos.j], is_quoted);
 			if (value->argv[pos.i][pos.j] == '$'
 				&& (ft_isspace(value->argv[pos.i][pos.j + 1])
@@ -92,7 +94,9 @@ int	expend(t_minishell *shell_data, t_ast_value *value)
 				return (FAILURE);
 			if (ret != SUCCESS)
 				break ;
+			++pos.j;
 		}
+		printf("new argv[%d] = %s\n", pos.i, value->argv[pos.i]);
 	}
 	value->name = value->argv[0];
 	return (SUCCESS);
