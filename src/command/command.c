@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 15:30:56 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/09/18 17:31:34 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/19 10:23:32 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -295,6 +295,8 @@ int	execute_simple(t_minishell *minishell, t_ast_value *value)
 	}
 	if (!value->pid)
 	{
+		signal(SIGQUIT, SIG_DFL);
+		signal(SIGINT, SIG_DFL);
 		if (open_all_redirection(value->redirections) == FAILURE)
 			exit(errno);
 		close_dup_standard(value);

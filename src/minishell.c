@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:28:15 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/18 17:53:34 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/19 11:33:54 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ int	traitement(t_minishell *data, char *prompt)
 	if (!check_valid_token(data->tokens))
 		return (ft_putendl_fd("TOKEN ERROR !", 2), false);
 	create_ast(data, data->tokens);
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	test_execution(data, data->ast);
+	init_signal();
 	free_token(data->tokens);
 	free_ast(&data->ast);
 	return (0);
@@ -62,21 +65,17 @@ static void	minishell(char *envp[])
 	print_welcome();
 	while (true)
 	{
+		signal(SIGQUIT, SIG_IGN);
 		line = rl_gets(create_display(&data));
-		if (g_signal == SIGINT)
-		{
-			g_signal = 0;
-			continue ;
-		}
-		else if (g_signal == SIGQUIT)
-			g_signal = 0;
-		else if (!line)
+		g_signal = 0;
+		if (!line)
 			exit_command(&data, 1, NULL);
 		if (!*line)
 		{
 			free(line);
 			continue ;
 		}
+		init_signal();
 		traitement(&data, line);
 		ft_putstr_fd("\n", 1);
 	}
