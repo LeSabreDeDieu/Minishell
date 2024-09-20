@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 22:16:42 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/20 14:10:23 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/20 20:09:56 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,14 @@ typedef struct s_pos
 	int						j;
 }							t_pos;
 
+typedef struct s_wildcard
+{
+	char					*str;
+	struct s_wildcard		*next;
+}							t_wildcard;
+
 void						to_dequote(t_ast_value *value);
-int							expand_wildcard(const char *pattern, char ***argv,
-								int *argc);
+int							expend_wildcard(char *pattern, char ***argv, int *argc);
 int							expend(t_minishell *shell_data, t_ast_value *value);
 
 // Utils
@@ -39,5 +44,11 @@ int							pos_next_quote(char *str);
 char						*get_end(char *str);
 
 void						wildcard_error_message(const char *pattern);
+
+// Wildcard
+t_wildcard					*new_wildcard(char *str);
+int							wildcard_len(t_wildcard *wildcard);
+void						add_wildcard(t_wildcard **wildcard, t_wildcard *new);
+void						free_wildcard(t_wildcard **wildcard);
 
 #endif

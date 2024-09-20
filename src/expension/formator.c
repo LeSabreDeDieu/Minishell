@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 22:16:19 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/20 12:41:59 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/20 20:25:59 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,10 @@ static int	expend_special_char(t_minishell *shell_data, t_ast_value *value,
 {
 	if (value->argv[i][(*j)] == '*')
 	{
-		if (expand_wildcard(value->argv[i], &value->argv,
-				&value->argc) == FAILURE)
+		if (expend_wildcard(value->argv[i], &value->argv,
+				&value->argc + (*j)) == FAILURE)
 			return (FAILURE);
-		*j = 0;
+		(*j) = -1;
 	}
 	else if (value->argv[i][(*j)] == '~' && value->argv[i][(*j) + 1] == '/')
 		value->argv[i] = expend_tild(shell_data, value, i);
@@ -102,8 +102,7 @@ int	expend(t_minishell *shell_data, t_ast_value *value)
 	while (value->argv[++pos.i] && pos.i < value->argc)
 	{
 		pos.j = 0;
-		if (expend2(shell_data, value, &pos, is_quoted) == FAILURE)
-			return (FAILURE);
+		expend2(shell_data, value, &pos, is_quoted);
 	}
 	value->name = value->argv[0];
 	return (SUCCESS);

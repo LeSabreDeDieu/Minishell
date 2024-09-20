@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 17:16:29 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/20 14:19:27 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/20 20:44:50 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,14 @@ void	free_ast(t_ast **ast)
 		{
 			while (i < (*ast)->value.argc)
 			{
+				printf("before : \n\t(*ast)->value.argv[%d] => %s\n", i, (*ast)->value.argv[i]);
 				free((*ast)->value.argv[i]);
+				(*ast)->value.argv[i] = NULL;
+				printf("after : \n\t(*ast)->value.argv[%d] => %s\n", i, (*ast)->value.argv[i]);
 				i++;
 			}
 			free((*ast)->value.argv);
+			(*ast)->value.argv = NULL;
 		}
 		free_redirection_list(&(*ast)->value, (*ast)->value.redirections);
 	}

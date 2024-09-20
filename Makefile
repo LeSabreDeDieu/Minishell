@@ -6,7 +6,7 @@
 #    By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:19:20 by gcaptari          #+#    #+#              #
-#    Updated: 2024/09/20 10:02:58 by sgabsi           ###   ########.fr        #
+#    Updated: 2024/09/20 19:38:13 by sgabsi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -89,6 +89,7 @@ SRC_EXPENSION_DIR 	=	expension
 SRC_EXPENSION_FILES	=	dequoting.c \
 						formator.c \
 						wildcard.c \
+						expend_wildcard.c \
 						utils.c	\
 						utils2.c
 SRC_EXPENSION		=	$(addprefix $(SRC_EXPENSION_DIR)/, $(SRC_EXPENSION_FILES))
