@@ -6,19 +6,18 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 19:32:37 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/20 20:49:42 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/20 23:25:36 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expension.h"
 
-int	match(const char *pattern, const char *str)
+int match(const char *pattern, const char *str)
 {
 	if (*pattern == '\0')
 		return (*str == '\0');
 	if (*pattern == '*')
-		return (match(pattern + 1, str) || (*str != '\0' && match(pattern, str
-					+ 1)));
+		return (match(pattern + 1, str) || (*str != '\0' && match(pattern, str + 1)));
 	if (*pattern == *str || *pattern == '?')
 		return (match(pattern + 1, str + 1));
 	return (0);
@@ -26,17 +25,10 @@ int	match(const char *pattern, const char *str)
 
 char **struct_to_argv(t_wildcard *wildcard)
 {
-	t_wildcard	*tmp;
-	char		**argv;
-	int			i;
+	t_wildcard *tmp;
+	char **argv;
+	int i;
 
-	tmp = wildcard;
-	i = 0;
-	while (tmp)
-	{
-		tmp = tmp->next;
-		i++;
-	}
 	argv = ft_calloc(wildcard_len(wildcard) + 1, sizeof(char *));
 	if (!argv)
 		return (NULL);
@@ -48,12 +40,11 @@ char **struct_to_argv(t_wildcard *wildcard)
 		tmp = tmp->next;
 		i++;
 	}
-	argv[i] = NULL;
 	free_wildcard(&wildcard);
 	return (argv);
 }
 
-void	add_matching_files(t_wildcard **wildcard, const char *pattern)
+int	add_matching_files(t_wildcard **wildcard, const char *pattern)
 {
 	DIR				*dir;
 	struct dirent	*entry;
@@ -63,7 +54,7 @@ void	add_matching_files(t_wildcard **wildcard, const char *pattern)
 
 	dir = opendir(".");
 	if (!dir)
-		return ;
+		return (FAILURE);
 	is_repo = false;
 	if (pattern[ft_strlen(pattern) - 1] == '/')
 	{
@@ -98,45 +89,54 @@ void	add_matching_files(t_wildcard **wildcard, const char *pattern)
 				&& entry->d_name[0] == '.')
 				add_wildcard(wildcard, new_wildcard(entry->d_name));
 		}
+		else
+			return (closedir(dir), free(pattern_copy), FAILURE);
 	}
 	closedir(dir);
 	free(pattern_copy);
+	return (SUCCESS);
 }
 
-int	expend_wildcard(char *pattern, char ***argv, int *argc)
+int expend_wildcard(char ***argv, int *argc)
 {
-	t_wildcard		*wildcard;
-	DIR				*dir;
-	char			*pattern_copy;
-	int				i;
+	t_wildcard *wildcard;
+	char	*last_wildcard;
+	DIR *dir;
+	int i;
+	int last_i;
 
 	i = 0;
 	wildcard = NULL;
 	dir = opendir(".");
 	if (!dir)
 		return (FAILURE);
-	pattern_copy = ft_strdup(pattern);
-	while (ft_strncmp((*argv)[i], pattern, ft_strlen(pattern)) != 0)
+	last_wildcard = NULL;
+	while ((*argv)[i] != NULL)
+	{
+		if (last_wildcard == (*argv)[i] && i == last_i)
+			break ;
+		if (strchr((*argv)[i], '*'))
+		{
+			if (add_matching_files(&wildcard, (*argv)[i]) == FAILURE)
+			{
+				add_wildcard(&wildcard, new_wildcard((*argv)[i]));
+				free((*argv)[i++]);
+			}
+			last_wildcard = (*argv)[i];
+			last_i = i;
+		}
+		else
+			add_wildcard(&wildcard, new_wildcard((*argv)[i]));
+		free((*argv)[i]);
+		i++;
+	}
+	while (argv[i])
 	{
 		add_wildcard(&wildcard, new_wildcard((*argv)[i]));
 		free((*argv)[i]);
 		i++;
 	}
-	add_matching_files(&wildcard, pattern);
-	free((*argv)[i]);
-	while ((*argv)[++i])
-	{	
-		add_wildcard(&wildcard, new_wildcard((*argv)[i]));
-		free((*argv)[i]);
-	}
-	free((*argv));
-	closedir(dir);
-	free(pattern_copy);
-	if (!wildcard)
-	{
-		wildcard_error_message(pattern);
-		return (FAILURE);
-	}
+	(free((*argv)), closedir(dir));
 	(*argc) = wildcard_len(wildcard);
 	(*argv) = struct_to_argv(wildcard);
 	return (SUCCESS);

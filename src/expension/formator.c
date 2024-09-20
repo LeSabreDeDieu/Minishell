@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 22:16:19 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/20 20:25:59 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/20 22:56:17 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,19 +51,17 @@ static char	*expend_tild(t_minishell *shell_data, t_ast_value *value, int i)
 }
 
 static int	expend_special_char(t_minishell *shell_data, t_ast_value *value,
-		int i, int *j)
+		t_pos *pos)
 {
-	if (value->argv[i][(*j)] == '*')
+	if (value->argv[(*pos).i] && ft_strchr(value->argv[(*pos).i], '*') != NULL)
 	{
-		if (expend_wildcard(value->argv[i], &value->argv,
-				&value->argc + (*j)) == FAILURE)
+		if (expend_wildcard(&value->argv, &value->argc) == FAILURE)
 			return (FAILURE);
-		(*j) = -1;
 	}
-	else if (value->argv[i][(*j)] == '~' && value->argv[i][(*j) + 1] == '/')
-		value->argv[i] = expend_tild(shell_data, value, i);
-	else if (value->argv[i][(*j)] == '~' && value->argv[i][(*j) + 1] == '\0')
-		value->argv[i] = expend_tild(shell_data, value, i);
+	else if (value->argv[(*pos).i][(*pos).j] == '~' && value->argv[(*pos).i][(*pos).j + 1] == '/')
+		value->argv[(*pos).i] = expend_tild(shell_data, value, (*pos).i);
+	else if (value->argv[(*pos).i][(*pos).j] == '~' && value->argv[(*pos).i][(*pos).j + 1] == '\0')
+		value->argv[(*pos).i] = expend_tild(shell_data, value, (*pos).i);
 	return (SUCCESS);
 }
 
@@ -80,11 +78,9 @@ static int	expend2(t_minishell *shell_data, t_ast_value *value, t_pos *pos,
 				|| !value->argv[(*pos).i][(*pos).j + 1]))
 			continue ;
 		expend_variable(shell_data, value, pos, is_quoted);
-		ret = expend_special_char(shell_data, value, (*pos).i, &(*pos).j);
+		ret = expend_special_char(shell_data, value, pos);
 		if (ret == FAILURE)
 			return (FAILURE);
-		if (ret != SUCCESS)
-			break ;
 		++(*pos).j;
 	}
 	return (SUCCESS);

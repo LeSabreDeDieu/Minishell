@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 22:16:42 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/20 20:09:56 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/20 22:43:42 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct s_wildcard
 }							t_wildcard;
 
 void						to_dequote(t_ast_value *value);
-int							expend_wildcard(char *pattern, char ***argv, int *argc);
+int							expend_wildcard(char ***argv, int *argc);
 int							expend(t_minishell *shell_data, t_ast_value *value);
 
 // Utils
