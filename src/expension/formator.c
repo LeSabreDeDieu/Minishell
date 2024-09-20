@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 22:16:19 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/19 14:08:19 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/20 11:21:27 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,17 +51,18 @@ static char	*expend_tild(t_minishell *shell_data, t_ast_value *value, int i)
 }
 
 static int	expend_special_char(t_minishell *shell_data, t_ast_value *value,
-		int i, int j)
+		int i, int *j)
 {
-	if (value->argv[i][j] == '*')
+	if (value->argv[i][(*j)] == '*')
 	{
 		if (expand_wildcard(value->argv[i], &value->argv,
 				&value->argc) == FAILURE)
 			return (FAILURE);
+		*j = 0;
 	}
-	else if (value->argv[i][j] == '~' && value->argv[i][j + 1] == '/')
+	else if (value->argv[i][(*j)] == '~' && value->argv[i][(*j) + 1] == '/')
 		value->argv[i] = expend_tild(shell_data, value, i);
-	else if (value->argv[i][j] == '~' && value->argv[i][j + 1] == '\0')
+	else if (value->argv[i][(*j)] == '~' && value->argv[i][(*j) + 1] == '\0')
 		value->argv[i] = expend_tild(shell_data, value, i);
 	return (SUCCESS);
 }
@@ -79,24 +80,21 @@ int	expend(t_minishell *shell_data, t_ast_value *value)
 	while (value->argv[++pos.i] && pos.i < value->argc)
 	{
 		pos.j = 0;
-		printf("old argv[%d] = %s\n", pos.i, value->argv[pos.i]);
 		while (value->argv[pos.i][pos.j])
 		{
-			//printf("argv[%d][%d] = %c\n", pos.i, pos.j, value->argv[pos.i][pos.j]);
 			is_quoted = is_in_dquote(value->argv[pos.i][pos.j], is_quoted);
 			if (value->argv[pos.i][pos.j] == '$'
 				&& (ft_isspace(value->argv[pos.i][pos.j + 1])
-				|| !value->argv[pos.i][pos.j + 1]))
+					|| !value->argv[pos.i][pos.j + 1]))
 				continue ;
 			expend_variable(shell_data, value, &pos, is_quoted);
-			ret = expend_special_char(shell_data, value, pos.i, pos.j);
+			ret = expend_special_char(shell_data, value, pos.i, &pos.j);
 			if (ret == FAILURE)
 				return (FAILURE);
 			if (ret != SUCCESS)
 				break ;
 			++pos.j;
 		}
-		printf("new argv[%d] = %s\n", pos.i, value->argv[pos.i]);
 	}
 	value->name = value->argv[0];
 	return (SUCCESS);

@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 00:46:46 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/19 14:15:26 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/20 11:32:46 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,15 @@ char	**realloc_argv(char **argv, int old_size, int new_size)
 	j = 0;
 	while (i < old_size)
 	{
-		if (ft_strncmp(argv[i], "*", 1) != 0)
+		if (ft_strstr(argv[i], "*") == NULL)
 		{
 			new_argv[j] = ft_strdup(argv[i]);
 			free(argv[i]);
 			argv[i] = NULL;
 			j++;
 		}
+		else
+			free(argv[i]);
 		i++;
 	}
 	free(argv);
@@ -100,12 +102,13 @@ void	fill_result_list(const char *pattern, char **argv, int *argc)
 	char			*pattern_copy;
 
 	is_repo = false;
-	pattern_copy = ft_strdup(pattern);
 	if (pattern[ft_strlen(pattern) - 1] == '/')
 	{
 		pattern_copy = ft_strndup(pattern, ft_strlen(pattern) - 1);
 		is_repo = true;
 	}
+	else
+		pattern_copy = ft_strdup(pattern);
 	dir = opendir(".");
 	if (!dir)
 		return ;

@@ -6,22 +6,30 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 17:16:29 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/17 17:37:26 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/20 11:18:17 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast.h"
 
-static void	free_redirection_list(t_redirection_list *list)
+static void	free_redirection_list(t_ast_value *value, t_redirection_list *list)
 {
 	t_redirection_list	*tmp;
 
 	while (list)
 	{
+		if (list->redirection.fd != -1)
+			close(list->redirection.fd);
 		tmp = list;
 		list = list->next;
 		free(tmp);
 	}
+	if (value->fd_in != -1)
+		close(value->fd_in);
+	if (value->fd_out != -1)
+		close(value->fd_out);
+	value->fd_in = -1;
+	value->fd_out = -1;
 }
 
 void	free_ast(t_ast **ast)
@@ -30,7 +38,7 @@ void	free_ast(t_ast **ast)
 
 	if (!(*ast))
 		return ;
-	if ((*ast)->type == AST_CMD)
+	if ((*ast)->type == AST_CMD || (*ast)->type == AST_SUBSHELL)
 	{
 		i = 0;
 		if ((*ast)->value.argc != 0)
@@ -42,7 +50,7 @@ void	free_ast(t_ast **ast)
 			}
 			free((*ast)->value.argv);
 		}
-		free_redirection_list((*ast)->value.redirections);
+		free_redirection_list(&(*ast)->value, (*ast)->value.redirections);
 	}
 	else
 	{

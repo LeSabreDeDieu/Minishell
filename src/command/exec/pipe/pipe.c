@@ -37,7 +37,7 @@ void execution_cmd_pipe(t_minishell *minishell, t_ast_value *value)
 		free_minishell(minishell, FREE_ALL);
 		exit(state);
 	}
-	path = get_real_command(value->name);
+	path = get_real_command(value->name, minishell);
 	if (!path)
 		(fork_error_message("Malloc failled"), exit(ENOMEM));
 	envp = env_to_tab();

@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:28:15 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/19 11:33:54 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/20 11:09:43 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ static void	init_minishell(t_minishell *data, char **envp)
 	add_shlvl();
 	ft_bzero(data, sizeof(t_minishell));
 	data->data.username = get_uname();
+	data->data.path = NULL;
 }
 
 static void	minishell(char *envp[])

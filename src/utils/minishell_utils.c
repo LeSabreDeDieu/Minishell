@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:14:37 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/18 11:15:21 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/20 11:05:14 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,37 @@ void	set_env_from_void(void)
 	free(pwd);
 	set_env("SHLVL", "0");
 	set_env("_", "/usr/bin/env");
+}
+
+char	*get_path(void)
+{
+	char	*path;
+	char	**split;
+	int		fd;
+
+	fd = open("/etc/environment", O_RDONLY);
+	if (fd == -1)
+	{
+		errno = ENOENT;
+		return (NULL);
+	}
+	path = get_next_line(fd);
+	if (path == NULL)
+	{
+		errno = ENOENT;
+		return (close(fd), NULL);
+	}
+	split = ft_split(path, '=');
+	free(path);
+	if (split == NULL)
+	{
+		errno = ENOMEM;
+		return (close(fd), NULL);
+	}
+	path = ft_strtrim(split[1], "\"");
+	free_str_tab(split);
+	close(fd);
+	return (path);
 }
 
 char	*get_uname(void)

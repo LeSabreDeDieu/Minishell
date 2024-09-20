@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 15:30:56 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/09/19 14:10:56 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/20 10:22:57 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,13 @@ static char	*special_cmd_join(char *path, char *name)
 	return (cmd_file);
 }
 
-static char	*search_command_on_path(char *name, t_env *path)
+static char	*search_command_on_path(char *name, char *path)
 {
 	char	*cmd_file;
 	char	**tmp;
 	char	**move;
 
-	tmp = ft_split(path->value, ':');
+	tmp = ft_split(path, ':');
 	if (!tmp)
 		return (NULL);
 	move = tmp;
@@ -74,20 +74,25 @@ static char	*search_command_on_path(char *name, t_env *path)
 	return (cmd_file);
 }
 
-char	*get_real_command(char *name)
+char	*get_real_command(char *name, t_minishell *minishell)
 {
 	char	*real_name;
+	char	*path_value;
 	t_env	*path;
 
 	path = get_env("PATH");
+	if (!path)
+		path_value = minishell->data.path;
+	else
+		path_value = path->value;
 	if (!name)
 		real_name = (ft_strdup(""));
-	else if (is_builtin(name) || !path || !*path->value || (ft_strlen(name) >= 2
+	else if (is_builtin(name) || !path || !*path_value || (ft_strlen(name) >= 2
 			&& ft_strncmp(name, "./", 2) == 0) || (ft_strlen(name) >= 2
 			&& ft_strncmp(name, "/", 1) == 0))
 		real_name = (ft_strdup(name));
 	else
-		real_name = search_command_on_path(name, path);
+		real_name = search_command_on_path(name, path_value);
 	return (real_name);
 }
 
@@ -160,6 +165,8 @@ int	open_all_redirection(t_redirection_list *list)
 					break ;
 				}
 			}
+			else if ((int)current->redirection.flag == HERE_DOC)
+				here_doc(&current);
 		}
 		current = current->next;
 	}
@@ -189,6 +196,12 @@ int	dup_all_redir(t_redirection_list *list)
 				dup2(current->redirection.fd, STDIN_FILENO);
 				close(current->redirection.fd);
 			}
+			else if ((int)current->redirection.flag == HERE_DOC
+				&& current->redirection.fd != -1)
+			{
+				dup2(current->redirection.fd, STDIN_FILENO);
+				close(current->redirection.fd);
+			}
 			else if ((int)current->redirection.flag == READ
 				&& current->redirection.fd == -1)
 			{
@@ -196,6 +209,12 @@ int	dup_all_redir(t_redirection_list *list)
 				break ;
 			}
 			else if ((int)current->redirection.flag == WRITE
+				&& current->redirection.fd == -1)
+			{
+				status = -1;
+				break ;
+			}
+			else if ((int)current->redirection.flag == HERE_DOC
 				&& current->redirection.fd == -1)
 			{
 				status = -1;
@@ -211,7 +230,8 @@ void	close_all_redir(t_ast_value *value, int action)
 {
 	t_redirection_list	*current;
 
-	// printf("name : %s\nfd_in : %p => %i, fd_out : %p => %i\n",value->name, &value->fd_in, value->fd_in, &value->fd_out, value->fd_out);
+	// printf("name : %s\nfd_in : %p => %i, fd_out : %p => %i\n",value->name,
+	//	&value->fd_in, value->fd_in, &value->fd_out, value->fd_out);
 	if (action & CLOSE_DUP_STD)
 	{
 		if (value->fd_in != -1)
@@ -274,13 +294,13 @@ int	execute_simple(t_minishell *minishell, t_ast_value *value)
 	char	**envp;
 
 	dup_standard(value);
-  	if (value->name == NULL || value->argc == 0)
-    return (ENOENT);
+	if (value->name == NULL || value->argc == 0)
+		return (ENOENT);
 	if (is_builtin(value->name))
 	{
 		if (dup_all_redir(value->redirections) == 0)
-			minishell->current_status = exceve_builtins(minishell, value->name, value->argc,
-					value->argv);
+			minishell->current_status = exceve_builtins(minishell, value->name,
+					value->argc, value->argv);
 		else
 			minishell->current_status = ENOENT;
 		close_all_redir(value, CLOSE_DUP_STD | CLOSE_FD_REDIR);
@@ -300,10 +320,11 @@ int	execute_simple(t_minishell *minishell, t_ast_value *value)
 		if (open_all_redirection(value->redirections) == FAILURE)
 			exit(errno);
 		close_dup_standard(value);
-		path = get_real_command(value->name);
+		path = get_real_command(value->name, minishell);
 		if (!path)
 			(fork_error_message("Malloc failled"), exit(ENOMEM));
-		else if (safe_dup_all_redir(minishell, value, FREE_ALL, CLOSE_DUP_STD | CLOSE_FD_REDIR) == -1)
+		else if (safe_dup_all_redir(minishell, value, FREE_ALL,
+				CLOSE_DUP_STD | CLOSE_FD_REDIR) == -1)
 		{
 			free(path);
 			exit(ENOENT);
@@ -340,8 +361,8 @@ __pid_t	execute_pipe_last(t_minishell *minishell, int *pipe_in,
 	{
 		signal(SIGQUIT, SIG_DFL);
 		signal(SIGINT, SIG_DFL);
-	  if (open_all_redirection(value->redirections) == FAILURE)
-		  exit(errno);
+		if (open_all_redirection(value->redirections) == FAILURE)
+			exit(errno);
 		dup2(value->fd_out, STDOUT_FILENO);
 		close(value->fd_out);
 		if (*pipe_in != -1)
@@ -360,7 +381,7 @@ __pid_t	execute_pipe_last(t_minishell *minishell, int *pipe_in,
 			free_minishell(minishell, FREE_ALL);
 			exit(state);
 		}
-		path = get_real_command(value->name);
+		path = get_real_command(value->name, minishell);
 		if (!path)
 			(fork_error_message("Malloc failled"), exit(ENOMEM));
 		if (execve(path, value->argv, envp) != 0)
@@ -379,7 +400,6 @@ __pid_t	execute_pipe_last(t_minishell *minishell, int *pipe_in,
 int	execute_subshell(t_minishell *data, t_ast_value *value)
 {
 	char	*prompt;
-
 
 	dup_standard(value);
 	value->pid = fork();

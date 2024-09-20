@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:45:02 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/18 17:54:18 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/20 09:51:04 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@
 # include "libft.h"
 # include "utils.h"
 # include "color.h"
+# include "expension.h"
+# include "ms_error.h"
 
 extern volatile int		g_signal;
 
