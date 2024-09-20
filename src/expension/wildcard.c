@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 00:46:46 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/20 11:32:46 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/20 14:19:02 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,15 @@ int	count_matching_files(const char *pattern)
 			break ;
 		if (match(pattern_copy, entry->d_name))
 		{
-			if (is_repo && entry->d_type == 4)
+			if (is_repo && entry->d_type == 4 && entry->d_name[0] != '.')
 				count++;
-			else
-				if (entry->d_name[0] != '.' || pattern_copy[0] == '.')
+			else if (is_repo && entry->d_type == 4 && pattern_copy[0] == '.'
+				&& entry->d_name[0] == '.')
+				count++;
+			else if (!is_repo && entry->d_name[0] != '.')
+				count++;
+			else if (!is_repo && pattern_copy[0] == '.'
+				&& entry->d_name[0] == '.')
 				count++;
 		}
 	}
@@ -83,12 +88,23 @@ char	**realloc_argv(char **argv, int old_size, int new_size)
 		{
 			new_argv[j] = ft_strdup(argv[i]);
 			free(argv[i]);
-			argv[i] = NULL;
 			j++;
 		}
 		else
+		{
 			free(argv[i]);
+			i++;
+			break ;
+		}
 		i++;
+	}
+	j += new_size - old_size;
+	while (j < new_size && i < old_size)
+	{
+		new_argv[j] = ft_strdup(argv[i]);
+		free(argv[i]);
+		i++;
+		j++;
 	}
 	free(argv);
 	return (new_argv);
@@ -151,20 +167,16 @@ int	expand_wildcard(const char *pattern, char ***argv, int *argc)
 		return (SUCCESS);
 	count = count_matching_files(pattern);
 	if (count <= 0)
-	{
-		ft_putstr_fd(SHELL_NAME, 2);
-		ft_putstr_fd(" : no matches found: ", 2);
-		ft_putendl_fd((char *) pattern, 2);
-		return (FAILURE);
-	}
+		return (wildcard_error_message(pattern), FAILURE);
 	new_size = *argc + count;
 	pattern_copy = ft_strdup(pattern);
 	*argv = realloc_argv(*argv, *argc, new_size);
 	if (!*argv)
 		return (FAILURE);
 	pattern = NULL;
-	*argc -= 1;
+	*argc -= *argc - 1;
 	fill_result_list(pattern_copy, *argv, argc);
 	free(pattern_copy);
+	(*argc) = new_size;
 	return (SUCCESS);
 }

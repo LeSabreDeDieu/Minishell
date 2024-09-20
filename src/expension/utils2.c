@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 23:07:10 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/11 23:48:26 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/20 13:51:04 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,4 +22,11 @@ bool	wildcard_in_quote(char *str)
 	else
 		return ((ft_strchr(str, '\'') < ft_strchr(str, '*') && ft_strchr(str,
 					'*') < ft_strchr(ft_strchr(str, '\'') + 1, '\'')));
+}
+
+void	wildcard_error_message(const char *pattern)
+{
+	ft_putstr_fd(SHELL_NAME, 2);
+	ft_putstr_fd(" : no matches found: ", 2);
+	ft_putendl_fd((char *)pattern, 2);
 }

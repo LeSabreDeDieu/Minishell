@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 09:35:19 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/20 10:22:16 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/20 11:40:09 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ static int	here_doc_read(t_redirection_list *redir_list)
 	char	*line;
 
 	line = NULL;
-	line = readline("> ");
+	line = readline("here_doc> ");
 	if (g_signal == SIGINT || !ft_strncmp(line,
 			redir_list->redirection.filename, ft_strlen(line)))
 	{
 		free(line);
 		return (FAILURE);
 	}
-	if (!line)
+	if (!*line)
 	{
 		write(redir_list->redirection.fd, "\0", 1);
 		error_message(HERE_DOC_EOF_ERROR);

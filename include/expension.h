@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 22:16:42 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/18 13:24:40 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/20 14:10:23 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,7 @@ void						get_pid_as_string(char *pid_str);
 bool						wildcard_in_quote(char *str);
 int							pos_next_quote(char *str);
 char						*get_end(char *str);
+
+void						wildcard_error_message(const char *pattern);
 
 #endif
