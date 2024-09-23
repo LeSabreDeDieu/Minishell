@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 22:16:42 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/20 22:43:42 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/23 16:31:48 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,21 @@ void						get_pid_as_string(char *pid_str);
 bool						wildcard_in_quote(char *str);
 int							pos_next_quote(char *str);
 char						*get_end(char *str);
+int							find_match(const char *pattern, const char *str);
+int							match(const char *pattern, const char *str);
 
 void						wildcard_error_message(const char *pattern);
 
 // Wildcard
 t_wildcard					*new_wildcard(char *str);
 int							wildcard_len(t_wildcard *wildcard);
-void						add_wildcard(t_wildcard **wildcard, t_wildcard *new);
+void						add_wildcard(t_wildcard **wildcard,
+								t_wildcard *new);
 void						free_wildcard(t_wildcard **wildcard);
+void						add_file_wildcard(t_wildcard **wildcard,
+								char *pattern, struct dirent *entry,
+								char *repo);
+char						*get_copy_pattern(const char *pattern,
+								char **pattern_copy);
 
 #endif

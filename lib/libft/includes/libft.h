@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 11:48:24 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/18 16:23:50 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/23 16:51:52 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -480,7 +480,6 @@ char				*ft_strjoin_gnl(char *s1, char const *s2);
  * or NULL if the allocation fails.
  */
 char				*ft_str_replace(char *str, char *old_sub, char *new_sub);
-
 
 /**
  * @brief Duplicates the first 'n' characters of the string 's1'.

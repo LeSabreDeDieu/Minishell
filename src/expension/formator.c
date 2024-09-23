@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 22:16:19 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/20 22:56:17 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/23 16:52:13 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,11 @@ static int	expend_special_char(t_minishell *shell_data, t_ast_value *value,
 		if (expend_wildcard(&value->argv, &value->argc) == FAILURE)
 			return (FAILURE);
 	}
-	else if (value->argv[(*pos).i][(*pos).j] == '~' && value->argv[(*pos).i][(*pos).j + 1] == '/')
+	else if (value->argv[(*pos).i][(*pos).j] == '~'
+		&& value->argv[(*pos).i][(*pos).j + 1] == '/')
 		value->argv[(*pos).i] = expend_tild(shell_data, value, (*pos).i);
-	else if (value->argv[(*pos).i][(*pos).j] == '~' && value->argv[(*pos).i][(*pos).j + 1] == '\0')
+	else if (value->argv[(*pos).i][(*pos).j] == '~'
+		&& value->argv[(*pos).i][(*pos).j + 1] == '\0')
 		value->argv[(*pos).i] = expend_tild(shell_data, value, (*pos).i);
 	return (SUCCESS);
 }
