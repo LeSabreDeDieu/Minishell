@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:14:37 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/20 11:05:14 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/23 12:15:05 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ char	*get_uname(void)
 
 void	print_welcome(void)
 {
-	ft_putstr_fd("Welcome to ", 1);
-	ft_putstr_fd(SHELL_NAME, 1);
-	ft_putstr_fd("\n", 1);
+	ft_putstr_fd("Welcome to ", STDOUT_FILENO);
+	ft_putstr_fd(SHELL_NAME, STDOUT_FILENO);
+	ft_putstr_fd("\n", STDOUT_FILENO);
 }

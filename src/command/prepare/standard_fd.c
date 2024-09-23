@@ -1,20 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   standard_fd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/09 17:39:39 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/19 16:39:34 by gcaptari         ###   ########.fr       */
+/*   Created: 2024/09/23 11:48:52 by gcaptari          #+#    #+#             */
+/*   Updated: 2024/09/23 11:54:01 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "command.h"
 
-int	ft_putstr_fd(char *s, int fd)
+void	dup_standard(t_ast_value *value)
 {
-	if (!s)
-		return (-1);
-	return (write(fd, s, ft_strlen(s)));
+	value->fd_in = dup(STDIN_FILENO);
+	value->fd_out = dup(STDOUT_FILENO);
+}
+
+void	close_dup_standard(t_ast_value *value)
+{
+	if (value->fd_in != -1)
+	{
+		dup2(value->fd_in, STDIN_FILENO);
+		close(value->fd_in);
+	}
+	if (value->fd_out != -1)
+	{
+		dup2(value->fd_out, STDOUT_FILENO);
+		close(value->fd_out);
+	}
 }

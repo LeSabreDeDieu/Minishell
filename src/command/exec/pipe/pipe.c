@@ -1,29 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipe.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/23 11:29:31 by gcaptari          #+#    #+#             */
+/*   Updated: 2024/09/23 13:35:01 by gcaptari         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "ast.h"
-#include "env.h"
 #include "command.h"
+#include "env.h"
 #include <fcntl.h>
 #include <stdio.h>
 
-static void	fork_error_message(char *error)
-{
-	ft_putstr_fd(SHELL_NAME, 2);
-	ft_putstr_fd(": ", 2);
-	ft_putstr_fd("fork: ", 2);
-	ft_putstr_fd(error, 2);
-	ft_putstr_fd("\n", 2);
-}
-static void	command_error_message(char *command, char *error)
-{
-	ft_putstr_fd(SHELL_NAME, 2);
-	ft_putstr_fd(": ", 2);
-	ft_putstr_fd(command, 2);
-	ft_putstr_fd(": ", 2);
-	ft_putstr_fd(error, 2);
-	ft_putstr_fd("\n", 2);
-}
-
-void execution_cmd_pipe(t_minishell *minishell, t_ast_value *value)
+void	execution_cmd_pipe(t_minishell *minishell, t_ast_value *value)
 {
 	int		state;
 	char	*path;
@@ -59,20 +52,50 @@ void	execute_pipe(t_minishell *minishell, int *pipe_in, t_ast_value *value)
 		return (fork_error_message(strerror(errno)));
 	if (!value->pid)
 	{
-		//signal(SIGQUIT, SIG_DFL);
+		close(value->fd_in);
+		if (*pipe_in != -1)
+			(dup2(*pipe_in, STDIN_FILENO), close(*pipe_in));
 		if (open_all_redirection(value->redirections) == FAILURE)
 			exit(errno);
-		close(value->fd_in);
+		dup2(value->fd_out, STDOUT_FILENO);
+		close(value->fd_out);
+		if (safe_dup_all_redir(minishell, value, FREE_ALL,
+				CLOSE_DUP_STD | CLOSE_FD_REDIR) == -1)
+			exit(ENOENT);
+		execution_cmd_pipe(minishell, value);
+	}
+	if (*pipe_in != -1)
+		close(*pipe_in);
+	close_all_redir(value, CLOSE_FD_REDIR | CLOSE_PIPE);
+	*pipe_in = value->fd_in;
+}
+
+void	execute_pipe_last(t_minishell *minishell, int *pipe_in,
+		t_ast_value *value)
+{
+	value->fd_out = dup(STDOUT_FILENO);
+	value->pid = fork();
+	if (value->pid < 0)
+	{
+		fork_error_message(strerror(errno));
+		return ;
+	}
+	if (!value->pid)
+	{
+		signal(SIGQUIT, SIG_DFL);
+		signal(SIGINT, SIG_DFL);
+		if (open_all_redirection(value->redirections) == FAILURE)
+			exit(errno);
 		if (*pipe_in != -1)
 			(dup2(*pipe_in, STDIN_FILENO), close(*pipe_in));
 		dup2(value->fd_out, STDOUT_FILENO);
 		close(value->fd_out);
-		if (safe_dup_all_redir(minishell, value, FREE_ALL, CLOSE_DUP_STD | CLOSE_FD_REDIR) == -1)
+		if (safe_dup_all_redir(minishell, value, FREE_ALL,
+				CLOSE_DUP_STD | CLOSE_FD_REDIR) == -1)
 			exit(ENOENT);
 		execution_cmd_pipe(minishell, value);
 	}
-	if(*pipe_in != -1)
+	if (*pipe_in != -1)
 		close(*pipe_in);
-	close_all_redir(value, CLOSE_FD_REDIR | CLOSE_PIPE);
-	*pipe_in = value->fd_in;
+	close_all_redir(value, CLOSE_FD_REDIR | CLOSE_DUP_STD);
 }

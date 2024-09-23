@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 11:48:24 by sgabsi            #+#    #+#             */
 /*   Updated: 2024/09/23 16:51:52 by sgabsi           ###   ########.fr       */
@@ -359,7 +359,7 @@ void				ft_putchar_fd(char c, int fd);
  * @param s The string to write.
  * @param fd The file descriptor.
  */
-void				ft_putstr_fd(char *s, int fd);
+int				ft_putstr_fd(char *s, int fd);
 
 /**
 
@@ -475,7 +475,7 @@ char				*ft_strjoin_gnl(char *s1, char const *s2);
  * @param str The string to search in.
  * @param old_sub The substring to replace.
  * @param new_sub The substring to replace with.
- * @return The new string with all occurrences of 'old_sub' replaced with 
+ * @return The new string with all occurrences of 'old_sub' replaced with
  * 'new_sub'.
  * or NULL if the allocation fails.
  */
@@ -492,11 +492,11 @@ char				*ft_strndup(const char *s1, size_t n);
 /**
  * @brief Writes formatted output to the standard output.
  * @param format The format string.
- * @return The number of characters printed, or a negative value 
+ * @return The number of characters printed, or a negative value
  * if an error occurs.
- * @note The format string can contain format specifiers that begin 
+ * @note The format string can contain format specifiers that begin
  * with a percent sign (%).
- * Each format specifier starts with a percent sign (%) and ends with 
+ * Each format specifier starts with a percent sign (%) and ends with
  * a conversion specifier.
  * The conversion specifier is a character that specifies the type
  *  of conversion to be applied.

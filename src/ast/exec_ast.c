@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 17:39:06 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/19 09:55:50 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/23 11:53:28 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@
 void	test_execution_pipe(t_minishell *shell_data, int *std_in,
 		t_ast *ast_current)
 {
-	char	**env;
-
 	if (!ast_current)
 		return ;
 	test_execution_pipe(shell_data, std_in, ast_current->right);
@@ -27,14 +25,10 @@ void	test_execution_pipe(t_minishell *shell_data, int *std_in,
 		if (expend(shell_data, &ast_current->value) == FAILURE)
 			return ;
 		to_dequote(&ast_current->value);
-		env = env_to_tab();
-		if (!env)
-			return ;
 		if (ast_current->value.last_cmd)
-			execute_pipe_last(shell_data, std_in, &ast_current->value, env);
+			execute_pipe_last(shell_data, std_in, &ast_current->value);
 		else
 			execute_pipe(shell_data, std_in, &ast_current->value);
-		free_str_tab(env);
 	}
 	test_execution_pipe(shell_data, std_in, ast_current->left);
 	if (ast_current->value.last_cmd)
