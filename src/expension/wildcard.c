@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 00:46:46 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/16 16:08:26 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/23 12:13:39 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,9 +116,9 @@ int	expand_wildcard(const char *pattern, char ***argv, int *argc)
 	count = count_matching_files(pattern);
 	if (count <= 0)
 	{
-		ft_putstr_fd(SHELL_NAME, 2);
-		ft_putstr_fd(" : no matches found: ", 2);
-		ft_putendl_fd((char *) pattern, 2);
+		ft_putstr_fd(SHELL_NAME, STDERR_FILENO);
+		ft_putstr_fd(" : no matches found: ", STDERR_FILENO);
+		ft_putendl_fd((char *) pattern, STDERR_FILENO);
 		return (FAILURE);
 	}
 	new_size = *argc + count;

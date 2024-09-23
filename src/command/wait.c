@@ -6,7 +6,7 @@
 /*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 01:15:30 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/09/23 12:10:08 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/09/23 12:13:29 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	kill_all_pid(t_ast *ast)
 void handle_signal_interrupt(t_minishell *data)
 {
 	if (g_signal == SIGQUIT)
-		ft_putendl_fd("\r^\\\033[0KQuit (Core dumped)", 1);
+		ft_putendl_fd("\r^\\\033[0KQuit (Core dumped)", STDOUT_FILENO);
 	kill_all_pid(data->ast);
 	g_signal = 0;
 }

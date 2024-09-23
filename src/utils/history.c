@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   history.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:28:07 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/18 15:04:15 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/23 12:14:51 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	create_history(void)
 	fd = open("/tmp/.sanicshell_history", O_CREAT | O_RDWR | O_APPEND, 0666);
 	if (fd == -1)
 	{
-		ft_putstr_fd("Error: can't create history file\n", 2);
+		ft_putstr_fd("Error: can't create history file\n", STDERR_FILENO);
 		return (FAILURE);
 	}
 	close(fd);
@@ -33,7 +33,7 @@ int	add_history_file(char *line)
 	fd = open("/tmp/.sanicshell_history", O_WRONLY | O_APPEND);
 	if (fd == -1)
 	{
-		ft_putstr_fd("Error: can't open history file\n", 2);
+		ft_putstr_fd("Error: can't open history file\n", STDERR_FILENO);
 		return (FAILURE);
 	}
 	ft_putendl_fd(line, fd);
@@ -76,7 +76,7 @@ int	clear_history_file(void)
 	fd = open("/tmp/.sanicshell_history", O_TRUNC);
 	if (fd == -1)
 	{
-		ft_putstr_fd("Error: can't clear history file\n", 2);
+		ft_putstr_fd("Error: can't clear history file\n", STDERR_FILENO);
 		return (FAILURE);
 	}
 	close(fd);

@@ -6,7 +6,7 @@
 /*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 14:45:31 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/09/19 16:53:12 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/09/23 12:14:36 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,11 @@ int	echo_command(int argc, char *argv[])
 				++tmp;
 				continue ;
 			}
-			(ft_putstr_fd(*tmp, 1), is_write = true);
+			(ft_putstr_fd(*tmp, STDOUT_FILENO), is_write = true);
 			++tmp;
-			*tmp != NULL && ft_putstr_fd(" ", 1);
+			*tmp != NULL && ft_putstr_fd(" ", STDOUT_FILENO);
 		}
-		!no_EOF && ft_putstr_fd("\n", 1);
+		!no_EOF && ft_putstr_fd("\n", STDOUT_FILENO);
 	}
 	return (EXIT_SUCCESS);
 }
