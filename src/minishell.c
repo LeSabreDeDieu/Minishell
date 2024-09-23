@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:28:15 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/18 17:53:34 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/23 15:09:48 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ static void	usage(int argc)
 {
 	if (argc != 1)
 	{
-		ft_putstr_fd("What did you do that ? ", 2);
-		ft_putendl_fd("Why did you gave to me some arguments ?\n", 2);
+		ft_putstr_fd("What did you do that ? ", STDERR_FILENO);
+		ft_putendl_fd("Why did you gave to me some arguments ?\n", STDERR_FILENO);
 	}
 }
 
@@ -33,7 +33,7 @@ int	traitement(t_minishell *data, char *prompt)
 	to_tokenise(data, prompt);
 	free(prompt);
 	if (!check_valid_token(data->tokens))
-		return (ft_putendl_fd("TOKEN ERROR !", 2), false);
+		return (ft_putendl_fd("TOKEN ERROR !", STDERR_FILENO), false);
 	create_ast(data, data->tokens);
 	test_execution(data, data->ast);
 	free_token(data->tokens);
@@ -85,7 +85,8 @@ static void	minishell(char *envp[])
 int	main(int argc, char const *argv[], char *envp[])
 {
 	(void)argv;
-	printf("\033]0;SanicShell\007");
+	ft_putstr_fd("\033[6 q\007\033[?12h\007", STDOUT_FILENO);
+	ft_putstr_fd("\033]2;SanicShell\007", STDOUT_FILENO);
 	usage(argc);
 	minishell(envp);
 	return (0);
