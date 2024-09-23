@@ -1,29 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   safe_dup_all_redir.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/05 19:06:01 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/09/23 11:29:35 by gcaptari         ###   ########.fr       */
+/*   Created: 2024/09/23 11:46:27 by gcaptari          #+#    #+#             */
+/*   Updated: 2024/09/23 11:46:42 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ast.h"
-#include "env.h"
 #include "command.h"
-#include <fcntl.h>
-#include <stdio.h>
 
-int	create_pipe(t_ast_value *value)
+int	safe_dup_all_redir(t_minishell *data, t_ast_value *value, int action_mini,
+		int action_redir)
 {
-	int fd[2];
-	if (pipe(fd) == 0)
+	if (dup_all_redir(value->redirections) == -1)
 	{
-		value->fd_in = fd[STDIN_FILENO];
-		value->fd_out = fd[STDOUT_FILENO];
-		return (SUCCESS);
+		if (action_mini != -1)
+			free_minishell(data, action_mini);
+		if (action_redir != -1)
+			close_all_redir(value, action_redir);
+		return (FAILURE);
 	}
-	return (FAILURE);
+	return (SUCCESS);
 }

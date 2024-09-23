@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+         #
+#    By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:19:20 by gcaptari          #+#    #+#              #
-#    Updated: 2024/09/17 16:25:28 by sgabsi           ###   ########.fr        #
+#    Updated: 2024/09/23 11:54:24 by gcaptari         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,6 +68,13 @@ SRC_UTILS		=	$(addprefix $(SRC_UTILS_DIR)/, $(SRC_UTILS_FILES))
 SRC_COMMAND_DIR 	=	command
 SRC_COMMAND_FILES	=	command.c \
 						wait.c     \
+						prepare/close_all_redir.c \
+						prepare/dup_all_redir.c \
+						prepare/open_all_redirection.c \
+						prepare/safe_dup_all_redir.c \
+						prepare/standard_fd.c \
+						exec/exec_subshell.c \
+						exec/exec_simple.c \
 						exec/pipe/pipe.c \
 						exec/pipe/utils.c \
 						builtins/echo.c	\

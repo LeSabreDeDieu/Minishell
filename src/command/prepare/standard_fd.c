@@ -1,29 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   standard_fd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/05 19:06:01 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/09/23 11:29:35 by gcaptari         ###   ########.fr       */
+/*   Created: 2024/09/23 11:48:52 by gcaptari          #+#    #+#             */
+/*   Updated: 2024/09/23 11:54:01 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ast.h"
-#include "env.h"
 #include "command.h"
-#include <fcntl.h>
-#include <stdio.h>
 
-int	create_pipe(t_ast_value *value)
+void	dup_standard(t_ast_value *value)
 {
-	int fd[2];
-	if (pipe(fd) == 0)
+	value->fd_in = dup(STDIN_FILENO);
+	value->fd_out = dup(STDOUT_FILENO);
+}
+
+void	close_dup_standard(t_ast_value *value)
+{
+	if (value->fd_in != -1)
 	{
-		value->fd_in = fd[STDIN_FILENO];
-		value->fd_out = fd[STDOUT_FILENO];
-		return (SUCCESS);
+		dup2(value->fd_in, STDIN_FILENO);
+		close(value->fd_in);
 	}
-	return (FAILURE);
+	if (value->fd_out != -1)
+	{
+		dup2(value->fd_out, STDOUT_FILENO);
+		close(value->fd_out);
+	}
 }

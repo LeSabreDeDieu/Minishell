@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 12:08:49 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/09 13:30:37 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/23 11:54:51 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,8 @@ int							execute_simple(t_minishell *minishell,
 								t_ast_value *value);
 void						execute_pipe(t_minishell *minishell, int *pipe_int,
 								t_ast_value *value);
-__pid_t						execute_pipe_last(t_minishell *minishell,
-								int *pipe_int, t_ast_value *value,
-								char *envp[]);
+void						execute_pipe_last(t_minishell *minishell,
+								int *pipe_int, t_ast_value *value);
 int							execute_subshell(t_minishell *data,
 								t_ast_value *value);
 void						test_execution(t_minishell *minishell, t_ast *ast);
@@ -65,4 +64,8 @@ char						*get_real_command(char *name);
 bool						is_builtin(char *name);
 
 int							create_pipe(t_ast_value *value);
+void						command_error_message(char *command, char *error);
+void						fork_error_message(char *error);
+void						dup_standard(t_ast_value *value);
+void						close_dup_standard(t_ast_value *value);
 #endif
