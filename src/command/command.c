@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 15:30:56 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/09/23 12:15:23 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/09/24 13:41:54 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,37 +16,6 @@
 #include "minishell.h"
 #include <fcntl.h>
 #include <stdio.h>
-
-static bool	is_exact_name(char *name, char *equal)
-{
-	size_t	len;
-	size_t	len_eq;
-
-	len = ft_strlen(name);
-	len_eq = ft_strlen(equal);
-	return (ft_strncmp(name, equal, len) == 0 && ft_strncmp(equal, name,
-			len_eq) == 0);
-}
-
-bool	is_builtin(char *name)
-{
-	return (is_exact_name(name, "echo") || is_exact_name(name, "cd")
-		|| is_exact_name(name, "exit") || is_exact_name(name, "env")
-		|| is_exact_name(name, "unset"));
-}
-
-static char	*special_cmd_join(char *path, char *name)
-{
-	char	*cmd_path;
-	char	*cmd_file;
-
-	cmd_path = ft_strjoin(path, "/");
-	if (!cmd_path)
-		return (NULL);
-	cmd_file = ft_strjoin(cmd_path, name);
-	free(cmd_path);
-	return (cmd_file);
-}
 
 static char	*search_command_on_path(char *name, char *path)
 {
@@ -112,22 +81,4 @@ int	exceve_builtins(t_minishell *minishell, char *name, int argc, char *argv[])
 	else if (is_exact_name(name, "unset"))
 		status = unset_command(argc, argv);
 	return (status);
-}
-
-void	fork_error_message(char *error)
-{
-	ft_putstr_fd(SHELL_NAME, STDERR_FILENO);
-	ft_putstr_fd(": fork: ", STDERR_FILENO);
-	ft_putstr_fd(error, STDERR_FILENO);
-	ft_putstr_fd("\n", STDERR_FILENO);
-}
-
-void	command_error_message(char *command, char *error)
-{
-	ft_putstr_fd(SHELL_NAME, STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
-	ft_putstr_fd(command, STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
-	ft_putstr_fd(error, STDERR_FILENO);
-	ft_putstr_fd("\n", STDERR_FILENO);
 }

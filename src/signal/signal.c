@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 01:29:04 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/09/19 09:46:09 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/24 17:42:08 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	ft_signal_ctrlc(int signum)
 void	ft_signal_quit(int signum)
 {
 	g_signal = signum;
+	printf("\033[2D\033[0K");
 	rl_on_new_line();
 	rl_redisplay();
 }

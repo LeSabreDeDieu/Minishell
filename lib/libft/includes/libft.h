@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 11:48:24 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/23 16:51:52 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/24 11:17:56 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -359,7 +359,7 @@ void				ft_putchar_fd(char c, int fd);
  * @param s The string to write.
  * @param fd The file descriptor.
  */
-int				ft_putstr_fd(char *s, int fd);
+int					ft_putstr_fd(char *s, int fd);
 
 /**
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_simple.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:34:57 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/09/23 11:56:25 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/09/24 17:29:36 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ static int	handle_child_process(t_minishell *minishell, t_ast_value *value)
 	char	*path;
 
 	close_dup_standard(value);
-	path = get_real_command(value->name);
+	path = get_real_command(value->name, minishell);
 	if (!path)
-		(fork_error_message("Malloc failed"), exit(ENOMEM));
+		(error_message_command("fork", "Malloc failed"), exit(ENOMEM));
 	else if (safe_dup_all_redir(minishell, value, FREE_ALL,
 			CLOSE_DUP_STD | CLOSE_FD_REDIR) == -1)
 	{
@@ -50,7 +50,7 @@ static int	handle_child_process(t_minishell *minishell, t_ast_value *value)
 	}
 	envp = env_to_tab();
 	if (execve(path, value->argv, envp) != 0)
-		command_error_message(value->name, "Command not found");
+		error_message_command(value->name, COMMAND_NOT_FOUND);
 	free_str_tab(envp);
 	free(path);
 	close_all_redir(value, CLOSE_DUP_STD | CLOSE_FD_REDIR);
@@ -64,12 +64,22 @@ static int	handle_fork(t_minishell *minishell, t_ast_value *value)
 	value->pid = fork();
 	if (value->pid < 0)
 	{
-		fork_error_message(strerror(errno));
+		error_message_command("fork", strerror(errno));
 		minishell->current_status = errno;
 		return (-1);
 	}
 	if (!value->pid)
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_IGN);
+		if (open_all_redirection(value->redirections) == FAILURE)
+		{
+			close_all_redir(value, CLOSE_DUP_STD | CLOSE_FD_REDIR);
+			free_minishell(minishell, FREE_ALL);
+			exit(errno);
+		}
 		handle_child_process(minishell, value);
+	}
 	close_all_redir(value, CLOSE_DUP_STD | CLOSE_FD_REDIR);
 	return (0);
 }

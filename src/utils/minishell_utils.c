@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:14:37 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/23 12:15:05 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/09/24 11:17:06 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <utmp.h>
-
 #include "minishell.h"
+#include <utmp.h>
 
 void	set_env_from_void(void)
 {
@@ -51,9 +50,7 @@ char	*get_path(void)
 		return (close(fd), NULL);
 	}
 	path = ft_strtrim(split[1], "\"");
-	free_str_tab(split);
-	close(fd);
-	return (path);
+	return (free_str_tab(split), close(fd), path);
 }
 
 char	*get_uname(void)

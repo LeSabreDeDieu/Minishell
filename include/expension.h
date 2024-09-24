@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 22:16:42 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/23 16:31:48 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/24 12:52:27 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int							pos_next_quote(char *str);
 char						*get_end(char *str);
 int							find_match(const char *pattern, const char *str);
 int							match(const char *pattern, const char *str);
+void						ft_realloc_and_split(t_ast_value *value, int i);
 
 void						wildcard_error_message(const char *pattern);
 

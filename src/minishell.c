@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:28:15 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/23 15:09:48 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/09/24 17:43:21 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ static void	usage(int argc)
 	if (argc != 1)
 	{
 		ft_putstr_fd("What did you do that ? ", STDERR_FILENO);
-		ft_putendl_fd("Why did you gave to me some arguments ?\n", STDERR_FILENO);
+		ft_putendl_fd("Why did you gave to me some arguments ?\n",
+			STDERR_FILENO);
 	}
 }
 
@@ -35,10 +36,12 @@ int	traitement(t_minishell *data, char *prompt)
 	if (!check_valid_token(data->tokens))
 		return (ft_putendl_fd("TOKEN ERROR !", STDERR_FILENO), false);
 	create_ast(data, data->tokens);
+	signal(SIGINT, SIG_DFL);
+	if (open_all_here_doc(data, data->ast) == FAILURE)
+		return (data->current_status = ENOENT);
 	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
+	signal(SIGQUIT, &ft_signal_quit);
 	test_execution(data, data->ast);
-	init_signal();
 	free_token(data->tokens);
 	free_ast(&data->ast);
 	return (0);
@@ -77,7 +80,6 @@ static void	minishell(char *envp[])
 			free(line);
 			continue ;
 		}
-		init_signal();
 		traitement(&data, line);
 		ft_putstr_fd("\n", 1);
 	}

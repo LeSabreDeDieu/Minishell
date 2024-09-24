@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_subshell.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:29:24 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/09/23 11:41:57 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/09/24 17:29:44 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ void	execute_in_subshell(t_minishell *data, t_ast_value *value)
 {
 	char	*prompt;
 
-	signal(SIGQUIT, SIG_DFL);
-	signal(SIGINT, SIG_DFL);
 	if (handle_subshell_redirections(data, value) == FAILURE)
 		return ;
 	prompt = ft_strdup(value->name);
@@ -51,11 +49,15 @@ int	fork_subshell(t_minishell *data, t_ast_value *value)
 	if (value->pid < 0)
 	{
 		data->current_status = errno;
-		fork_error_message(strerror(errno));
+		error_message_command("fork", strerror(errno));
 		return (FAILURE);
 	}
 	if (!value->pid)
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_IGN);
 		execute_in_subshell(data, value);
+	}
 	return (SUCCESS);
 }
 

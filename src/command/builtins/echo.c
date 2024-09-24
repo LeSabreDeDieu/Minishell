@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 14:45:31 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/09/23 12:14:36 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/09/24 13:48:46 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,34 +29,39 @@ static bool	is_flags(char *flags)
 	return (true);
 }
 
+static void	print_args(char **tmp, bool no_eof, bool is_write)
+{
+	while (tmp && *tmp)
+	{
+		if (!is_write && **tmp == '-' && is_flags(*tmp + 1))
+		{
+			no_eof = true;
+			++tmp;
+			continue ;
+		}
+		(ft_putstr_fd(*tmp, STDOUT_FILENO), is_write = true);
+		++tmp;
+		*tmp != NULL && ft_putstr_fd(" ", STDOUT_FILENO);
+	}
+}
+
 int	echo_command(int argc, char *argv[])
 {
 	char	**tmp;
-	bool	no_EOF;
+	bool	no_eof;
 	bool	is_write;
 
 	if (!argv)
 		return (125);
-	no_EOF = false;
+	no_eof = false;
 	is_write = false;
 	if (argc > 1)
 	{
 		tmp = argv + 1;
 		if (!tmp || !*tmp)
 			return (125);
-		while (tmp && *tmp)
-		{
-			if (!is_write && **tmp == '-' && is_flags(*tmp + 1))
-			{
-				no_EOF = true;
-				++tmp;
-				continue ;
-			}
-			(ft_putstr_fd(*tmp, STDOUT_FILENO), is_write = true);
-			++tmp;
-			*tmp != NULL && ft_putstr_fd(" ", STDOUT_FILENO);
-		}
-		!no_EOF && ft_putstr_fd("\n", STDOUT_FILENO);
+		print_args(tmp, no_eof, is_write);
+		!no_eof && ft_putstr_fd("\n", STDOUT_FILENO);
 	}
 	return (EXIT_SUCCESS);
 }

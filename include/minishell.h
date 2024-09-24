@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:45:02 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/20 09:51:04 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/24 17:20:42 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,13 +77,13 @@ typedef struct s_minishell
 	t_ast				*ast;
 	t_tokens			*tokens;
 	int					current_status;
+	bool				is_here_doc;
 }				t_minishell;
 
 char	*create_display(t_minishell *shell_data);
 char	*rl_gets(char *prompt);
 int		traitement(t_minishell *data, char *prompt);
 void	set_env_from_void(void);
-void	init_signal(void);
 char	*get_uname(void);
 
 //HISTORIQUE
@@ -93,5 +93,11 @@ int		clear_history_file(void);
 
 //UTILS
 void	print_welcome(void);
+int		open_all_here_doc(t_minishell *minishell, t_ast *ast);
+
+//SIGNAL
+void	init_signal(void);
+void	ft_signal_ctrlc(int signum);
+void	ft_signal_quit(int signum);
 
 #endif

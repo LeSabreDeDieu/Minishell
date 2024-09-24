@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:45:10 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/17 17:28:43 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/24 14:37:21 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ void						wait_process(t_minishell *data, t_ast_value *value,
 typedef enum e_error
 {
 	FAILURE = -1,
-	SUCCESS
+	SUCCESS,
+	LOOP
 }							t_error;
 
 enum						e_free
