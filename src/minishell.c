@@ -3,28 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:28:15 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/03 17:31:56 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/09/24 17:43:21 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast.h"
 #include "command.h"
-#include "minishell.h"
-#include "tokens.h"
 #include "libft.h"
+#include "minishell.h"
 #include "stdbool.h"
-
 #include "test.h"
+#include "tokens.h"
+#include <limits.h>
 
 static void	usage(int argc)
 {
 	if (argc != 1)
 	{
-		ft_putstr_fd("What did you do that ? ", 2);
-		ft_putstr_fd("Why did you gave to me some arguments ?\n\n", 2);
+		ft_putstr_fd("What did you do that ? ", STDERR_FILENO);
+		ft_putendl_fd("Why did you gave to me some arguments ?\n",
+			STDERR_FILENO);
 	}
 }
 
@@ -33,46 +34,62 @@ int	traitement(t_minishell *data, char *prompt)
 	to_tokenise(data, prompt);
 	free(prompt);
 	if (!check_valid_token(data->tokens))
-		return (ft_putendl_fd("TOKEN ERROR !", 2), false);
+		return (ft_putendl_fd("TOKEN ERROR !", STDERR_FILENO), false);
 	create_ast(data, data->tokens);
+	signal(SIGINT, SIG_DFL);
+	if (open_all_here_doc(data, data->ast) == FAILURE)
+		return (data->current_status = ENOENT);
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, &ft_signal_quit);
 	test_execution(data, data->ast);
-	free_ast(&data->ast);
 	free_token(data->tokens);
+	free_ast(&data->ast);
 	return (0);
 }
 
-static char	*minishell(char *envp[])
+static void	init_minishell(t_minishell *data, char **envp)
+{
+	create_env(envp);
+	init_signal();
+	if (!envp[0])
+		set_env_from_void();
+	add_shlvl();
+	ft_bzero(data, sizeof(t_minishell));
+	data->current_status = 0;
+	data->data.username = get_uname();
+	data->data.path = NULL;
+}
+
+static void	minishell(char *envp[])
 {
 	t_minishell	data;
 	char		*line;
 
-	create_env(envp);
-	ft_bzero(&data, sizeof(t_minishell));
-	ft_putendl_fd("Welcome to minishell", 1);
+	init_minishell(&data, envp);
+	read_history_from_file();
+	print_welcome();
 	while (true)
 	{
-		line = rl_gets();
+		signal(SIGQUIT, SIG_IGN);
+		line = rl_gets(create_display(&data));
+		g_signal = 0;
 		if (!line)
-		{
-			free_env();
-			free_ast(&data.ast);
-			free_token(data.tokens);
-			free(data.tokens);
-			exit(0);
-		}
+			exit_command(&data, 1, NULL);
 		if (!*line)
 		{
 			free(line);
 			continue ;
 		}
 		traitement(&data, line);
+		ft_putstr_fd("\n", 1);
 	}
 }
 
 int	main(int argc, char const *argv[], char *envp[])
 {
 	(void)argv;
-
+	ft_putstr_fd("\033[6 q\007\033[?12h\007", STDOUT_FILENO);
+	ft_putstr_fd("\033]2;SanicShell\007", STDOUT_FILENO);
 	usage(argc);
 	minishell(envp);
 	return (0);

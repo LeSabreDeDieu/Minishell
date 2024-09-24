@@ -6,7 +6,7 @@
 /*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:20:04 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/05 11:40:15 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/09/23 14:51:46 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,10 @@ void	print_env(void)
 		return ;
 	while (current)
 	{
-		printf("%s=%s\n", current->name, current->value);
+		ft_putstr_fd(current->name, STDOUT_FILENO);
+		ft_putstr_fd("=", STDOUT_FILENO);
+		ft_putstr_fd(current->value, STDOUT_FILENO);
+		ft_putstr_fd("\n", STDOUT_FILENO);
 		current = current->next;
 	}
 }

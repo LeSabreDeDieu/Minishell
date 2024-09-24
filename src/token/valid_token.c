@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   valid_token.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:34:59 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/08/30 11:12:49 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/09/18 15:08:05 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,17 @@ bool	check_quotes(t_token_list *current, t_tokens *tokens)
 			is_quoted = 1;
 		}
 	}
+	return (true);
+}
+
+bool	check_valid_token2(t_tokens *tokens, t_token_list *current)
+{
+	if (current->token->type == TOKEN_REDIRECTION && current->next->next
+		&& current->next->next->token->type == TOKEN_SUBSHELL)
+		return (free_token(tokens), false);
+	if (is_and_or_pipe(current->token) && current->next == NULL)
+		return (free_token(tokens), false);
+	return (true);
 }
 
 bool	check_valid_token(t_tokens *tokens)
@@ -64,6 +75,8 @@ bool	check_valid_token(t_tokens *tokens)
 		return (free_token(tokens), false);
 	while (current)
 	{
+		if (current->token->type == TOKEN_REDIRECTION && current->next == NULL)
+			return (free_token(tokens), false);
 		if ((ft_strlen(current->token->value) == 1
 				&& (current->token->value[0] == '('
 					|| current->token->value[0] == ')')))
@@ -72,10 +85,7 @@ bool	check_valid_token(t_tokens *tokens)
 			&& counter_char_token(current->token->value,
 				'(') != counter_char_token(current->token->value, ')'))
 			return (free_token(tokens), false);
-		if (current->token->type == TOKEN_REDIRECTION && current->next->next
-			&& current->next->next->token->type == TOKEN_SUBSHELL)
-			return (free_token(tokens), false);
-		if (is_and_or_pipe(current->token) && current->next == NULL)
+		if (check_valid_token2(tokens, current) == false)
 			return (free_token(tokens), false);
 		current = current->next;
 	}

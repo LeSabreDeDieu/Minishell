@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 12:25:19 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/05 14:19:43 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/09/17 17:35:55 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,9 @@ static int	is_and_or_pipe(t_token_list *tokens)
 	return (0);
 }
 
-static bool detect_is_final_cmd(t_token_list *list){
-	t_token_list *mm;
+static bool	detect_is_final_cmd(t_token_list *list)
+{
+	t_token_list	*mm;
 
 	mm = list;
 	if (!mm)
@@ -33,7 +34,8 @@ static bool detect_is_final_cmd(t_token_list *list){
 	{
 		if (mm->next && mm->next->token->type == TOKEN_PIPE)
 			return (false);
-		else if (!mm->next || mm->next->token->type == TOKEN_AND || mm->next->token->type == TOKEN_OR)
+		else if (!mm->next || mm->next->token->type == TOKEN_AND
+			|| mm->next->token->type == TOKEN_OR)
 			return (true);
 		mm = mm->next;
 	}
@@ -54,9 +56,9 @@ void	create_nodes_special(t_token_list *tokens, t_ast *right,
 			ast->type = AST_PIPE;
 		if (tokens->next)
 			ast->left = create_nodes(tokens->next);
-		if (ast->right  && detect_is_final_cmd(tokens->next))
+		if (ast->right && detect_is_final_cmd(tokens->next))
 			ast->left->value.last_cmd = true;
-		else if (ast->left  && detect_is_final_cmd(tokens->next))
+		else if (ast->left && detect_is_final_cmd(tokens->next))
 			ast->right->value.last_cmd = true;
 	}
 	else if (is_and_or_pipe(tokens) == 2)

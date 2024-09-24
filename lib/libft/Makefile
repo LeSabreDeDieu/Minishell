@@ -6,7 +6,7 @@
 #    By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/07 13:44:09 by sgabsi            #+#    #+#              #
-#    Updated: 2024/05/17 11:08:26 by sgabsi           ###   ########.fr        #
+#    Updated: 2024/09/18 16:20:12 by sgabsi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,8 @@ SRCS_IS_LIST		=	ft_isalnum.c		\
 						ft_isalpha.c		\
 						ft_isascii.c		\
 						ft_isdigit.c		\
-						ft_isprint.c
+						ft_isprint.c		\
+						ft_isspace.c
 SRCS_IS				=	$(addprefix $(SRCS_IS_DIR)/, $(SRCS_IS_LIST))
 
 #ft_lst
@@ -65,6 +66,7 @@ SRCS_PUT			=	$(addprefix $(SRCS_PUT_DIR)/, $(SRCS_PUT_LIST))
 #ft_str
 SRCS_STR_DIR		=	ft_str
 SRCS_STR_LIST		=	ft_split.c			\
+						ft_str_replace.c	\
 						ft_strchr.c			\
 						ft_strdup.c			\
 						ft_striteri.c		\
@@ -123,7 +125,7 @@ NAMESO		=	libft.so
 
 # Compiler
 CC			=	cc
-CFLAGS		=	-Wall -Werror -Wextra #en-O3 -ffreestanding -nostdlib
+CFLAGS		=	-Wall -Werror -Wextra -g3 #en-O3 -ffreestanding -nostdlib
 OPTIONS		=	-I $(INCDIR)
 
 #Progress bar

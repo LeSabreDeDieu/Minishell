@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:22:49 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/03 17:15:13 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/09/18 14:58:48 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include "tokens.h"
 #include "libft.h"
+#include "tokens.h"
+#include <stdio.h>
 
 static bool	check_is_in_shell_2(char *str, char *and, char *or)
 {
@@ -64,6 +64,7 @@ bool	contain_and_or(char *str)
 static size_t	get_len_word(char *str)
 {
 	size_t	size;
+	char	quote;
 
 	size = 0;
 	while (str[size])
@@ -72,6 +73,13 @@ static size_t	get_len_word(char *str)
 			|| str[size] == ' ' || str[size] == '(' || str[size] == '\n'
 			|| ft_strncmp(&str[size], "&&", 2) == 0)
 			break ;
+		else if (str[size] == '\'' || str[size] == '\"')
+		{
+			quote = str[size];
+			++size;
+			while (str[size] && str[size] != quote)
+				++size;
+		}
 		++size;
 	}
 	return (size);
