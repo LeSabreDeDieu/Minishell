@@ -15,19 +15,15 @@
 int	open_redirection_file(t_redirection *redirection)
 {
 	if ((int)redirection->flag == WRITE)
-	{
 		redirection->fd = open(redirection->filename,
 				O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	}
 	else if ((int)redirection->flag == READ)
-	{
 		redirection->fd = open(redirection->filename, O_RDONLY, 0644);
-	}
 	else if ((int)redirection->flag == APPEND)
-	{
 		redirection->fd = open(redirection->filename,
 				O_WRONLY | O_CREAT | O_APPEND, 0644);
-	}
+	else if ((int)redirection->flag == HERE_DOC)
+		redirection->fd = open(redirection->hd_filename, O_RDONLY, 0644);
 	if (redirection->fd == -1)
 	{
 		error_message_command_with_arg("fork", redirection->filename,
