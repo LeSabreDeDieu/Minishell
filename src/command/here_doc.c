@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 09:35:19 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/25 15:49:48 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/25 18:18:15 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ int	open_here_doc(t_minishell *minishell, t_ast_value *ast_value, int itterdoc)
 			}
 			else
 				waitpid(pid, &minishell->current_status, 0);
+			close(redir_list->redirection.fd);
 		}
 		redir_list = redir_list->next;
 	}
