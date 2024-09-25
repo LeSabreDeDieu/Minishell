@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 09:48:50 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/24 13:45:47 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/25 09:18:47 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,8 @@
 # define SYNTAX_ERROR_NEAR_AND_IF "Syntax error near unexpected token `&&'"
 # define SYNTAX_ERROR_NEAR_OR_IF "Syntax error near unexpected token `||'"
 
-# define HERE_DOC_EOF_ERROR "\
-avertissement : « here-document » à la ligne 10 \
-délimité par la fin du fichier (au lieu de « EOF »)"
+# define HERE_DOC_EOF_ERROR "avertissement : « here-document » à la dernière \
+ligne délimité par la fin du fichier (au lieu de « EOF »)"
 
 # define HOME_NOT_SET "<<HOME>> not set"
 # define OLDPWD_NOT_SET "« OLDPWD » not set"

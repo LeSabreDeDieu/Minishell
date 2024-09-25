@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:48:08 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/23 13:42:59 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/09/25 09:03:04 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,8 @@ void	free_minishell(t_minishell *minishell, int action)
 		free_env();
 	if (action & FREE_UNAME)
 		free(minishell->data.username);
+	if (action & FREE_PATH)
+		free(minishell->data.path);
+	if (action & FREE_HOME)
+		free(minishell->data.home);
 }

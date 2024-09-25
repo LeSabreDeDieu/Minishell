@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:14:37 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/24 11:17:06 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/25 10:30:36 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,22 @@ char	*get_uname(void)
 	}
 	close(fd);
 	return (errno = ENOENT, NULL);
+}
+
+int	expend_and_dequote(t_minishell *data, t_ast *ast)
+{
+	if (!ast)
+		return (FAILURE);
+	expend_and_dequote(data, ast->left);
+	if (ast->type == AST_CMD || ast->type == AST_SUBSHELL)
+	{
+		if (expend(data, &ast->value) == FAILURE)
+			return (FAILURE);
+		to_dequote(&ast->value);
+		dequote_delimiter(ast->value.redirections);
+	}
+	expend_and_dequote(data, ast->right);
+	return (SUCCESS);
 }
 
 void	print_welcome(void)

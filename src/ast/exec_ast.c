@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 17:39:06 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/24 14:19:16 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/25 10:27:33 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	test_execution_pipe(t_minishell *shell_data, int *std_in,
 		wait_process(shell_data, &ast_current->value, true);
 }
 
-void	test_execution(t_minishell *shell_data, t_ast *ast)
+void	execute_on_ast(t_minishell *shell_data, t_ast *ast)
 {
 	int	std_in;
 
@@ -46,20 +46,15 @@ void	test_execution(t_minishell *shell_data, t_ast *ast)
 		return ;
 	}
 	if (ast->right)
-		test_execution(shell_data, ast->right);
+		execute_on_ast(shell_data, ast->right);
 	if ((ast->type == AST_OR && shell_data->current_status == 0)
 		|| (ast->type == AST_AND && shell_data->current_status != 0))
 		return ;
 	if (ast->type == AST_CMD)
-	{
-		if (expend(shell_data, &ast->value) == FAILURE)
-			return ;
-		to_dequote(&ast->value);
 		execute_simple(shell_data, &ast->value);
-	}
 	else if (ast->type == AST_SUBSHELL)
 		execute_subshell(shell_data, &ast->value);
 	wait_process(shell_data, &ast->value, false);
 	if (ast->left)
-		test_execution(shell_data, ast->left);
+		execute_on_ast(shell_data, ast->left);
 }

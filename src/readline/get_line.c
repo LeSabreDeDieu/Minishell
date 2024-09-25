@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 16:16:19 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/18 17:44:02 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/25 08:44:21 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char	*create_display(t_minishell *shell_data)
 	return (final);
 }
 
-char	*rl_gets(char *prompt)
+char	*rl_gets(t_data_minishell *data, char *prompt)
 {
 	char	*line;
 
@@ -79,6 +79,6 @@ char	*rl_gets(char *prompt)
 	if (!line)
 		return (NULL);
 	if (*line)
-		add_history_file(line);
+		add_history_file(data, line);
 	return (line);
 }

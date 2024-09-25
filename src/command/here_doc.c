@@ -6,77 +6,104 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 09:35:19 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/24 15:14:08 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/25 15:49:48 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "command.h"
 
+extern volatile int	g_signal;
+
 static int	here_doc_read(t_redirection_list *redir_list)
 {
 	char	*line;
 
-	line = NULL;
-	line = readline("here_doc> ");
-	if (!line)
+	line = readline("heredoc> ");
+	if (g_signal == SIGINT)
+		return (free(line), FAILURE);
+	if (line == NULL)
 	{
 		write(redir_list->redirection.fd, "\0", 1);
 		error_message(HERE_DOC_EOF_ERROR);
 		return (SUCCESS);
 	}
-	if (g_signal == SIGINT || !ft_strncmp(line,
-			redir_list->redirection.filename, ft_strlen(line)))
-	{
-		free(line);
-		return (FAILURE);
-	}
-	write(redir_list->redirection.fd, line, ft_strlen(line));
-	free(line);
-	rl_done = 1;
-	return (LOOP);
+	if (*line == '\0')
+		return (free(line), LOOP);
+	if (strcmp(line, redir_list->redirection.filename) == 0)
+		return (free(line), FAILURE);
+	ft_putendl_fd(line, redir_list->redirection.fd);
+	return (free(line), LOOP);
 }
 
-int	here_doc(t_redirection_list **redir_list)
+int	here_doc(t_minishell *minishell, t_redirection_list *redir_list)
 {
-	int	status;
+	int		status;
 
-	(*redir_list)->redirection.fd = open("/tmp/.minishell_here_doc",
-			O_CREAT | O_RDWR | O_TRUNC, 0644);
-	if ((*redir_list)->redirection.fd == -1)
-	{
-		perror("open");
-		return (FAILURE);
-	}
-	status = here_doc_read(*redir_list);
-	signal(SIGINT, SIG_DFL);
+	status = here_doc_read(redir_list);
 	while (status == LOOP && g_signal != SIGINT)
 	{
-		status = here_doc_read(*redir_list);
+		minishell->is_here_doc = true;
+		status = here_doc_read(redir_list);
+		if (status == FAILURE)
+			break ;
 	}
-	init_signal();
-	return (status);
+	minishell->is_here_doc = false;
+	free_minishell(minishell, FREE_ALL);
+	exit(errno);
 }
 
-int	open_all_here_doc(t_minishell *minishell, t_ast *ast)
+int	open_here_doc(t_minishell *minishell, t_ast_value *ast_value, int itterdoc)
 {
 	t_redirection_list	*redir_list;
+	pid_t				pid;
+	char				*itterdoc_str;
+	char				*here_doc_name;
 
+	signal(SIGINT, SIG_IGN);
+	redir_list = ast_value->redirections;
+	while (redir_list)
+	{
+		if (redir_list->redirection.flag == HERE_DOC)
+		{
+			itterdoc_str = ft_itoa(itterdoc);
+			here_doc_name = ft_strjoin(HERE_DOC_PATH, itterdoc_str);
+			free(itterdoc_str);
+			redir_list->redirection.fd = open(here_doc_name,
+					O_CREAT | O_RDWR | O_APPEND, 0644);
+			if (redir_list->redirection.fd == -1)
+				return (perror("open"), FAILURE);
+			redir_list->redirection.hd_filename = ft_strdup(here_doc_name);
+			free(here_doc_name);
+			pid = fork();
+			if (pid == -1)
+				return (FAILURE);
+			if (pid == 0)
+			{
+				signal(SIGINT, &ft_signal_heredoc);
+				signal(SIGQUIT, SIG_IGN);
+				here_doc(minishell, redir_list);
+			}
+			else
+				waitpid(pid, &minishell->current_status, 0);
+		}
+		redir_list = redir_list->next;
+	}
+	return (SUCCESS);
+}
+
+int	open_all_here_doc(t_minishell *minishell, t_ast *ast, int itterdoc)
+{
 	if (!ast)
 		return (SUCCESS);
-	open_all_here_doc(minishell, ast->left);
-	if (ast->type == AST_CMD)
+	open_all_here_doc(minishell, ast->left, itterdoc);
+	if (ast->type == AST_CMD || ast->type == AST_SUBSHELL)
 	{
-		redir_list = ast->value.redirections;
-		while (redir_list)
+		++itterdoc;
+		if (open_here_doc(minishell, &ast->value, itterdoc) == FAILURE)
 		{
-			if (redir_list->redirection.flag == HERE_DOC)
-			{
-				if (here_doc(&redir_list) == FAILURE)
-					return (FAILURE);
-			}
-			redir_list = redir_list->next;
+			return (FAILURE);
 		}
 	}
-	open_all_here_doc(minishell, ast->right);
+	open_all_here_doc(minishell, ast->right, itterdoc);
 	return (SUCCESS);
 }

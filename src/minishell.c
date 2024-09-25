@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:28:15 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/24 17:43:21 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/25 15:38:39 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,20 @@ static void	usage(int argc)
 
 int	traitement(t_minishell *data, char *prompt)
 {
+	int	itter_heredoc;
+
 	to_tokenise(data, prompt);
 	free(prompt);
 	if (!check_valid_token(data->tokens))
 		return (ft_putendl_fd("TOKEN ERROR !", STDERR_FILENO), false);
 	create_ast(data, data->tokens);
-	signal(SIGINT, SIG_DFL);
-	if (open_all_here_doc(data, data->ast) == FAILURE)
+	itter_heredoc = -1;
+	expend_and_dequote(data, data->ast);
+	if (open_all_here_doc(data, data->ast, itter_heredoc) == FAILURE)
 		return (data->current_status = ENOENT);
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, &ft_signal_quit);
-	test_execution(data, data->ast);
+	execute_on_ast(data, data->ast);
 	free_token(data->tokens);
 	free_ast(&data->ast);
 	return (0);
@@ -58,6 +61,8 @@ static void	init_minishell(t_minishell *data, char **envp)
 	data->current_status = 0;
 	data->data.username = get_uname();
 	data->data.path = NULL;
+	data->data.home = ft_strjoin("/home/", data->data.username);
+	data->is_here_doc = false;
 }
 
 static void	minishell(char *envp[])
@@ -66,12 +71,12 @@ static void	minishell(char *envp[])
 	char		*line;
 
 	init_minishell(&data, envp);
-	read_history_from_file();
+	read_history_from_file(&data.data);
 	print_welcome();
 	while (true)
 	{
 		signal(SIGQUIT, SIG_IGN);
-		line = rl_gets(create_display(&data));
+		line = rl_gets(&data.data, create_display(&data));
 		g_signal = 0;
 		if (!line)
 			exit_command(&data, 1, NULL);

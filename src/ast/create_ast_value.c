@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_ast_value.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 11:55:12 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/19 16:34:25 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/09/25 14:10:28 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 void	create_redirection(t_redirection *redir, char *filename,
 		t_type_redirection flag)
 {
-	redir->filename = filename;
+	redir->hd_filename = NULL;
+	redir->filename = ft_strdup(filename);
 	redir->fd = -1;
 	redir->flag = flag;
 }

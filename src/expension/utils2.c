@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 23:07:10 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/24 13:09:52 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/25 14:10:03 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,21 @@ void	wildcard_error_message(const char *pattern)
 	ft_putstr_fd(SHELL_NAME, 2);
 	ft_putstr_fd(" : no matches found: ", 2);
 	ft_putendl_fd((char *)pattern, 2);
+}
+
+void	dequote_delimiter(t_redirection_list *redir_list)
+{
+	t_redirection_list	*current;
+	char				*filename;
+
+	current = redir_list;
+	while (current)
+	{
+		if (current->redirection.flag == HERE_DOC)
+		{
+			filename = dequote(current->redirection.filename);
+			current->redirection.filename = filename;
+		}
+		current = current->next;
+	}
 }

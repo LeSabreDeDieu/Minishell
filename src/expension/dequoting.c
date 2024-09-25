@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 12:40:30 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/18 15:42:41 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/25 14:16:27 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	dequote_quote(char *str, int *i, char **result, char **new_result)
 	char	*temp;
 
 	if (!(*result))
-		(*new_result) = ft_substr(str, 0, (*i));
+		(*new_result) = ft_substr(str, 1, (*i));
 	else
 	{
 		(*new_result) = ft_strdup((*result));

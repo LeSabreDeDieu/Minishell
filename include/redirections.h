@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 17:52:37 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/09/05 22:10:51 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/25 14:03:01 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef enum e_type_redirection
 
 typedef struct s_redirection
 {
+	char						*hd_filename;
 	char						*filename;
 	int							fd;
 	t_type_redirection			flag;

@@ -6,14 +6,14 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:45:10 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/24 14:37:21 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/25 09:10:11 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UTILS_H
 # define UTILS_H
-# include <stdio.h>
 # include <stdbool.h>
+# include <stdio.h>
 
 typedef struct s_minishell	t_minishell;
 typedef struct s_ast_value	t_ast_value;
@@ -35,12 +35,13 @@ enum						e_free
 	FREE_ENV = 1 << 1,
 	FREE_PATH = 1 << 2,
 	FREE_UNAME = 1 << 3,
-	FREE_PIPE = 1 << 4,
-	FREE_FD = 1 << 5,
-	FREE_SIGNAL = 1 << 6,
-	FREE_TOKEN = 1 << 7,
-	FREE_ALL = FREE_AST | FREE_ENV | FREE_PATH | FREE_UNAME | FREE_PIPE \
-				| FREE_FD | FREE_SIGNAL | FREE_TOKEN
+	FREE_HOME = 1 << 4,
+	FREE_PIPE = 1 << 5,
+	FREE_FD = 1 << 6,
+	FREE_SIGNAL = 1 << 7,
+	FREE_TOKEN = 1 << 8,
+	FREE_ALL = FREE_AST | FREE_ENV | FREE_PATH | FREE_UNAME | FREE_HOME \
+				| FREE_PIPE | FREE_FD | FREE_SIGNAL | FREE_TOKEN
 };
 
 #endif

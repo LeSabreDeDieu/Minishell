@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 22:16:42 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/24 12:52:27 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/25 10:29:12 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 # include "ast.h"
 # include "minishell.h"
 
-typedef struct s_ast_value	t_ast_value;
+typedef struct s_ast_value			t_ast_value;
+typedef struct s_redirection_list	t_redirection_list;
 
 typedef struct s_pos
 {
@@ -31,6 +32,7 @@ typedef struct s_wildcard
 }							t_wildcard;
 
 void						to_dequote(t_ast_value *value);
+char						*dequote(char *str);
 int							expend_wildcard(char ***argv, int *argc);
 int							expend(t_minishell *shell_data, t_ast_value *value);
 
@@ -45,8 +47,8 @@ char						*get_end(char *str);
 int							find_match(const char *pattern, const char *str);
 int							match(const char *pattern, const char *str);
 void						ft_realloc_and_split(t_ast_value *value, int i);
-
 void						wildcard_error_message(const char *pattern);
+void						dequote_delimiter(t_redirection_list *redir_list);
 
 // Wildcard
 t_wildcard					*new_wildcard(char *str);

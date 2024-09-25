@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 17:16:29 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/20 21:26:26 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/25 15:38:03 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ static void	free_redirection_list(t_ast_value *value, t_redirection_list *list)
 		if (list->redirection.fd != -1)
 			close(list->redirection.fd);
 		tmp = list;
+		free(list->redirection.filename);
+		free(list->redirection.hd_filename);
 		list = list->next;
 		free(tmp);
 	}

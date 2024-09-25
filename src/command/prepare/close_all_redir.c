@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   close_all_redir.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:45:46 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/09/23 11:46:05 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/09/25 13:26:41 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,11 @@ void	close_redirection_fds(t_redirection_list *list)
 	{
 		if (current->redirection.filename != NULL
 			&& current->redirection.fd != -1)
+		{
 			close(current->redirection.fd);
+			if (current->redirection.flag == HERE_DOC)
+				unlink(current->redirection.hd_filename);
+		}
 		current->redirection.fd = -1;
 		current = current->next;
 	}
