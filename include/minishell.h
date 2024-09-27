@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:45:02 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/25 10:35:58 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/26 10:00:06 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@
 # include "color.h"
 # include "expension.h"
 # include "ms_error.h"
+# include "stack.h"
 
 extern volatile int		g_signal;
 
@@ -80,6 +81,7 @@ typedef struct s_minishell
 	t_tokens			*tokens;
 	int					current_status;
 	bool				is_here_doc;
+	t_stack				*stack;
 }				t_minishell;
 
 char	*create_display(t_minishell *shell_data);

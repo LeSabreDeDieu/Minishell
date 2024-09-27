@@ -6,7 +6,7 @@
 #    By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:19:20 by gcaptari          #+#    #+#              #
-#    Updated: 2024/09/24 13:39:51 by sgabsi           ###   ########.fr        #
+#    Updated: 2024/09/27 08:44:12 by sgabsi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -94,13 +94,15 @@ SRC_READ_LINE		=	$(addprefix $(SRC_READ_LINE_DIR)/, $(SRC_READ_LINE_FILES))
 
 #Expension
 SRC_EXPENSION_DIR 	=	expension
-SRC_EXPENSION_FILES	=	dequoting.c \
-						formator.c \
-						wildcard.c \
-						expend_wildcard.c \
-						expend_wildcard_utils.c \
+SRC_EXPENSION_FILES	=	expend/expend.c \
+						expend/expend_variable.c \
+						expend/expend_wildcard.c \
+						expend/expend_wildcard_utils.c \
+						dequoting.c \
+						stack.c \
 						utils.c	\
-						utils2.c
+						utils2.c \
+						utils3.c
 SRC_EXPENSION		=	$(addprefix $(SRC_EXPENSION_DIR)/, $(SRC_EXPENSION_FILES))
 
 # Files

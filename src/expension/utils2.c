@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 23:07:10 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/25 14:10:03 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/27 10:26:12 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,11 @@ static char	**ft_realloc_str_tab(char **str, int size, int j)
 	if (!new_tab)
 		return (NULL);
 	i = j;
-	while (i < size && str[i])
+	while (i < size)
 	{
-		new_tab[i] = str[i];
+		new_tab[i] = ft_strdup(str[(i - j) + 1]);
 		i++;
 	}
-	new_tab[i] = NULL;
 	free_str_tab(str);
 	str = NULL;
 	return (new_tab);
@@ -53,8 +52,8 @@ void	ft_realloc_and_split(t_ast_value *value, int i)
 	split = ft_split(value->argv[i], ' ');
 	while (split[j])
 		j++;
-	value->argv = ft_realloc_str_tab(value->argv, value->argc + 1, j);
 	value->argc += j - 1;
+	value->argv = ft_realloc_str_tab(value->argv, value->argc, j);
 	j = 0;
 	while (split[j])
 	{

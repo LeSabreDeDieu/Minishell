@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:28:15 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/25 15:38:39 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/27 10:07:31 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int	traitement(t_minishell *data, char *prompt)
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, &ft_signal_quit);
 	execute_on_ast(data, data->ast);
+	init_signal();
 	free_token(data->tokens);
 	free_ast(&data->ast);
 	return (0);
@@ -86,7 +87,6 @@ static void	minishell(char *envp[])
 			continue ;
 		}
 		traitement(&data, line);
-		ft_putstr_fd("\n", 1);
 	}
 }
 

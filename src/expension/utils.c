@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:24:32 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/24 12:48:54 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/27 10:26:21 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,13 @@ void	get_pid_as_string(char *pid_str)
 	}
 }
 
-void	expend_variable_from_env(t_ast_value *value, int i, int *j)
+int	expend_variable_from_env(t_ast_value *value, t_stack **stack, int i,
+		int *j)
 {
 	char	*to_exp;
 	t_env	*env;
 	char	*env_value;
+	char	*tmp;
 
 	env_value = "";
 	to_exp = ft_substr(value->argv[i], *j, ft_strlen(&value->argv[i][(*j)])
@@ -76,6 +78,7 @@ void	expend_variable_from_env(t_ast_value *value, int i, int *j)
 	if (ft_strchr(value->argv[i], ' ') != NULL)
 		ft_realloc_and_split(value, i);
 	free(to_exp);
+	return (SUCCESS);
 }
 
 int	pos_next_quote(char *str)

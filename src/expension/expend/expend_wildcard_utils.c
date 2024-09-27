@@ -6,31 +6,31 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 15:59:22 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/23 16:30:36 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/26 09:37:36 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expension.h"
 
-static void	add_all(t_wildcard **wildcard, char *pattern, struct dirent *entry)
+static void	add_all(t_stack **wildcard, char *pattern, struct dirent *entry)
 {
 	char	*tmp;
 
 	if (pattern[0] != '.' && entry->d_name[0] != '.')
 	{
 		tmp = ft_strdup(entry->d_name);
-		add_wildcard(wildcard, new_wildcard(tmp));
+		add_stack(wildcard, new_stack(tmp));
 		free(tmp);
 	}
 	else if (pattern[0] == '.' && entry->d_name[0] == '.')
 	{
 		tmp = ft_strdup(entry->d_name);
-		add_wildcard(wildcard, new_wildcard(tmp));
+		add_stack(wildcard, new_stack(tmp));
 		free(tmp);
 	}
 }
 
-static void	add_repo(t_wildcard **wildcard, char *pattern, struct dirent *entry,
+static void	add_repo(t_stack **wildcard, char *pattern, struct dirent *entry,
 		char *repo)
 {
 	char	*tmp;
@@ -38,18 +38,18 @@ static void	add_repo(t_wildcard **wildcard, char *pattern, struct dirent *entry,
 	if (pattern[0] != '.' && entry->d_name[0] != '.' && entry->d_type == 4)
 	{
 		tmp = ft_strjoin(entry->d_name, repo);
-		add_wildcard(wildcard, new_wildcard(tmp));
+		add_stack(wildcard, new_stack(tmp));
 		free(tmp);
 	}
 	else if (pattern[0] == '.' && entry->d_name[0] == '.' && entry->d_type == 4)
 	{
 		tmp = ft_strjoin(entry->d_name, repo);
-		add_wildcard(wildcard, new_wildcard(tmp));
+		add_stack(wildcard, new_stack(tmp));
 		free(tmp);
 	}
 }
 
-void	add_file_wildcard(t_wildcard **wildcard, char *pattern,
+void	add_file_wildcard(t_stack **wildcard, char *pattern,
 		struct dirent *entry, char *repo)
 {
 	char	*tmp;
@@ -63,7 +63,7 @@ void	add_file_wildcard(t_wildcard **wildcard, char *pattern,
 		if (entry->d_name[0] != '.')
 		{
 			tmp = ft_strjoin(repo, entry->d_name);
-			add_wildcard(wildcard, new_wildcard(tmp));
+			add_stack(wildcard, new_stack(tmp));
 			free(tmp);
 		}
 	}
