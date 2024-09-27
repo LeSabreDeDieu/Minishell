@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:14:37 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/27 10:23:24 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/27 11:50:41 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ char	*get_uname(void)
 
 int	expend_and_dequote(t_minishell *data, t_ast *ast)
 {
+	int	i;
+
 	if (!ast)
 		return (FAILURE);
 	expend_and_dequote(data, ast->left);

@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 19:29:48 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/27 10:11:33 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/27 11:22:55 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,17 +70,17 @@ int	stack_len(t_stack *stack)
 	return (i);
 }
 
-char	**stack_to_argv(t_stack *stack)
+char	**stack_to_argv(t_stack **stack)
 {
 	t_stack	*tmp;
 	char	**argv;
 	int		i;
 
-	argv = ft_calloc(stack_len(stack) + 1, sizeof(char *));
+	argv = ft_calloc(stack_len(*stack) + 1, sizeof(char *));
 	if (!argv)
 		return (NULL);
 	i = 0;
-	tmp = stack;
+	tmp = *stack;
 	while (tmp)
 	{
 		if (tmp->str != NULL && ft_strlen(tmp->str) > 0)
@@ -90,6 +90,7 @@ char	**stack_to_argv(t_stack *stack)
 		}
 		tmp = tmp->next;
 	}
-	free_stack(&stack);
+	free_stack(stack);
+	*stack = NULL;
 	return (argv);
 }

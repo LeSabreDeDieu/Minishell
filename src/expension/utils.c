@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:24:32 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/27 10:26:21 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/27 12:48:42 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*get_end(char *str)
 	tmp = str;
 	while (*tmp)
 	{
-		if (!ft_isalnum(*tmp))
+		if (!(ft_isalnum(*tmp) || *tmp == '_'))
 			break ;
 		tmp++;
 	}
@@ -60,13 +60,11 @@ void	get_pid_as_string(char *pid_str)
 	}
 }
 
-int	expend_variable_from_env(t_ast_value *value, t_stack **stack, int i,
-		int *j)
+int	expend_variable_from_env(t_ast_value *value, int i, int *j)
 {
 	char	*to_exp;
 	t_env	*env;
 	char	*env_value;
-	char	*tmp;
 
 	env_value = "";
 	to_exp = ft_substr(value->argv[i], *j, ft_strlen(&value->argv[i][(*j)])
@@ -75,8 +73,6 @@ int	expend_variable_from_env(t_ast_value *value, t_stack **stack, int i,
 	if (env != NULL)
 		env_value = env->value;
 	value->argv[i] = ft_str_replace(value->argv[i], to_exp, env_value);
-	if (ft_strchr(value->argv[i], ' ') != NULL)
-		ft_realloc_and_split(value, i);
 	free(to_exp);
 	return (SUCCESS);
 }

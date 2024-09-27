@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 22:16:42 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/27 08:47:41 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/27 12:12:04 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int									expend(t_minishell *shell_data,
 
 // Utils
 int									expend_variable_from_env(t_ast_value *value,
-										t_stack **stack, int i, int *j);
+										int i, int *j);
 bool								is_in_dquote(char c, bool is_in_quote);
 void								get_pid_as_string(char *pid_str);
 bool								wildcard_in_quote(char *str);
@@ -60,6 +60,6 @@ void								expend_last_status(t_minishell *shell_data,
 void								expend_tild(t_minishell *shell_data,
 										t_ast_value *value, t_pos *pos);
 int									expend_wildcard(t_minishell *shell_data,
-										char ***argv, int *argc);
+										char ***argv);
 
 #endif

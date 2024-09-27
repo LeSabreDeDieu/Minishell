@@ -6,7 +6,7 @@
 #    By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:19:20 by gcaptari          #+#    #+#              #
-#    Updated: 2024/09/27 08:44:12 by sgabsi           ###   ########.fr        #
+#    Updated: 2024/09/27 10:54:30 by sgabsi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,6 +81,7 @@ SRC_COMMAND_FILES	=	command.c \
 						exec/pipe/pipe.c \
 						exec/pipe/utils.c \
 						builtins/echo.c	\
+						builtins/export.c \
 						builtins/unset.c \
 						builtins/env.c	\
 						builtins/cd.c	\

@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 12:08:49 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/25 10:27:32 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/27 10:57:23 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_command_result
 
 // BUILDINS
 int									echo_command(int argc, char *argv[]);
+int									export_command(int argc, char *argv[]);
 int									unset_command(int argc, char *argv[]);
 int									env_command(int argc, char *argv[]);
 int									cd_command(int argc, char *argv[]);
