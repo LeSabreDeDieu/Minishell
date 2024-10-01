@@ -6,35 +6,35 @@
 /*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 12:11:15 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/23 15:05:34 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/01 10:29:01 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ast.h"
 #include "env.h"
 #include "tokens.h"
-#include "ast.h"
 #include <stdio.h>
 
 char	is_number(const char *str)
 {
-	const char *move;
+	const char	*move;
 
 	move = str;
 	if (*move == '-')
 		++move;
-	while(*move && ft_isdigit(*move))
+	while (*move && ft_isdigit(*move))
 		++move;
 	return (*move == 0);
 }
 
-int		exit_command(t_minishell *minishell, int argc, char *argv[])
+int	exit_command(t_minishell *minishell, int argc, char *argv[])
 {
 	unsigned char	status;
 
 	status = minishell->current_status;
 	if (argc >= 2)
 	{
-		if(!is_number(argv[1]))
+		if (!is_number(argv[1]))
 			return (245);
 		status = ft_atoi(argv[1]);
 	}

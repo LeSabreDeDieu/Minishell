@@ -6,7 +6,7 @@
 /*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:45:14 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/09/23 12:05:16 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/01 10:28:30 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ int	dup_redirection(t_redirection *redirection)
 	{
 		dup2(redirection->fd, STDOUT_FILENO);
 	}
-	else if ((int)redirection->flag == READ || (int)redirection->flag == HERE_DOC)
+	else if ((int)redirection->flag == READ
+		|| (int)redirection->flag == HERE_DOC)
 	{
 		dup2(redirection->fd, STDIN_FILENO);
 	}

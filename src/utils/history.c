@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   history.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:28:07 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/25 10:22:08 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/01 10:28:20 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ int	add_history_file(t_data_minishell *data, char *line)
 	free(path);
 	return (SUCCESS);
 }
-
 
 int	read_history_from_file(t_data_minishell *data)
 {

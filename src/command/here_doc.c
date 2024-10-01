@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 09:35:19 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/25 18:18:15 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/01 10:43:48 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "command.h"
-
-extern volatile int	g_signal;
 
 static int	here_doc_read(t_redirection_list *redir_list)
 {
@@ -37,7 +35,7 @@ static int	here_doc_read(t_redirection_list *redir_list)
 
 int	here_doc(t_minishell *minishell, t_redirection_list *redir_list)
 {
-	int		status;
+	int	status;
 
 	status = here_doc_read(redir_list);
 	while (status == LOOP && g_signal != SIGINT)
@@ -52,36 +50,46 @@ int	here_doc(t_minishell *minishell, t_redirection_list *redir_list)
 	exit(errno);
 }
 
+int	create_and_open_heredoc_file(t_redirection_list *redir_list, int itterdoc)
+{
+	char	*itterdoc_str;
+	char	*here_doc_name;
+
+	itterdoc_str = ft_itoa(itterdoc);
+	here_doc_name = ft_strjoin(HERE_DOC_PATH, itterdoc_str);
+	free(itterdoc_str);
+	redir_list->redirection.fd = open(here_doc_name,
+			O_CREAT | O_RDWR | O_APPEND, 0644);
+	if (redir_list->redirection.fd == -1)
+	{
+		free(here_doc_name);
+		perror("open");
+		return (FAILURE);
+	}
+	redir_list->redirection.hd_filename = ft_strdup(here_doc_name);
+	free(here_doc_name);
+	return (SUCCESS);
+}
+
 int	open_here_doc(t_minishell *minishell, t_ast_value *ast_value, int itterdoc)
 {
 	t_redirection_list	*redir_list;
 	pid_t				pid;
-	char				*itterdoc_str;
-	char				*here_doc_name;
 
-	signal(SIGINT, SIG_IGN);
 	redir_list = ast_value->redirections;
 	while (redir_list)
 	{
 		if (redir_list->redirection.flag == HERE_DOC)
 		{
-			itterdoc_str = ft_itoa(itterdoc);
-			here_doc_name = ft_strjoin(HERE_DOC_PATH, itterdoc_str);
-			free(itterdoc_str);
-			redir_list->redirection.fd = open(here_doc_name,
-					O_CREAT | O_RDWR | O_APPEND, 0644);
-			if (redir_list->redirection.fd == -1)
-				return (perror("open"), FAILURE);
-			redir_list->redirection.hd_filename = ft_strdup(here_doc_name);
-			free(here_doc_name);
+			if (create_and_open_heredoc_file(redir_list, itterdoc) == FAILURE)
+				return (FAILURE);
 			pid = fork();
 			if (pid == -1)
 				return (FAILURE);
 			if (pid == 0)
 			{
-				signal(SIGINT, &ft_signal_heredoc);
-				signal(SIGQUIT, SIG_IGN);
-				here_doc(minishell, redir_list);
+				(signal(SIGINT, &ft_signal_heredoc), signal(SIGQUIT, SIG_IGN),
+					here_doc(minishell, redir_list));
 			}
 			else
 				waitpid(pid, &minishell->current_status, 0);

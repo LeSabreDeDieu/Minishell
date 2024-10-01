@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expension.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 22:16:42 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/27 12:12:04 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/01 10:28:10 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ int									match(const char *pattern, const char *str);
 void								ft_realloc_and_split(t_ast_value *value,
 										int i);
 void								wildcard_error_message(const char *pattern);
-void								dequote_delimiter(t_redirection_list *redir_list);
+void								dequote_delimiter(
+										t_redirection_list *redir_list);
 bool								is_dollar_allone(t_ast_value *value,
 										t_pos *pos);
 

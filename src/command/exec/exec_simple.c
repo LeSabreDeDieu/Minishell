@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_simple.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:34:57 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/09/24 17:29:36 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/01 10:29:40 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ static int	handle_child_process(t_minishell *minishell, t_ast_value *value)
 
 static int	handle_fork(t_minishell *minishell, t_ast_value *value)
 {
-
 	value->pid = fork();
 	if (value->pid < 0)
 	{

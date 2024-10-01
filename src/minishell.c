@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:28:15 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/27 10:59:44 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/09/27 16:19:07 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,7 @@ int	traitement(t_minishell *data, char *prompt)
 	expend_and_dequote(data, data->ast);
 	if (open_all_here_doc(data, data->ast, itter_heredoc) == FAILURE)
 		return (data->current_status = ENOENT);
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, &ft_signal_quit);
 	execute_on_ast(data, data->ast);
-	init_signal();
 	free_token(data->tokens);
 	free_ast(&data->ast);
 	return (0);
@@ -76,7 +73,6 @@ static void	minishell(char *envp[])
 	print_welcome();
 	while (true)
 	{
-		signal(SIGQUIT, SIG_IGN);
 		line = rl_gets(&data.data, create_display(&data));
 		g_signal = 0;
 		if (!line)
