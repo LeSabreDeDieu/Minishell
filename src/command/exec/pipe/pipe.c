@@ -6,7 +6,7 @@
 /*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:29:31 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/09/27 16:28:04 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/01 12:37:09 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,26 +22,27 @@ void	execution_cmd_pipe(t_minishell *minishell, t_ast_value *value)
 	char	*path;
 	char	**envp;
 
-	if (is_builtin(value->name))
+	if (value->name)
 	{
-		state = exceve_builtins(minishell, value->name, value->argc,
-				value->argv);
-		close_all_redir(value, CLOSE_FD_REDIR);
-		free_minishell(minishell, FREE_ALL);
-		exit(state);
+		if (is_builtin(value->name))
+		{
+			state = exceve_builtins(minishell, value->name, value->argc,
+					value->argv);
+			close_all_redir(value, CLOSE_FD_REDIR);
+			(free_minishell(minishell, FREE_ALL), exit(state));
+		}
+		path = get_real_command(value->name, minishell);
+		if (!path)
+			(error_message_command("fork", "Malloc failled"), exit(ENOMEM));
+		envp = env_to_tab();
+		if (!envp)
+			(error_message_command("fork", "Malloc failled"), exit(ENOMEM));
+		if (execve(path, value->argv, envp) != 0)
+			error_message_command(value->name, COMMAND_NOT_FOUND);
+		(free(path), free(envp));
 	}
-	path = get_real_command(value->name, minishell);
-	if (!path)
-		(error_message_command("fork", "Malloc failled"), exit(ENOMEM));
-	envp = env_to_tab();
-	if (!envp)
-		(error_message_command("fork", "Malloc failled"), exit(ENOMEM));
-	if (execve(path, value->argv, envp) != 0)
-		error_message_command(value->name, COMMAND_NOT_FOUND);
-	(free(path), free(envp));
 	close_all_redir(value, CLOSE_FD_REDIR | CLOSE_DUP_STD);
-	free_minishell(minishell, FREE_ALL);
-	exit(errno);
+	(free_minishell(minishell, FREE_ALL), exit(errno));
 }
 
 void	execute_pipe(t_minishell *minishell, int *pipe_in, t_ast_value *value)
@@ -52,13 +53,12 @@ void	execute_pipe(t_minishell *minishell, int *pipe_in, t_ast_value *value)
 		return (error_message_command("fork", strerror(errno)));
 	if (!value->pid)
 	{
-		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_IGN);
+		(signal(SIGINT, SIG_DFL), signal(SIGQUIT, SIG_IGN));
 		close(value->fd_in);
 		if (*pipe_in != -1)
 			(dup2(*pipe_in, STDIN_FILENO), close(*pipe_in));
 		if (open_all_redirection(value->redirections) == FAILURE)
-			exit(errno);
+			(close_all_redir(value, CLOSE_FD_REDIR | CLOSE_DUP_STD), exit(errno));
 		dup2(value->fd_out, STDOUT_FILENO);
 		close(value->fd_out);
 		if (safe_dup_all_redir(minishell, value, FREE_ALL,

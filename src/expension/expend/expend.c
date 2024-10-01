@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expend.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 12:03:24 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/27 11:37:16 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/01 12:18:07 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,16 +72,19 @@ int	expend(t_minishell *shell_data, t_ast_value *value)
 
 	ft_bzero(&pos, sizeof(t_pos));
 	shell_data->stack = NULL;
-	pos.i = 0;
-	while (value->argv[pos.i] && pos.i < value->argc)
+	if (value->argv)
 	{
-		pos.j = 0;
-		if (expend2(shell_data, value, &pos) != FAILURE)
-			add_stack(&shell_data->stack, new_stack(value->argv[pos.i]));
-		++pos.i;
+		pos.i = 0;
+		while (value->argv[pos.i] && pos.i < value->argc)
+		{
+			pos.j = 0;
+			if (expend2(shell_data, value, &pos) != FAILURE)
+				add_stack(&shell_data->stack, new_stack(value->argv[pos.i]));
+			++pos.i;
+		}
+		free_str_tab(value->argv);
+		value->argc = stack_len(shell_data->stack);
+		value->argv = stack_to_argv(&shell_data->stack);
 	}
-	free_str_tab(value->argv);
-	value->argc = stack_len(shell_data->stack);
-	value->argv = stack_to_argv(&shell_data->stack);
 	return (SUCCESS);
 }

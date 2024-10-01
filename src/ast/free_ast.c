@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_ast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 17:16:29 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/27 10:16:11 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/01 12:29:03 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ static void	free_redirection_list(t_ast_value *value, t_redirection_list *list)
 	{
 		if (list->redirection.fd != -1)
 			close(list->redirection.fd);
-		tmp = list;
 		free(list->redirection.filename);
 		free(list->redirection.hd_filename);
+		tmp = list;
 		list = list->next;
 		free(tmp);
 	}

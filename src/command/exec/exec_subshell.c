@@ -6,7 +6,7 @@
 /*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:29:24 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/09/27 16:28:08 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/01 12:24:26 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,16 @@ int	fork_subshell(t_minishell *data, t_ast_value *value)
 
 int	execute_subshell(t_minishell *data, t_ast_value *value)
 {
+	int	old_errno;
+
 	dup_standard(value);
+	if (!value->name)
+	{
+		open_all_redirection(value->redirections);
+		old_errno = errno;
+		close_all_redir(value, CLOSE_FD_REDIR);
+		return (data->current_status = errno);
+	}
 	if (fork_subshell(data, value) == FAILURE)
 		return (FAILURE);
 	close_all_redir(value, CLOSE_DUP_STD | CLOSE_PIPE);

@@ -6,7 +6,7 @@
 /*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:45:02 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/27 16:28:30 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/01 10:48:48 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ char	*rl_gets(t_data_minishell *data, char *prompt);
 int		traitement(t_minishell *data, char *prompt);
 void	set_env_from_void(void);
 char	*get_uname(void);
+char	*get_path(void);
 
 //HISTORIQUE
 int		add_history_file(t_data_minishell *data, char *line);

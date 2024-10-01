@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:14:37 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/27 11:50:41 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/01 10:56:35 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,16 @@ char	*get_path(void)
 		errno = ENOENT;
 		return (close(fd), NULL);
 	}
-	split = ft_split(path, '=');
-	free(path);
+	split = ft_strstr(path, "=") + 1;
 	if (split == NULL)
 	{
 		errno = ENOMEM;
 		return (close(fd), NULL);
 	}
-	path = ft_strtrim(split[1], "\"");
-	return (free_str_tab(split), close(fd), path);
+	split = ft_strtrim(split, "\"");
+	printf("fdskfjsdlkfj %s\n", split);
+	free(path);
+	return (close(fd), split);
 }
 
 char	*get_uname(void)

@@ -6,7 +6,7 @@
 /*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:34:57 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/01 10:29:40 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/01 12:23:31 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,16 @@ static int	handle_fork(t_minishell *minishell, t_ast_value *value)
 
 int	execute_simple(t_minishell *minishell, t_ast_value *value)
 {
+	int	old_errno;
+
 	dup_standard(value);
-	if (value->name == NULL || value->argc == 0)
-		return (ENOENT);
+	if (!value->name)
+	{
+		open_all_redirection(value->redirections);
+		old_errno = errno;
+		close_all_redir(value, CLOSE_FD_REDIR);
+		return (minishell->current_status = errno);
+	}
 	if (is_builtin(value->name))
 		return (handle_builtin(minishell, value));
 	return (handle_fork(minishell, value));

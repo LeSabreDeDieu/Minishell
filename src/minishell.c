@@ -6,7 +6,7 @@
 /*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:28:15 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/27 16:19:07 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/01 10:50:51 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,11 @@ static void	init_minishell(t_minishell *data, char **envp)
 	ft_bzero(data, sizeof(t_minishell));
 	data->current_status = 0;
 	data->data.username = get_uname();
-	data->data.path = NULL;
+	if (!get_env("PATH"))
+		data->data.path = get_path();
+	else
+		data->data.path = NULL;
+	printf("%s\n", data->data.path);
 	data->data.home = ft_strjoin("/home/", data->data.username);
 	data->is_here_doc = false;
 }
