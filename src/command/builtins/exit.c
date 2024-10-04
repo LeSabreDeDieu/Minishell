@@ -6,13 +6,11 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 12:11:15 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/02 13:31:18 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/04 17:04:54 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ast.h"
-#include "env.h"
-#include "tokens.h"
+#include "command.h"
 #include <stdio.h>
 
 char	is_number(const char *str)

@@ -6,11 +6,18 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 01:29:04 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/02 16:00:44 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/04 17:15:52 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <readline/readline.h>
+#include <readline/history.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <signal.h>
+#include <stdio.h>
+#include <errno.h>
 
 volatile int	g_signal = 0;
 

@@ -6,13 +6,11 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:22:49 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/27 11:31:47 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/04 16:50:06 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "tokens.h"
-#include <stdio.h>
 
 static bool	check_is_in_shell_2(char *str, char *and, char *or)
 {

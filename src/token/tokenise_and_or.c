@@ -3,16 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   tokenise_and_or.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 14:14:53 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/08/30 10:51:19 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/04 16:49:34 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include "libft.h"
-#include "minishell.h"
 #include "tokens.h"
 
 static int	check_and_or(char *str)

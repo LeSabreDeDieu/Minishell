@@ -6,11 +6,10 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:34:59 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/18 15:08:05 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/04 16:53:30 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "tokens.h"
 
 static bool	is_and_or_pipe(t_token *tokens)

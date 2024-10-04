@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 23:07:10 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/04 15:50:38 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/04 16:41:47 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,11 @@ void	dequote_delimiter(t_redirection_list *redir_list)
 		}
 		current = current->next;
 	}
+}
+
+bool	is_dollar_allone(t_ast_value *value, t_pos *pos)
+{
+	return (value->argv[(*pos).i][(*pos).j] == '$'
+			&& (ft_isspace(value->argv[(*pos).i][(*pos).j + 1])
+				|| !value->argv[(*pos).i][(*pos).j + 1]));
 }

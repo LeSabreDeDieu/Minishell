@@ -3,15 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   tokenise.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:01:24 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/04 12:53:52 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/04 16:49:46 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "utils.h"
 #include "tokens.h"
 
 static int	tokenise_word(t_tokens *tokens, char **str)

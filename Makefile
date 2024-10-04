@@ -6,7 +6,7 @@
 #    By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:19:20 by gcaptari          #+#    #+#              #
-#    Updated: 2024/10/04 15:59:17 by sgabsi           ###   ########.fr        #
+#    Updated: 2024/10/04 16:56:52 by sgabsi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -101,12 +101,15 @@ SRC_EXPENSION_FILES	=	expend/expend.c \
 						expend/expend_wildcard_utils.c \
 						expend/split_args.c \
 						dequoting.c \
-						stack.c \
-						stack_utils.c \
 						utils.c	\
-						utils2.c \
-						utils3.c
+						utils2.c
 SRC_EXPENSION		=	$(addprefix $(SRC_EXPENSION_DIR)/, $(SRC_EXPENSION_FILES))
+
+#DLIST
+SRC_DLIST_DIR 		=	dlist
+SRC_DLIST_FILES		=	dlist.c \
+						dlist_utils.c
+SRC_DLIST			=	$(addprefix $(SRC_DLIST_DIR)/, $(SRC_DLIST_FILES))
 
 # Files
 
@@ -125,6 +128,7 @@ SRC_FILES			= $(SRC_AST) \
 					  $(SRC_READ_LINE) \
 					  $(SRC_EXPENSION) \
 					  $(SRC_SIGNAL) \
+					  $(SRC_DLIST) \
 					  test/print.c \
 					  minishell.c
 

@@ -6,11 +6,21 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 09:35:19 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/03 13:20:37 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/04 17:11:37 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "command.h"
+
+#include <readline/readline.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <signal.h>
+#include <sys/wait.h>
+#include <sys/types.h>
 
 static int	here_doc_read(t_redirection_list *redir_list)
 {

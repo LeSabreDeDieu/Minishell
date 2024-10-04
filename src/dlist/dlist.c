@@ -1,57 +1,57 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   stack.c                                            :+:      :+:    :+:   */
+/*   dlist.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 19:29:48 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/03 16:04:50 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/04 16:57:47 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "stack.h"
-#include "minishell.h"
+#include "dlist.h"
+#include "utils.h"
 
-t_stack	*new_stack(char *str)
+t_dlist	*new_dlist(char *str)
 {
-	t_stack	*new;
+	t_dlist	*new_dlist;
 
-	new = ft_calloc(1, sizeof(t_stack));
-	if (!new)
+	new_dlist = ft_calloc(1, sizeof(t_dlist));
+	if (!new_dlist)
 		return (NULL);
-	new->str = ft_strdup(str);
-	if (!new->str)
-		return (free(new), NULL);
-	new->next = NULL;
-	new->prev = NULL;
-	return (new);
+	new_dlist->str = ft_strdup(str);
+	if (!new_dlist->str)
+		return (free(new_dlist), NULL);
+	new_dlist->next = NULL;
+	new_dlist->prev = NULL;
+	return (new_dlist);
 }
 
-void	add_stack(t_stack **stack, t_stack *new)
+void	add_dlist(t_dlist **dlist, t_dlist *new_dlist)
 {
-	t_stack	*tmp;
+	t_dlist	*tmp;
 
-	if (!new)
+	if (!new_dlist)
 		return ;
-	if (!*stack)
+	if (!*dlist)
 	{
-		*stack = new;
+		*dlist = new_dlist;
 		return ;
 	}
-	tmp = *stack;
+	tmp = *dlist;
 	while (tmp->next)
 		tmp = tmp->next;
-	tmp->next = new;
-	new->prev = tmp;
+	tmp->next = new_dlist;
+	new_dlist->prev = tmp;
 }
 
-void	free_stack(t_stack **stack)
+void	free_dlist(t_dlist **dlist)
 {
-	t_stack	*tmp;
-	t_stack	*current;
+	t_dlist	*tmp;
+	t_dlist	*current;
 
-	current = *stack;
+	current = *dlist;
 	while (current)
 	{
 		tmp = current;
@@ -59,15 +59,15 @@ void	free_stack(t_stack **stack)
 		free(tmp->str);
 		free(tmp);
 	}
-	*stack = NULL;
+	*dlist = NULL;
 }
 
-int	stack_len(t_stack *stack)
+int	dlist_len(t_dlist *dlist)
 {
-	t_stack	*tmp;
+	t_dlist	*tmp;
 	int		i;
 
-	tmp = stack;
+	tmp = dlist;
 	i = 0;
 	while (tmp)
 	{
@@ -77,17 +77,17 @@ int	stack_len(t_stack *stack)
 	return (i);
 }
 
-char	**stack_to_argv(t_stack **stack)
+char	**dlist_to_argv(t_dlist **dlist)
 {
-	t_stack	*tmp;
+	t_dlist	*tmp;
 	char	**argv;
 	int		i;
 
-	argv = ft_calloc(stack_len(*stack) + 1, sizeof(char *));
+	argv = ft_calloc(dlist_len(*dlist) + 1, sizeof(char *));
 	if (!argv)
 		return (NULL);
 	i = 0;
-	tmp = *stack;
+	tmp = *dlist;
 	while (tmp)
 	{
 		if (tmp->str != NULL && ft_strlen(tmp->str) > 0)
@@ -99,7 +99,7 @@ char	**stack_to_argv(t_stack **stack)
 		}
 		tmp = tmp->next;
 	}
-	free_stack(stack);
-	*stack = NULL;
+	free_dlist(dlist);
+	*dlist = NULL;
 	return (argv);
 }

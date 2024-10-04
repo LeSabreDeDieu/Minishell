@@ -6,35 +6,35 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 15:50:41 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/04 16:09:54 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/04 16:45:08 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expension.h"
 
-void	add_split_to_stack(t_stack **stack, char **split)
+void	add_split_to_stack(t_dlist **stack, char **split)
 {
 	int		i;
-	t_stack	*new;
+	t_dlist	*new;
 
 	i = 0;
 	while (split[i])
 	{
-		new = new_stack(split[i]);
+		new = new_dlist(split[i]);
 		if (!new)
 		{
-			free_stack(stack);
+			free_dlist(stack);
 			return (free_str_tab(split));
 		}
-		add_stack(stack, new);
+		add_dlist(stack, new);
 		++i;
 	}
 }
 
-void	split_current_stack_element(t_stack **stack, t_stack **current)
+void	split_current_stack_element(t_dlist **stack, t_dlist **current)
 {
 	char	**split;
-	t_stack	*save_next;
+	t_dlist	*save_next;
 
 	save_next = (*current)->next;
 	if ((*current)->prev == NULL)
@@ -48,15 +48,15 @@ void	split_current_stack_element(t_stack **stack, t_stack **current)
 	free((*current));
 	add_split_to_stack(stack, split);
 	free_str_tab(split);
-	(*current) = stack_last(*stack);
+	(*current) = dlist_last(*stack);
 	(*current)->next = save_next;
 	if (save_next)
 		save_next->prev = (*current);
 }
 
-void	handle_stack_splitting(t_stack **stack, t_stack **current)
+void	handle_stack_splitting(t_dlist **stack, t_dlist **current)
 {
-	t_stack	*save_prev;
+	t_dlist	*save_prev;
 
 	if ((*current)->str == NULL || (*current)->str[0] == '\0')
 	{
@@ -73,9 +73,9 @@ void	handle_stack_splitting(t_stack **stack, t_stack **current)
 		split_current_stack_element(stack, current);
 }
 
-void	split_stack_elements(t_stack **stack)
+void	split_stack_elements(t_dlist **stack)
 {
-	t_stack	*current;
+	t_dlist	*current;
 
 	current = *stack;
 	while (current)

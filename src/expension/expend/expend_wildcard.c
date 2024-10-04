@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 19:32:37 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/04 16:12:10 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/04 17:20:21 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,22 +24,22 @@ int	match(const char *pattern, const char *str)
 	return (0);
 }
 
-void	add_wildcard_no_found(t_stack **wildcard, char *pattern)
+void	add_wildcard_no_found(t_dlist **wildcard, char *pattern)
 {
 	char	*tmp;
-	t_stack	*new;
+	t_dlist	*new;
 
 	tmp = ft_strdup(pattern);
 	if (tmp == NULL)
 		return ;
-	new = new_stack(tmp);
+	new = new_dlist(tmp);
 	if (new == NULL)
 		return (free(tmp));
-	add_stack(wildcard, new);
+	add_dlist(wildcard, new);
 	free(tmp);
 }
 
-void	do_wildcard(t_stack **wildcard, char *pattern, DIR *dir)
+void	do_wildcard(t_dlist **wildcard, char *pattern, DIR *dir)
 {
 	struct dirent	*entry;
 	char			*pattern_copy;
@@ -63,7 +63,7 @@ void	do_wildcard(t_stack **wildcard, char *pattern, DIR *dir)
 	free(pattern_copy);
 }
 
-int	add_matching_files(t_stack **wildcard, char *pattern)
+int	add_matching_files(t_dlist **wildcard, char *pattern)
 {
 	DIR	*dir;
 

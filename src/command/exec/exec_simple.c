@@ -3,18 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec_simple.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:34:57 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/01 12:23:31 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/04 17:18:53 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast.h"
 #include "command.h"
 #include "env.h"
-#include <fcntl.h>
-#include <stdio.h>
 
 static int	handle_builtin(t_minishell *minishell, t_ast_value *value)
 {

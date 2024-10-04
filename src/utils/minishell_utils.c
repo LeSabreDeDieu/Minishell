@@ -6,12 +6,13 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:14:37 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/03 14:38:35 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/04 17:08:31 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <utmp.h>
+#include <unistd.h>
 
 void	set_env_from_void(void)
 {

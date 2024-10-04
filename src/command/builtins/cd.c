@@ -6,13 +6,14 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 15:38:21 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/09/24 13:56:47 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/04 17:17:52 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "command.h"
 #include "env.h"
 #include "libft.h"
+#include <string.h>
 
 static int	cd_old_pwd(char *pwd, t_env *current_pwd)
 {

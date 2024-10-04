@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:28:15 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/03 16:20:23 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/04 16:35:04 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ static void	init_minishell(t_minishell *data, char **envp)
 		data->data.path = get_path();
 	else
 		data->data.path = NULL;
-	printf("%s\n", data->data.path);
 	data->data.home = ft_strjoin("/home/", data->data.username);
 	data->is_here_doc = false;
 }

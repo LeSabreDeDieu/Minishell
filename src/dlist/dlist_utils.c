@@ -1,19 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   stack_utils.c                                      :+:      :+:    :+:   */
+/*   dlist_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 14:05:09 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/03 15:20:08 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/04 16:52:08 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "stack.h"
-#include <stdio.h>
+#include "dlist.h"
 
-t_stack	*stack_last(t_stack *stack)
+t_dlist	*dlist_last(t_dlist *stack)
 {
 	if (!stack)
 		return (NULL);

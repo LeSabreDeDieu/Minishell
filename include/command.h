@@ -3,23 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   command.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 12:08:49 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/01 10:31:30 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/04 17:18:36 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef COMMAND_H
 # define COMMAND_H
 
-# include "ast.h"
-# include "expension.h"
-# include "ms_error.h"
+# include <stdlib.h>
 # include <errno.h>
 # include <stdbool.h>
 # include <string.h>
 # include <unistd.h>
+# include <fcntl.h>
+# include <signal.h>
+# include <sys/wait.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <stdio.h>
+# include <string.h>
+
+# include "ast.h"
+# include "expension.h"
+# include "ms_error.h"
 
 typedef struct s_minishell			t_minishell;
 typedef struct s_ast				t_ast;

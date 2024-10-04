@@ -3,15 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   tokenise_quote.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:42:00 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/04 12:52:10 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/04 16:49:39 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "minishell.h"
 #include "tokens.h"
 
 char	*getlastquote(char *str, char c, char evode)

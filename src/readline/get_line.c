@@ -6,11 +6,13 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 16:16:19 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/25 08:44:21 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/04 17:01:32 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <readline/readline.h>
+#include <readline/history.h>
 
 char	*assemble(const char **display)
 {

@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:45:10 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/25 09:10:11 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/04 16:58:40 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,15 @@
 
 typedef struct s_minishell	t_minishell;
 typedef struct s_ast_value	t_ast_value;
-void						free_str_tab(char **tabs);
-void						free_env(void);
-void						free_minishell(t_minishell *minishell, int action);
-void						wait_process(t_minishell *data, t_ast_value *value,
-								bool is_pipeline);
+
 typedef enum e_error
 {
 	FAILURE = -1,
 	SUCCESS,
 	LOOP
-}							t_error;
+}				t_error;
 
-enum						e_free
+enum			e_free
 {
 	FREE_AST = 1 << 0,
 	FREE_ENV = 1 << 1,
@@ -43,5 +39,10 @@ enum						e_free
 	FREE_ALL = FREE_AST | FREE_ENV | FREE_PATH | FREE_UNAME | FREE_HOME \
 				| FREE_PIPE | FREE_FD | FREE_SIGNAL | FREE_TOKEN
 };
+
+void	free_str_tab(char **tabs);
+void	free_env(void);
+void	free_minishell(t_minishell *minishell, int action);
+void	wait_process(t_minishell *data, t_ast_value *value, bool is_pipeline);
 
 #endif

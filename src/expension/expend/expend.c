@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 12:03:24 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/04 16:12:40 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/04 16:45:16 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,17 +67,17 @@ static int	expend3(t_minishell *shell_data, t_ast_value *value, t_pos *pos)
 
 static int	expend2(t_minishell *shell_data, t_ast_value *value, t_pos *pos)
 {
-	t_stack	*tmp;
+	t_dlist	*tmp;
 
 	while (pos->i < value->argc && value->argv[pos->i])
 	{
 		pos->j = 0;
 		if (expend3(shell_data, value, pos) != FAILURE)
 		{
-			tmp = new_stack(value->argv[pos->i]);
+			tmp = new_dlist(value->argv[pos->i]);
 			if (!tmp)
-				return (free_stack(&shell_data->stack), FAILURE);
-			add_stack(&shell_data->stack, tmp);
+				return (free_dlist(&shell_data->stack), FAILURE);
+			add_dlist(&shell_data->stack, tmp);
 		}
 		++pos->i;
 	}
@@ -96,8 +96,8 @@ int	expend(t_minishell *shell_data, t_ast_value *value)
 		expend2(shell_data, value, &pos);
 		free_str_tab(value->argv);
 		split_stack_elements(&shell_data->stack);
-		value->argc = stack_len(shell_data->stack);
-		value->argv = stack_to_argv(&shell_data->stack);
+		value->argc = dlist_len(shell_data->stack);
+		value->argv = dlist_to_argv(&shell_data->stack);
 		value->name = value->argv[0];
 	}
 	return (SUCCESS);

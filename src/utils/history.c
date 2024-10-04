@@ -3,14 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   history.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:28:07 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/01 10:28:20 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/04 17:08:07 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <readline/history.h>
+#include <fcntl.h>
+#include <unistd.h>
 
 static int	create_history(t_data_minishell *data)
 {

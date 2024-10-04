@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 13:40:26 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/08/30 10:51:15 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/04 16:53:21 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokens.h"
-#include "utils.h"
-#include "libft.h"
 
 t_token	*create_token(char *value, t_token_type type)
 {

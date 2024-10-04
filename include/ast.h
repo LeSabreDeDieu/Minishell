@@ -6,24 +6,23 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:44:54 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/18 09:53:01 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/04 16:40:54 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef AST_H
 # define AST_H
 
-# include "libft.h"
-# include "minishell.h"
-# include "redirections.h"
-# include "tokens.h"
-# include "utils.h"
 # include <stdbool.h>
 
+# include "libft.h"
+# include "redirections.h"
+# include "tokens.h"
+
 typedef struct s_minishell	t_minishell;
-typedef struct s_token		t_token;
-typedef struct s_tokens		t_tokens;
 typedef struct s_token_list	t_token_list;
+typedef struct s_tokens		t_tokens;
+typedef struct s_token		t_token;
 
 typedef enum e_type_ast
 {
@@ -63,7 +62,6 @@ void						create_nodes_special(t_token_list *tokens,
 void						free_ast(t_ast **ast);
 
 // UTILS
-
 int							add_list_redirection(t_redirection_list **list,
 								t_token *type, char *file);
 bool						is_quote(t_token *token);

@@ -6,11 +6,12 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:24:32 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/03 14:39:55 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/04 17:07:44 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expension.h"
+#include <unistd.h>
 
 bool	is_in_dquote(char c, bool is_quoted)
 {
