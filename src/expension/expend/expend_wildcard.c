@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 19:32:37 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/27 11:18:21 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/04 16:12:10 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,25 @@ int	match(const char *pattern, const char *str)
 	return (0);
 }
 
+void	add_wildcard_no_found(t_stack **wildcard, char *pattern)
+{
+	char	*tmp;
+	t_stack	*new;
+
+	tmp = ft_strdup(pattern);
+	if (tmp == NULL)
+		return ;
+	new = new_stack(tmp);
+	if (new == NULL)
+		return (free(tmp));
+	add_stack(wildcard, new);
+	free(tmp);
+}
+
 void	do_wildcard(t_stack **wildcard, char *pattern, DIR *dir)
 {
 	struct dirent	*entry;
 	char			*pattern_copy;
-	char			*tmp;
 	char			*repo;
 	int				i;
 
@@ -45,11 +59,7 @@ void	do_wildcard(t_stack **wildcard, char *pattern, DIR *dir)
 		entry = readdir(dir);
 	}
 	if (i == 0)
-	{
-		tmp = ft_strdup(pattern);
-		add_stack(wildcard, new_stack(tmp));
-		free(tmp);
-	}
+		add_wildcard_no_found(wildcard, pattern);
 	free(pattern_copy);
 }
 
@@ -65,7 +75,7 @@ int	add_matching_files(t_stack **wildcard, char *pattern)
 	return (SUCCESS);
 }
 
-int	expend_wildcard(t_minishell *shell_data, char ***argv)
+int	expend_wildcard(t_minishell *shell_data, char *argv)
 {
 	DIR		*dir;
 	int		i;
@@ -74,11 +84,9 @@ int	expend_wildcard(t_minishell *shell_data, char ***argv)
 	dir = opendir(".");
 	if (!dir)
 		return (FAILURE);
-	while ((*argv)[i] != NULL)
+	if (ft_strchr(argv, '*'))
 	{
-		if (ft_strchr((*argv)[i], '*'))
-			add_matching_files(&shell_data->stack, (*argv)[i]);
-		i++;
+		add_matching_files(&shell_data->stack, argv);
 	}
 	closedir(dir);
 	return (SUCCESS);

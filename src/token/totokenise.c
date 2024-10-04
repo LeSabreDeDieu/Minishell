@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:03:20 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/18 14:56:42 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/03 16:31:09 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	tokenise_prompt(t_tokens *tokens, char *prompt, bool is_and_or)
 			free(save);
 			return ;
 		}
-		if (*tmp == ' ')
+		if (ft_isspace(*tmp))
 		{
 			tmp++;
 			continue ;
@@ -51,6 +51,8 @@ void	to_tokenise(t_minishell *data, char *prompt)
 	if (!data->tokens)
 	{
 		tokens = ft_calloc(1, sizeof(t_tokens));
+		if (!tokens)
+			return ;
 		tokens->first_token = NULL;
 		tokens->token_config[0] = "&&";
 		tokens->token_config[1] = "||";

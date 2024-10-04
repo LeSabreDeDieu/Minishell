@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:24:32 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/27 12:48:42 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/03 14:39:55 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,19 +60,19 @@ void	get_pid_as_string(char *pid_str)
 	}
 }
 
-int	expend_variable_from_env(t_ast_value *value, int i, int *j)
+int	expend_variable_from_env(t_ast_value *value, int *i, int j)
 {
 	char	*to_exp;
 	t_env	*env;
 	char	*env_value;
 
 	env_value = "";
-	to_exp = ft_substr(value->argv[i], *j, ft_strlen(&value->argv[i][(*j)])
-			- ft_strlen(get_end(value->argv[i] + ((*j) + 1))));
+	to_exp = ft_substr(value->argv[(*i)], j, ft_strlen(&value->argv[(*i)][(j)])
+			- ft_strlen(get_end(value->argv[(*i)] + ((j) + 1))));
 	env = get_env(to_exp + 1);
 	if (env != NULL)
 		env_value = env->value;
-	value->argv[i] = ft_str_replace(value->argv[i], to_exp, env_value);
+	value->argv[(*i)] = ft_str_replace(value->argv[(*i)], to_exp, env_value);
 	free(to_exp);
 	return (SUCCESS);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expend.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 12:03:24 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/01 12:18:07 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/04 16:12:40 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ static void	expend_variable(t_minishell *shell_data, t_ast_value *value,
 	}
 	else if (value->argv[pos->i][pos->j] == '$' && value->argv[pos->i][pos->j
 		+ 1] != '$')
-		expend_variable_from_env(value, pos->i, &pos->j);
+		expend_variable_from_env(value, &pos->i, pos->j);
 }
 
-static int	expend2(t_minishell *shell_data, t_ast_value *value, t_pos *pos)
+static int	expend3(t_minishell *shell_data, t_ast_value *value, t_pos *pos)
 {
 	bool	is_quoted;
 
@@ -48,7 +48,6 @@ static int	expend2(t_minishell *shell_data, t_ast_value *value, t_pos *pos)
 		if (value->argv[pos->i][pos->j] == '$')
 		{
 			expend_variable(shell_data, value, is_quoted, pos);
-			pos->j += 2;
 		}
 		else if (value->argv[pos->i][pos->j] == '~')
 		{
@@ -57,11 +56,30 @@ static int	expend2(t_minishell *shell_data, t_ast_value *value, t_pos *pos)
 		}
 		else if (value->argv[pos->i][pos->j] == '*')
 		{
-			expend_wildcard(shell_data, &value->argv);
+			expend_wildcard(shell_data, value->argv[pos->i]);
 			return (FAILURE);
 		}
 		else
 			++pos->j;
+	}
+	return (SUCCESS);
+}
+
+static int	expend2(t_minishell *shell_data, t_ast_value *value, t_pos *pos)
+{
+	t_stack	*tmp;
+
+	while (pos->i < value->argc && value->argv[pos->i])
+	{
+		pos->j = 0;
+		if (expend3(shell_data, value, pos) != FAILURE)
+		{
+			tmp = new_stack(value->argv[pos->i]);
+			if (!tmp)
+				return (free_stack(&shell_data->stack), FAILURE);
+			add_stack(&shell_data->stack, tmp);
+		}
+		++pos->i;
 	}
 	return (SUCCESS);
 }
@@ -75,16 +93,12 @@ int	expend(t_minishell *shell_data, t_ast_value *value)
 	if (value->argv)
 	{
 		pos.i = 0;
-		while (value->argv[pos.i] && pos.i < value->argc)
-		{
-			pos.j = 0;
-			if (expend2(shell_data, value, &pos) != FAILURE)
-				add_stack(&shell_data->stack, new_stack(value->argv[pos.i]));
-			++pos.i;
-		}
+		expend2(shell_data, value, &pos);
 		free_str_tab(value->argv);
+		split_stack_elements(&shell_data->stack);
 		value->argc = stack_len(shell_data->stack);
 		value->argv = stack_to_argv(&shell_data->stack);
+		value->name = value->argv[0];
 	}
 	return (SUCCESS);
 }

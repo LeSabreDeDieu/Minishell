@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:21:34 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/25 13:07:00 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/03 15:51:49 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ int	add_argv_value(t_ast_value **value, t_token_list **current)
 				|| is_quote((*current)->token)))
 		{
 			(*value)->argv[i++] = ft_strdup((*current)->token->value);
+			if (!(*value)->argv[i - 1])
+				return (free_str_tab((*value)->argv), FAILURE);
 			(*current) = (*current)->next;
 		}
 		while ((*current) && (*current)->token

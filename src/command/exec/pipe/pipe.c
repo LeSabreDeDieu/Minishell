@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:29:31 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/01 12:37:09 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/02 13:52:21 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ void	execute_pipe(t_minishell *minishell, int *pipe_in, t_ast_value *value)
 		if (*pipe_in != -1)
 			(dup2(*pipe_in, STDIN_FILENO), close(*pipe_in));
 		if (open_all_redirection(value->redirections) == FAILURE)
-			(close_all_redir(value, CLOSE_FD_REDIR | CLOSE_DUP_STD), exit(errno));
+			(close_all_redir(value, CLOSE_FD_REDIR | CLOSE_DUP_STD),
+				exit(errno));
 		dup2(value->fd_out, STDOUT_FILENO);
 		close(value->fd_out);
 		if (safe_dup_all_redir(minishell, value, FREE_ALL,

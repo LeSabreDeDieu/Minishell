@@ -6,21 +6,25 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 19:29:48 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/27 11:22:55 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/03 16:04:50 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "stack.h"
+#include "minishell.h"
 
 t_stack	*new_stack(char *str)
 {
 	t_stack	*new;
 
-	new = malloc(sizeof(t_stack));
+	new = ft_calloc(1, sizeof(t_stack));
 	if (!new)
 		return (NULL);
 	new->str = ft_strdup(str);
+	if (!new->str)
+		return (free(new), NULL);
 	new->next = NULL;
+	new->prev = NULL;
 	return (new);
 }
 
@@ -28,6 +32,8 @@ void	add_stack(t_stack **stack, t_stack *new)
 {
 	t_stack	*tmp;
 
+	if (!new)
+		return ;
 	if (!*stack)
 	{
 		*stack = new;
@@ -37,6 +43,7 @@ void	add_stack(t_stack **stack, t_stack *new)
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = new;
+	new->prev = tmp;
 }
 
 void	free_stack(t_stack **stack)
@@ -86,6 +93,8 @@ char	**stack_to_argv(t_stack **stack)
 		if (tmp->str != NULL && ft_strlen(tmp->str) > 0)
 		{
 			argv[i] = ft_strdup(tmp->str);
+			if (!argv[i])
+				return (free_str_tab(argv), NULL);
 			i++;
 		}
 		tmp = tmp->next;

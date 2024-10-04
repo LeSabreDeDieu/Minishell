@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:45:46 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/09/25 13:26:41 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/03 13:07:58 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	close_redirection_fds(t_redirection_list *list)
 		{
 			close(current->redirection.fd);
 			if (current->redirection.flag == HERE_DOC)
-				unlink(current->redirection.hd_filename);
+				unlink(current->redirection.filename);
 		}
 		current->redirection.fd = -1;
 		current = current->next;

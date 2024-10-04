@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:44:38 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/09/25 15:45:43 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/03 13:08:57 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,12 @@ int	open_redirection_file(t_redirection *redirection)
 	if ((int)redirection->flag == WRITE)
 		redirection->fd = open(redirection->filename,
 				O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	else if ((int)redirection->flag == READ)
+	else if ((int)redirection->flag == READ
+		|| (int)redirection->flag == HERE_DOC)
 		redirection->fd = open(redirection->filename, O_RDONLY, 0644);
 	else if ((int)redirection->flag == APPEND)
 		redirection->fd = open(redirection->filename,
 				O_WRONLY | O_CREAT | O_APPEND, 0644);
-	else if ((int)redirection->flag == HERE_DOC)
-		redirection->fd = open(redirection->hd_filename, O_RDONLY, 0644);
 	if (redirection->fd == -1)
 	{
 		error_message_command_with_arg("fork", redirection->filename,

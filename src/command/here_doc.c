@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 09:35:19 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/01 10:43:48 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/03 13:20:37 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ int	create_and_open_heredoc_file(t_redirection_list *redir_list, int itterdoc)
 		perror("open");
 		return (FAILURE);
 	}
-	redir_list->redirection.hd_filename = ft_strdup(here_doc_name);
 	free(here_doc_name);
 	return (SUCCESS);
 }
@@ -75,6 +74,9 @@ int	open_here_doc(t_minishell *minishell, t_ast_value *ast_value, int itterdoc)
 {
 	t_redirection_list	*redir_list;
 	pid_t				pid;
+	int					status;
+	char				*itterdoc_str;
+	char				*here_doc_name;
 
 	redir_list = ast_value->redirections;
 	while (redir_list)
@@ -87,12 +89,18 @@ int	open_here_doc(t_minishell *minishell, t_ast_value *ast_value, int itterdoc)
 			if (pid == -1)
 				return (FAILURE);
 			if (pid == 0)
-			{
 				(signal(SIGINT, &ft_signal_heredoc), signal(SIGQUIT, SIG_IGN),
 					here_doc(minishell, redir_list));
-			}
 			else
-				waitpid(pid, &minishell->current_status, 0);
+			{
+				waitpid(pid, &status, 0);
+				itterdoc_str = ft_itoa(itterdoc);
+				here_doc_name = ft_strjoin(HERE_DOC_PATH, itterdoc_str);
+				free(itterdoc_str);
+				free(redir_list->redirection.filename);
+				redir_list->redirection.filename = here_doc_name;
+				free(here_doc_name);
+			}
 			close(redir_list->redirection.fd);
 		}
 		redir_list = redir_list->next;

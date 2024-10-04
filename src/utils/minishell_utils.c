@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:14:37 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/01 10:56:35 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/03 14:38:35 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	set_env_from_void(void)
 char	*get_path(void)
 {
 	char	*path;
-	char	**split;
+	char	*split;
 	int		fd;
 
 	fd = open("/etc/environment", O_RDONLY);
@@ -48,8 +48,7 @@ char	*get_path(void)
 		errno = ENOMEM;
 		return (close(fd), NULL);
 	}
-	split = ft_strtrim(split, "\"");
-	printf("fdskfjsdlkfj %s\n", split);
+	split = ft_strtrim(split, "\"\n");
 	free(path);
 	return (close(fd), split);
 }
@@ -85,8 +84,6 @@ char	*get_uname(void)
 
 int	expend_and_dequote(t_minishell *data, t_ast *ast)
 {
-	int	i;
-
 	if (!ast)
 		return (FAILURE);
 	expend_and_dequote(data, ast->left);

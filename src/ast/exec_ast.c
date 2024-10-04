@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 17:39:06 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/25 10:27:33 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/02 12:40:24 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	execute_on_ast(t_minishell *shell_data, t_ast *ast)
 {
 	int	std_in;
 
+	if (!ast)
+		return ;
 	std_in = -1;
 	if (ast->type == AST_PIPE)
 	{

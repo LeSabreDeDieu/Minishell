@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 11:55:12 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/25 14:10:28 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/03 13:04:24 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	create_redirection(t_redirection *redir, char *filename,
 		t_type_redirection flag)
 {
-	redir->hd_filename = NULL;
 	redir->filename = ft_strdup(filename);
 	redir->fd = -1;
 	redir->flag = flag;

@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 15:59:22 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/26 09:37:36 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/03 15:42:14 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,28 @@
 static void	add_all(t_stack **wildcard, char *pattern, struct dirent *entry)
 {
 	char	*tmp;
+	t_stack	*new;
 
 	if (pattern[0] != '.' && entry->d_name[0] != '.')
 	{
 		tmp = ft_strdup(entry->d_name);
-		add_stack(wildcard, new_stack(tmp));
+		if (tmp == NULL)
+			return ;
+		new = new_stack(tmp);
+		if (new == NULL)
+			return (free(tmp));
+		add_stack(wildcard, new);
 		free(tmp);
 	}
 	else if (pattern[0] == '.' && entry->d_name[0] == '.')
 	{
 		tmp = ft_strdup(entry->d_name);
-		add_stack(wildcard, new_stack(tmp));
+		if (tmp == NULL)
+			return ;
+		new = new_stack(tmp);
+		if (new == NULL)
+			return (free(tmp));
+		add_stack(wildcard, new);
 		free(tmp);
 	}
 }
@@ -34,17 +45,28 @@ static void	add_repo(t_stack **wildcard, char *pattern, struct dirent *entry,
 		char *repo)
 {
 	char	*tmp;
+	t_stack	*new;
 
 	if (pattern[0] != '.' && entry->d_name[0] != '.' && entry->d_type == 4)
 	{
 		tmp = ft_strjoin(entry->d_name, repo);
-		add_stack(wildcard, new_stack(tmp));
+		if (tmp == NULL)
+			return ;
+		new = new_stack(tmp);
+		if (new == NULL)
+			return (free(tmp));
+		add_stack(wildcard, new);
 		free(tmp);
 	}
 	else if (pattern[0] == '.' && entry->d_name[0] == '.' && entry->d_type == 4)
 	{
 		tmp = ft_strjoin(entry->d_name, repo);
-		add_stack(wildcard, new_stack(tmp));
+		if (tmp == NULL)
+			return ;
+		new = new_stack(tmp);
+		if (new == NULL)
+			return (free(tmp));
+		add_stack(wildcard, new);
 		free(tmp);
 	}
 }
@@ -53,6 +75,7 @@ void	add_file_wildcard(t_stack **wildcard, char *pattern,
 		struct dirent *entry, char *repo)
 {
 	char	*tmp;
+	t_stack	*new;
 
 	if (repo == NULL)
 		add_all(wildcard, pattern, entry);
@@ -63,7 +86,12 @@ void	add_file_wildcard(t_stack **wildcard, char *pattern,
 		if (entry->d_name[0] != '.')
 		{
 			tmp = ft_strjoin(repo, entry->d_name);
-			add_stack(wildcard, new_stack(tmp));
+			if (tmp == NULL)
+				return ;
+			new = new_stack(tmp);
+			if (new == NULL)
+				return (free(tmp));
+			add_stack(wildcard, new);
 			free(tmp);
 		}
 	}
@@ -77,15 +105,23 @@ char	*get_copy_pattern(const char *pattern, char **pattern_copy)
 	if (pattern[ft_strlen(pattern) - 1] == '/')
 	{
 		(*pattern_copy) = ft_strndup(pattern, ft_strlen(pattern) - 1);
+		if ((*pattern_copy) == NULL)
+			return (NULL);
 		repo = "/";
 	}
 	else if (ft_strstr(pattern, "./") == pattern)
 	{
 		(*pattern_copy) = ft_strdup(pattern + 2);
+		if ((*pattern_copy) == NULL)
+			return (NULL);
 		repo = "./";
 	}
 	else
+	{
 		(*pattern_copy) = ft_strdup(pattern);
+		if ((*pattern_copy) == NULL)
+			return (NULL);
+	}
 	return (repo);
 }
 

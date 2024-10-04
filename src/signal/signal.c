@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 01:29:04 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/09/27 16:28:27 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/02 16:00:44 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	ft_signal_quit(int signum)
 void	ft_signal_heredoc(int signum)
 {
 	g_signal = signum;
+	errno = 130;
 	close(STDIN_FILENO);
 }
 

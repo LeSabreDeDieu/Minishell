@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 12:40:30 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/25 14:16:27 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/04 15:44:02 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,17 @@ void	dequote_quote(char *str, int *i, char **result, char **new_result)
 		(*new_result) = ft_strdup((*result));
 		free((*result));
 	}
+	if (!(*new_result))
+		return ;
 	temp = sub_str_in_quote(&str[(*i)]);
+	if (!temp)
+		return ;
 	if (new_result)
 		(*result) = ft_strjoin((*new_result), temp);
 	else
 		(*result) = ft_strdup(temp);
+	if (!(*result))
+		return ;
 	(*i) += ft_strlen(temp) + 2;
 	free(temp);
 	free((*new_result));
@@ -58,9 +64,13 @@ void	dequote_none_quote(char *str, int *i, char **result, char **new_result)
 		(*new_result) = ft_strjoin((*result), temp);
 	else
 		(*new_result) = ft_strdup(temp);
+	if (!(*new_result))
+		return ;
 	free(temp);
 	free((*result));
 	(*result) = ft_strdup((*new_result));
+	if (!(*result))
+		return ;
 	free((*new_result));
 	++(*i);
 }
