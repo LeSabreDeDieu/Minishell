@@ -25,7 +25,8 @@ int	export_command(int argc, char **argv)
 		parsing_env = parser_env(argv[i]);
 		if (!parsing_env.name || !parsing_env.value)
 			continue ;
-		set_env(parsing_env.name, parsing_env.value);
+		if (ft_isalpha(parsing_env.name[0]))
+			set_env(parsing_env.name, parsing_env.value);
 		free(parsing_env.name);
 		free(parsing_env.value);
 		++i;
