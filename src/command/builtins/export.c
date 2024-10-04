@@ -14,20 +14,21 @@
 
 int	export_command(int argc, char **argv)
 {
-	char	**split;
-	char	*value;
+	t_parsing_env	parsing_env;
 	int		i;
 
 	(void)argc;
-	i = 0;
-	while (argv[i])
+	i = 1;
+	
+	while (i < argc && argv[i])
 	{
-		split = ft_split(argv[i], '=');
-		value = ft_strtrim(split[1], "\"");
-		set_env(split[0], value);
-		free_str_tab(split);
-		free(value);
-		i++;
+		parsing_env = parser_env(argv[i]);
+		if (!parsing_env.name || !parsing_env.value)
+			continue ;
+		set_env(parsing_env.name, parsing_env.value);
+		free(parsing_env.name);
+		free(parsing_env.value);
+		++i;
 	}
 	return (0);
 }
