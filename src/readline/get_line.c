@@ -6,11 +6,12 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 16:16:19 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/04 17:01:32 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/04 18:15:49 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "libft.h"
 #include <readline/readline.h>
 #include <readline/history.h>
 
@@ -49,7 +50,12 @@ char	*get_cwd_prompt(t_minishell *shell_data)
 		free(tmp);
 	}
 	else
-		result = "";
+	{
+		result = ft_strdup(get_env("PWD")->value);
+		print_env();
+		if (result == NULL)
+			result = ft_strdup("");
+	}
 	return (result);
 }
 

@@ -6,7 +6,7 @@
 #    By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:19:20 by gcaptari          #+#    #+#              #
-#    Updated: 2024/10/04 16:56:52 by sgabsi           ###   ########.fr        #
+#    Updated: 2024/10/04 17:35:15 by sgabsi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -85,7 +85,8 @@ SRC_COMMAND_FILES	=	command.c \
 						builtins/unset.c \
 						builtins/env.c	\
 						builtins/cd.c	\
-						builtins/exit.c
+						builtins/exit.c \
+						builtins/pwd.c
 SRC_COMMAND			=	$(addprefix $(SRC_COMMAND_DIR)/, $(SRC_COMMAND_FILES))
 
 #READ_LINE

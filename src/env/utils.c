@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 22:04:53 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/04 15:11:25 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/04 18:06:56 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,8 @@ void	set_env(char *name, char *value)
 	t_env	*current;
 	char	*tmp;
 
+	if (!name || !value)
+		return ;
 	current = get_env(name);
 	if (current)
 	{
@@ -111,3 +113,4 @@ void	set_env(char *name, char *value)
 	}
 	add_env(new_env(name, value));
 }
+ 

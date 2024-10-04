@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 13:38:06 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/27 10:58:57 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/04 17:33:20 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ bool	is_builtin(char *name)
 {
 	return (is_exact_name(name, "echo") || is_exact_name(name, "cd")
 		|| is_exact_name(name, "exit") || is_exact_name(name, "env")
-		|| is_exact_name(name, "unset") || is_exact_name(name, "export"));
+		|| is_exact_name(name, "unset") || is_exact_name(name, "export")
+		|| is_exact_name(name, "pwd"));
 }
 
 char	*special_cmd_join(char *path, char *name)
