@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:28:15 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/07 15:35:37 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/07 16:10:17 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,20 @@ int	traitement(t_minishell *data, char *prompt)
 	int	itter_heredoc;
 
 	to_tokenise(data, prompt);
+	if (!data->tokens || !data->tokens->first_token)
+		return (FAILURE);
 	free(prompt);
 	if (!check_valid_token(data->tokens))
 		return (ft_putendl_fd("TOKEN ERROR !", STDERR_FILENO), false);
-	create_ast(data, data->tokens);
+	if (create_ast(data, data->tokens) == FAILURE)
+		return (ft_putendl_fd("AST ERROR !", STDERR_FILENO), false);
 	itter_heredoc = -1;
 	expend_and_dequote(data, data->ast);
 	if (open_all_here_doc(data, data->ast, itter_heredoc) != FAILURE)
 		execute_on_ast(data, data->ast);
 	free_token(data->tokens);
 	free_ast(&data->ast);
-	return (0);
+	return (SUCCESS);
 }
 
 static void	init_minishell(t_minishell *data, char **envp)

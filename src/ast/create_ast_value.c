@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 11:55:12 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/03 13:04:24 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/07 15:59:22 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,14 +76,17 @@ static int	create_ast_value_word(t_ast_value *value, t_token_list **tokens)
 		&& current->token->type != TOKEN_REDIRECTION
 		&& !is_quote(current->token))
 		return (FAILURE);
-	create_redirection_list(&value, &current);
-	count_nb_arg(&value, &current);
+	if (create_redirection_list(&value, &current) == FAILURE)
+		return (FAILURE);
+	if (count_nb_arg(&value, &current) == FAILURE)
+		return (FAILURE);
 	if (value->argc != 0)
 	{
 		value->argv = ft_calloc(value->argc + 1, sizeof(char *));
 		if (!value->argv)
 			return (FAILURE);
-		add_argv_value(&value, &current);
+		if (add_argv_value(&value, &current) == FAILURE)
+			return (FAILURE);
 		value->name = value->argv[0];
 	}
 	*tokens = current;

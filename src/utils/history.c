@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:28:07 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/04 17:08:07 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/07 17:39:08 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,21 @@ int	add_history_file(t_data_minishell *data, char *line)
 	return (SUCCESS);
 }
 
+static void	get_all_lines(char *line, int fd)
+{
+	char	*tmp;
+
+	while (line != NULL)
+	{
+		add_history(line);
+		free(line);
+		tmp = get_next_line(fd);
+		if (tmp == NULL)
+			break ;
+		line = ft_str_replace(tmp, "\n", "\0");
+	}
+}
+
 int	read_history_from_file(t_data_minishell *data)
 {
 	int		fd;
@@ -67,16 +82,14 @@ int	read_history_from_file(t_data_minishell *data)
 			return (FAILURE);
 		fd = open(path, O_RDONLY);
 	}
-	line = ft_str_replace(get_next_line(fd), "\n", "\0");
-	while (line != NULL)
+	tmp = get_next_line(fd);
+	if (tmp == NULL)
 	{
-		add_history(line);
-		free(line);
-		tmp = get_next_line(fd);
-		if (tmp == NULL)
-			break ;
-		line = ft_str_replace(tmp, "\n", "\0");
+		close(fd);
+		return (free(path), FAILURE);
 	}
+	line = ft_str_replace(tmp, "\n", "\0");
+	get_all_lines(line, fd);
 	close(fd);
 	return (free(path), SUCCESS);
 }

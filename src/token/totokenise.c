@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:03:20 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/04 16:49:57 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/07 16:10:12 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,18 @@ void	tokenise_prompt(t_tokens *tokens, char *prompt, bool is_and_or)
 	while (*tmp)
 	{
 		if (contain_and_or(tmp))
-		{
-			tokenise_and_or(tokens, &tmp);
-			free(save);
-			return ;
-		}
+			return (tokenise_and_or(tokens, &tmp), free(save));
 		if (ft_isspace(*tmp))
 		{
 			tmp++;
 			continue ;
 		}
-		tokenise(&tmp, tokens, is_and_or);
+		if (tokenise(&tmp, tokens, is_and_or) == FAILURE)
+		{
+			free_token(tokens);
+			tokens->first_token = NULL;
+			break ;
+		}
 	}
 	free(save);
 }

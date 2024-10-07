@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 19:32:37 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/04 17:20:21 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/07 15:46:58 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,8 @@ int	expend_wildcard(t_minishell *shell_data, char *argv)
 		return (FAILURE);
 	if (ft_strchr(argv, '*'))
 	{
-		add_matching_files(&shell_data->stack, argv);
+		if (add_matching_files(&shell_data->stack, argv) == FAILURE)
+			return (FAILURE);
 	}
 	closedir(dir);
 	return (SUCCESS);

@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 12:25:19 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/17 17:35:55 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/07 16:03:13 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ void	create_nodes_special(t_token_list *tokens, t_ast *right,
 			ast->type = AST_PIPE;
 		if (tokens->next)
 			ast->left = create_nodes(tokens->next);
+		if (ast->left == NULL)
+			return (free_ast(&ast));
 		if (ast->right && detect_is_final_cmd(tokens->next))
 			ast->left->value.last_cmd = true;
 		else if (ast->left && detect_is_final_cmd(tokens->next))

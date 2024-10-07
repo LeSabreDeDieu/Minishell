@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 12:03:24 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/04 16:45:16 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/07 17:19:41 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ static int	expend2(t_minishell *shell_data, t_ast_value *value, t_pos *pos)
 int	expend(t_minishell *shell_data, t_ast_value *value)
 {
 	t_pos	pos;
+	char	**argv_tmp;
 
 	ft_bzero(&pos, sizeof(t_pos));
 	shell_data->stack = NULL;
@@ -97,7 +98,10 @@ int	expend(t_minishell *shell_data, t_ast_value *value)
 		free_str_tab(value->argv);
 		split_stack_elements(&shell_data->stack);
 		value->argc = dlist_len(shell_data->stack);
-		value->argv = dlist_to_argv(&shell_data->stack);
+		argv_tmp = dlist_to_argv(&shell_data->stack);
+		if (!argv_tmp)
+			return (free_dlist(&shell_data->stack), FAILURE);
+		value->argv = argv_tmp;
 		value->name = value->argv[0];
 	}
 	return (SUCCESS);

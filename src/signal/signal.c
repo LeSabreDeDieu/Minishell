@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 01:29:04 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/07 14:58:42 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/07 15:51:33 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	ft_signal_quit(int signum)
 void	ft_signal_heredoc(int signum)
 {
 	g_signal = signum;
+	write(STDOUT_FILENO, "\n", 1);
 	close(STDIN_FILENO);
 }
 
