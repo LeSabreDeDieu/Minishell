@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 17:52:37 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/03 13:00:32 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/07 13:08:52 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ enum							e_close_fd
 
 typedef enum e_type_redirection
 {
-	HERE_DOC,
+	HERE_DOC = 1,
 	READ,
 	WRITE,
 	APPEND

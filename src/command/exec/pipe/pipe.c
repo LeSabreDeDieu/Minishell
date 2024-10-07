@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:29:31 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/02 13:52:21 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/07 15:41:14 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	execute_pipe(t_minishell *minishell, int *pipe_in, t_ast_value *value)
 		return (error_message_command("fork", strerror(errno)));
 	if (!value->pid)
 	{
-		(signal(SIGINT, SIG_DFL), signal(SIGQUIT, SIG_IGN));
+		(signal(SIGINT, SIG_DFL), signal(SIGQUIT, SIG_DFL));
 		close(value->fd_in);
 		if (*pipe_in != -1)
 			(dup2(*pipe_in, STDIN_FILENO), close(*pipe_in));

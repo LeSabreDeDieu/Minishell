@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 09:35:19 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/04 17:11:37 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/07 15:38:58 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ int	here_doc(t_minishell *minishell, t_redirection_list *redir_list)
 	}
 	minishell->is_here_doc = false;
 	free_minishell(minishell, FREE_ALL);
+	if (g_signal == SIGINT)
+		exit(130);
 	exit(errno);
 }
 
@@ -103,13 +105,17 @@ int	open_here_doc(t_minishell *minishell, t_ast_value *ast_value, int itterdoc)
 					here_doc(minishell, redir_list));
 			else
 			{
+				(signal(SIGINT, SIG_IGN), signal(SIGQUIT, SIG_IGN));
 				waitpid(pid, &status, 0);
+				minishell->current_status = WEXITSTATUS(status);
+				if (minishell->current_status == 130)
+					return (FAILURE);
 				itterdoc_str = ft_itoa(itterdoc);
 				here_doc_name = ft_strjoin(HERE_DOC_PATH, itterdoc_str);
 				free(itterdoc_str);
 				free(redir_list->redirection.filename);
 				redir_list->redirection.filename = here_doc_name;
-				free(here_doc_name);
+				signal(SIGINT, ft_signal_ctrlc);
 			}
 			close(redir_list->redirection.fd);
 		}
@@ -122,7 +128,8 @@ int	open_all_here_doc(t_minishell *minishell, t_ast *ast, int itterdoc)
 {
 	if (!ast)
 		return (SUCCESS);
-	open_all_here_doc(minishell, ast->left, itterdoc);
+	if (open_all_here_doc(minishell, ast->left, itterdoc) == FAILURE)
+		return (FAILURE);
 	if (ast->type == AST_CMD || ast->type == AST_SUBSHELL)
 	{
 		++itterdoc;
@@ -131,6 +138,7 @@ int	open_all_here_doc(t_minishell *minishell, t_ast *ast, int itterdoc)
 			return (FAILURE);
 		}
 	}
-	open_all_here_doc(minishell, ast->right, itterdoc);
+	if (open_all_here_doc(minishell, ast->right, itterdoc) == FAILURE)
+		return (FAILURE);
 	return (SUCCESS);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_subshell.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:29:24 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/01 12:24:26 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/07 15:42:07 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	fork_subshell(t_minishell *data, t_ast_value *value)
 	if (!value->pid)
 	{
 		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_IGN);
+		signal(SIGQUIT, SIG_DFL);
 		execute_in_subshell(data, value);
 	}
 	return (SUCCESS);

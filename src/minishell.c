@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:28:15 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/04 16:35:04 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/07 15:35:37 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,8 @@ int	traitement(t_minishell *data, char *prompt)
 	create_ast(data, data->tokens);
 	itter_heredoc = -1;
 	expend_and_dequote(data, data->ast);
-	if (open_all_here_doc(data, data->ast, itter_heredoc) == FAILURE)
-		return (data->current_status = ENOENT);
-	execute_on_ast(data, data->ast);
+	if (open_all_here_doc(data, data->ast, itter_heredoc) != FAILURE)
+		execute_on_ast(data, data->ast);
 	free_token(data->tokens);
 	free_ast(&data->ast);
 	return (0);

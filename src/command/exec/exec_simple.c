@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:34:57 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/04 17:18:53 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/07 15:40:37 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static int	handle_fork(t_minishell *minishell, t_ast_value *value)
 	if (!value->pid)
 	{
 		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_IGN);
+		signal(SIGQUIT, SIG_DFL);
 		if (open_all_redirection(value->redirections) == FAILURE)
 		{
 			close_all_redir(value, CLOSE_DUP_STD | CLOSE_FD_REDIR);
