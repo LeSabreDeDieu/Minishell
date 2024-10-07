@@ -39,13 +39,16 @@ static int	handle_child_process(t_minishell *minishell, t_ast_value *value)
 	close_dup_standard(value);
 	path = get_real_command(value->name, minishell);
 	if (!path)
-		(error_message_command("fork", "Malloc failed"), exit(ENOMEM));
+		(error_message_command("fork", "Malloc failled"), free_minishell(minishell, FREE_ALL), exit(ENOMEM));
 	else if (safe_dup_all_redir(minishell, value, FREE_ALL,
 			CLOSE_DUP_STD | CLOSE_FD_REDIR) == -1)
 	{
 		free(path);
 		exit(ENOENT);
 	}
+		envp = env_to_tab();
+		if (!envp)
+			(error_message_command("fork", "Malloc failled"), free_minishell(minishell, FREE_ALL), exit(ENOMEM));
 	envp = env_to_tab();
 	if (execve(path, value->argv, envp) != 0)
 		error_message_command(value->name, COMMAND_NOT_FOUND);

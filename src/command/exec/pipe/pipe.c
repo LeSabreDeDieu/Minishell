@@ -33,13 +33,13 @@ void	execution_cmd_pipe(t_minishell *minishell, t_ast_value *value)
 		}
 		path = get_real_command(value->name, minishell);
 		if (!path)
-			(error_message_command("fork", "Malloc failled"), exit(ENOMEM));
+			(error_message_command("fork", "Malloc failled"), free_minishell(minishell, FREE_ALL), exit(ENOMEM));
 		envp = env_to_tab();
 		if (!envp)
-			(error_message_command("fork", "Malloc failled"), exit(ENOMEM));
+			(error_message_command("fork", "Malloc failled"), free_minishell(minishell, FREE_ALL), exit(ENOMEM));
 		if (execve(path, value->argv, envp) != 0)
 			error_message_command(value->name, COMMAND_NOT_FOUND);
-		(free(path), free(envp));
+		(free(path), free_str_tab(envp));
 	}
 	close_all_redir(value, CLOSE_FD_REDIR | CLOSE_DUP_STD);
 	(free_minishell(minishell, FREE_ALL), exit(errno));

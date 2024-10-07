@@ -26,6 +26,8 @@ static int	cd_old_pwd(char *pwd, t_env *current_pwd)
 	{
 		(ft_putstr_fd(old_pwd->value, 1), ft_putstr_fd("\n", 1),
 			pwd = ft_strdup(old_pwd->value));
+		if (!current_pwd)
+			return (unset_env("OLDPWD"), unset_env("PWD"), free(pwd), SUCCESS);
 		return (set_env("OLDPWD", current_pwd->value), set_env("PWD", pwd),
 			free(pwd), SUCCESS);
 	}
@@ -38,7 +40,6 @@ static int	cd_with_argmuntes(t_env *current_pwd, char *argv[])
 	char	*cwd;
 	char	*pwd;
 
-	current_pwd = get_env("PWD");
 	pwd = NULL;
 	if (ft_strncmp(argv[1], "-", 2) == 0)
 		return (cd_old_pwd(pwd, current_pwd));
