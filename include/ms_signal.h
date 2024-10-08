@@ -1,21 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_children.c                                    :+:      :+:    :+:   */
+/*   ms_signal.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/12 11:26:53 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/09/03 10:06:39 by gcaptari         ###   ########.fr       */
+/*   Created: 2024/10/08 15:20:16 by sgabsi            #+#    #+#             */
+/*   Updated: 2024/10/08 15:58:55 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
-#include "tokens.h"
+#ifndef MS_SIGNAL_H
+# define MS_SIGNAL_H
 
-void	free_on_children(t_minishell *minishell)
-{
-	free_env();
-	free_token(minishell->tokens);
-	free_ast(&minishell->ast);
-}
+# include <signal.h>
+
+extern volatile int		g_signal;
+
+#endif

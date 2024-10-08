@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:45:02 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/04 17:19:36 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/08 16:00:31 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@
 # include "color.h"
 # include "expension.h"
 # include "ms_error.h"
-
-extern volatile int		g_signal;
 
 typedef struct s_ast	t_ast;
 typedef struct s_tokens	t_tokens;

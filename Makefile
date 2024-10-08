@@ -6,7 +6,7 @@
 #    By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:19:20 by gcaptari          #+#    #+#              #
-#    Updated: 2024/10/04 17:35:15 by sgabsi           ###   ########.fr        #
+#    Updated: 2024/10/08 16:03:15 by sgabsi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,7 +60,6 @@ SRC_UTILS_DIR 		=	utils
 SRC_UTILS_FILES		=	error.c \
 						free.c \
 						history.c \
-						free_children.c	\
 						len.c \
 						minishell_utils.c
 SRC_UTILS			=	$(addprefix $(SRC_UTILS_DIR)/, $(SRC_UTILS_FILES))
@@ -69,6 +68,7 @@ SRC_UTILS			=	$(addprefix $(SRC_UTILS_DIR)/, $(SRC_UTILS_FILES))
 SRC_COMMAND_DIR 	=	command
 SRC_COMMAND_FILES	=	command.c \
 						here_doc.c \
+						here_doc_utils.c \
 						wait.c     \
 						utils.c \
 						prepare/close_all_redir.c \
@@ -149,7 +149,7 @@ NAME				=	minishell
 
 # Compiler
 CC					=	cc
-CFLAGS				=	-MMD -g3 -Wall -Wextra -Wshadow -Wunused #-Werror
+CFLAGS				=	-Wall -Wextra -Wshadow -Wunused -Werror -MMD -g3
 
 OPTIONS				=	-I $(INCDIR) -I $(LIBFT_DIR)/includes
 LFLAGS				=	-L $(LIBFT_DIR) -lft -lreadline -lcurses

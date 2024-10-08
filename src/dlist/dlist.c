@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 19:29:48 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/04 16:57:47 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/08 11:50:26 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ char	**dlist_to_argv(t_dlist **dlist)
 		if (tmp->str != NULL && ft_strlen(tmp->str) > 0)
 		{
 			argv[i] = ft_strdup(tmp->str);
-			if (!argv[i])
+			if (argv[i] == NULL)
 				return (free_str_tab(argv), NULL);
 			i++;
 		}

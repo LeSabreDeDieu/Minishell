@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:24:32 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/04 17:07:44 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/08 11:44:58 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ int	expend_variable_from_env(t_ast_value *value, int *i, int j)
 	env_value = "";
 	to_exp = ft_substr(value->argv[(*i)], j, ft_strlen(&value->argv[(*i)][(j)])
 			- ft_strlen(get_end(value->argv[(*i)] + ((j) + 1))));
+	if (to_exp == NULL)
+		return (FAILURE);
 	env = get_env(to_exp + 1);
 	if (env != NULL)
 		env_value = env->value;

@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:34:57 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/07 15:40:37 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/08 16:18:56 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,21 +39,21 @@ static int	handle_child_process(t_minishell *minishell, t_ast_value *value)
 	close_dup_standard(value);
 	path = get_real_command(value->name, minishell);
 	if (!path)
-		(error_message_command("fork", "Malloc failled"), free_minishell(minishell, FREE_ALL), exit(ENOMEM));
+		(error_message_command("fork", "Malloc failled"),
+			free_minishell(minishell, FREE_ALL), exit(ENOMEM));
 	else if (safe_dup_all_redir(minishell, value, FREE_ALL,
 			CLOSE_DUP_STD | CLOSE_FD_REDIR) == -1)
 	{
 		free(path);
 		exit(ENOENT);
 	}
-		envp = env_to_tab();
-		if (!envp)
-			(error_message_command("fork", "Malloc failled"), free_minishell(minishell, FREE_ALL), exit(ENOMEM));
 	envp = env_to_tab();
+	if (!envp)
+		(error_message_command("fork", "Malloc failled"),
+			free_minishell(minishell, FREE_ALL), exit(ENOMEM));
 	if (execve(path, value->argv, envp) != 0)
 		error_message_command(value->name, COMMAND_NOT_FOUND);
-	free_str_tab(envp);
-	free(path);
+	(free_str_tab(envp), free(path));
 	close_all_redir(value, CLOSE_DUP_STD | CLOSE_FD_REDIR);
 	free_minishell(minishell, FREE_ALL);
 	exit(errno);

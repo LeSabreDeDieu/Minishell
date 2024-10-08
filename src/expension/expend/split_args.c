@@ -6,13 +6,13 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 15:50:41 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/04 16:45:08 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/08 11:52:59 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expension.h"
 
-void	add_split_to_stack(t_dlist **stack, char **split)
+int	add_split_to_stack(t_dlist **stack, char **split)
 {
 	int		i;
 	t_dlist	*new;
@@ -21,14 +21,15 @@ void	add_split_to_stack(t_dlist **stack, char **split)
 	while (split[i])
 	{
 		new = new_dlist(split[i]);
-		if (!new)
+		if (new == NULL)
 		{
 			free_dlist(stack);
-			return (free_str_tab(split));
+			return (free_str_tab(split), FAILURE);
 		}
 		add_dlist(stack, new);
 		++i;
 	}
+	return (SUCCESS);
 }
 
 void	split_current_stack_element(t_dlist **stack, t_dlist **current)
@@ -46,7 +47,8 @@ void	split_current_stack_element(t_dlist **stack, t_dlist **current)
 		return ;
 	free((*current)->str);
 	free((*current));
-	add_split_to_stack(stack, split);
+	if (add_split_to_stack(stack, split) == FAILURE)
+		return (free_str_tab(split));
 	free_str_tab(split);
 	(*current) = dlist_last(*stack);
 	(*current)->next = save_next;

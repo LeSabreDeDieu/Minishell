@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 16:16:19 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/04 18:20:07 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/08 15:01:21 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,26 +34,29 @@ char	*assemble(const char **display)
 	return (display_final);
 }
 
-char	*get_cwd_prompt(t_minishell *shell_data)
+char	*get_cwd_prompt(void)
 {
 	char	*cwd;
-	char	*tmp;
 	char	*result;
+	t_env	*env;
 
+	result = NULL;
 	cwd = getcwd(NULL, 0);
 	if (cwd)
 	{
-		tmp = ft_strjoin("/home/", shell_data->data.username);
-		result = ft_str_replace(cwd, tmp, "~");
+		env = get_env("HOME");
+		if (env)
+			result = ft_str_replace(cwd, env->value, "~");
 		if (result == NULL)
 			result = cwd;
-		free(tmp);
 	}
 	else
 	{
-		result = ft_strdup(get_env("PWD")->value);
-		if (result == NULL)
-			result = ft_strdup("");
+		env = get_env("PWD");
+		if (env)
+			result = ft_strdup(env->value);
+		else
+			result = ft_strdup("Am I in the void ?!?!");
 	}
 	return (result);
 }
@@ -68,7 +71,7 @@ char	*create_display(t_minishell *shell_data)
 	prompt[2] = RESET_RL;
 	prompt[3] = "@";
 	prompt[4] = GREEN_RL;
-	prompt[5] = get_cwd_prompt(shell_data);
+	prompt[5] = get_cwd_prompt();
 	prompt[6] = RESET_RL;
 	prompt[7] = "> ";
 	prompt[8] = NULL;

@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:28:07 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/07 17:39:08 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/08 16:21:23 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ static void	get_all_lines(char *line, int fd)
 		if (tmp == NULL)
 			break ;
 		line = ft_str_replace(tmp, "\n", "\0");
+		if (line == NULL)
+			free(tmp);
 	}
 }
 
@@ -89,6 +91,8 @@ int	read_history_from_file(t_data_minishell *data)
 		return (free(path), FAILURE);
 	}
 	line = ft_str_replace(tmp, "\n", "\0");
+	if (line == NULL)
+		return (close(fd), free(path), FAILURE);
 	get_all_lines(line, fd);
 	close(fd);
 	return (free(path), SUCCESS);

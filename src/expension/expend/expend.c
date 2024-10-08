@@ -6,13 +6,13 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 12:03:24 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/07 17:19:41 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/08 11:57:14 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expension.h"
 
-static void	expend_variable(t_minishell *shell_data, t_ast_value *value,
+static int	expend_variable(t_minishell *shell_data, t_ast_value *value,
 		bool is_quoted, t_pos *pos)
 {
 	char	pid_str[16];
@@ -34,7 +34,9 @@ static void	expend_variable(t_minishell *shell_data, t_ast_value *value,
 	}
 	else if (value->argv[pos->i][pos->j] == '$' && value->argv[pos->i][pos->j
 		+ 1] != '$')
-		expend_variable_from_env(value, &pos->i, pos->j);
+		if (expend_variable_from_env(value, &pos->i, pos->j) == FAILURE)
+			return (FAILURE);
+	return (SUCCESS);
 }
 
 static int	expend3(t_minishell *shell_data, t_ast_value *value, t_pos *pos)
@@ -47,7 +49,8 @@ static int	expend3(t_minishell *shell_data, t_ast_value *value, t_pos *pos)
 		is_quoted = is_in_dquote(value->argv[pos->i][pos->j], is_quoted);
 		if (value->argv[pos->i][pos->j] == '$')
 		{
-			expend_variable(shell_data, value, is_quoted, pos);
+			if (expend_variable(shell_data, value, is_quoted, pos) == FAILURE)
+				return (FAILURE);
 		}
 		else if (value->argv[pos->i][pos->j] == '~')
 		{
@@ -57,7 +60,7 @@ static int	expend3(t_minishell *shell_data, t_ast_value *value, t_pos *pos)
 		else if (value->argv[pos->i][pos->j] == '*')
 		{
 			expend_wildcard(shell_data, value->argv[pos->i]);
-			return (FAILURE);
+			return (WILDCARD);
 		}
 		else
 			++pos->j;
@@ -68,17 +71,21 @@ static int	expend3(t_minishell *shell_data, t_ast_value *value, t_pos *pos)
 static int	expend2(t_minishell *shell_data, t_ast_value *value, t_pos *pos)
 {
 	t_dlist	*tmp;
+	int		ret;
 
 	while (pos->i < value->argc && value->argv[pos->i])
 	{
 		pos->j = 0;
-		if (expend3(shell_data, value, pos) != FAILURE)
+		ret = expend3(shell_data, value, pos);
+		if (ret != FAILURE)
 		{
 			tmp = new_dlist(value->argv[pos->i]);
 			if (!tmp)
 				return (free_dlist(&shell_data->stack), FAILURE);
 			add_dlist(&shell_data->stack, tmp);
 		}
+		else if (ret == FAILURE)
+			return (FAILURE);
 		++pos->i;
 	}
 	return (SUCCESS);
@@ -94,12 +101,13 @@ int	expend(t_minishell *shell_data, t_ast_value *value)
 	if (value->argv)
 	{
 		pos.i = 0;
-		expend2(shell_data, value, &pos);
+		if (expend2(shell_data, value, &pos) == FAILURE)
+			return (free_dlist(&shell_data->stack), FAILURE);
 		free_str_tab(value->argv);
 		split_stack_elements(&shell_data->stack);
 		value->argc = dlist_len(shell_data->stack);
 		argv_tmp = dlist_to_argv(&shell_data->stack);
-		if (!argv_tmp)
+		if (argv_tmp == NULL)
 			return (free_dlist(&shell_data->stack), FAILURE);
 		value->argv = argv_tmp;
 		value->name = value->argv[0];

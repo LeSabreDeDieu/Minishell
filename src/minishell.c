@@ -6,18 +6,19 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:28:15 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/07 16:10:17 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/08 16:02:39 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ast.h"
-#include "command.h"
-#include "libft.h"
-#include "minishell.h"
-#include "stdbool.h"
-#include "test.h"
-#include "tokens.h"
 #include <limits.h>
+#include "minishell.h"
+#include "ms_signal.h"
+#include "stdbool.h"
+#include "command.h"
+#include "tokens.h"
+#include "libft.h"
+#include "test.h"
+#include "ast.h"
 
 static void	usage(int argc)
 {
@@ -88,6 +89,7 @@ static void	minishell(char *envp[])
 			continue ;
 		}
 		traitement(&data, line);
+		printf("main\n");
 	}
 }
 

@@ -6,11 +6,12 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 01:29:04 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/07 15:51:33 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/08 16:01:42 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "ms_signal.h"
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <stdlib.h>
