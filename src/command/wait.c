@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 01:15:30 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/10 16:25:47 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/10 16:31:45 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,10 @@ void	wait_for_single_process(t_minishell *data, t_ast_value *value)
 	if (WIFSIGNALED(states))
 	{
 		data->current_status = (128 + WTERMSIG(states));
-		ft_putendl_fd("", STDOUT_FILENO);
+		if (WTERMSIG(states) == SIGQUIT)
+			ft_putendl_fd("\033[0KQuit (Core dumped)", STDOUT_FILENO);
+		else if (WTERMSIG(states) == SIGINT)
+			ft_putendl_fd("", STDOUT_FILENO);
 	}
 }
 
