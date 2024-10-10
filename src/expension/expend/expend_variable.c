@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 08:21:33 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/07 15:06:46 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/08 16:53:15 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	expend_last_status(t_minishell *shell_data, t_ast_value *value,
 	char	*status;
 
 	status = ft_itoa(shell_data->current_status);
-	printf("status = %s\n", status);
 	value->argv[pos->i] = ft_str_replace(value->argv[pos->i], "$?", status);
 	free(status);
 }

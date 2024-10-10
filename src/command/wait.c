@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 01:15:30 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/08 16:01:59 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/10 15:25:32 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ void	handle_signal_interrupt(t_minishell *data)
 {
 	if (g_signal == SIGQUIT)
 	{
-		ft_putendl_fd("\033[0K\nQuit (Core dumped)\n", STDOUT_FILENO);
-		data->current_status = 131;
+		ft_putendl_fd("\033[0KQuit (Core dumped)", STDOUT_FILENO);
+		data->current_status = 128 + g_signal;
 	}
 	else if (g_signal == SIGINT)
 	{
-		ft_putendl_fd("\n", STDOUT_FILENO);
-		data->current_status = 130;
+		ft_putendl_fd("", STDOUT_FILENO);
+		data->current_status = 128 + g_signal;
 	}
 	kill_all_pid(data->ast);
 	g_signal = 0;
@@ -57,7 +57,8 @@ void	wait_for_single_process(t_minishell *data, t_ast_value *value)
 			break ;
 		}
 	}
-	data->current_status = WEXITSTATUS(states);
+	if (WIFEXITED(states))
+		data->current_status = WEXITSTATUS(states);
 }
 
 void	wait_for_pipeline(t_minishell *data)

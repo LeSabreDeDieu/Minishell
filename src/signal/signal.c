@@ -6,11 +6,10 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 01:29:04 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/08 16:01:42 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/10 14:36:51 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "ms_signal.h"
 #include <readline/readline.h>
 #include <readline/history.h>
@@ -34,9 +33,6 @@ void	ft_signal_ctrlc(int signum)
 void	ft_signal_quit(int signum)
 {
 	g_signal = signum;
-	printf("\033[2D\033[0K");
-	rl_on_new_line();
-	rl_redisplay();
 }
 
 void	ft_signal_heredoc(int signum)
@@ -44,6 +40,11 @@ void	ft_signal_heredoc(int signum)
 	g_signal = signum;
 	write(STDOUT_FILENO, "\n", 1);
 	close(STDIN_FILENO);
+}
+
+void	ft_signal_child(int signum)
+{
+	g_signal = signum;
 }
 
 void	init_signal(void)

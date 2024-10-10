@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:29:31 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/07 15:41:14 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/10 15:24:49 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,6 @@ void	execute_pipe_last(t_minishell *minishell, int *pipe_in,
 	}
 	if (!value->pid)
 	{
-		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_IGN);
 		if (open_all_redirection(value->redirections) == FAILURE)
 			exit(errno);
 		if (*pipe_in != -1)

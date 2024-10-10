@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 09:35:19 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/08 16:11:29 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/10 13:58:57 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,8 @@ int	open_here_doc(t_minishell *minishell, t_ast_value *ast_value, int itterdoc)
 	{
 		if (redir_list->redirection.flag == HERE_DOC)
 		{
-			fork_hd(minishell, redir_list, itterdoc);
+			if (fork_hd(minishell, redir_list, itterdoc) == FAILURE)
+				return (FAILURE);
 		}
 		redir_list = redir_list->next;
 	}

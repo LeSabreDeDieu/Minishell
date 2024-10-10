@@ -6,20 +6,21 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 17:39:06 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/02 12:40:24 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/10 14:45:03 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast.h"
 #include "command.h"
 #include "minishell.h"
+#include "ms_signal.h"
 
-void	test_execution_pipe(t_minishell *shell_data, int *std_in,
+void	execution_pipe(t_minishell *shell_data, int *std_in,
 		t_ast *ast_current)
 {
 	if (!ast_current)
 		return ;
-	test_execution_pipe(shell_data, std_in, ast_current->right);
+	execution_pipe(shell_data, std_in, ast_current->right);
 	if (ast_current->type == AST_CMD)
 	{
 		if (expend(shell_data, &ast_current->value) == FAILURE)
@@ -30,7 +31,7 @@ void	test_execution_pipe(t_minishell *shell_data, int *std_in,
 		else
 			execute_pipe(shell_data, std_in, &ast_current->value);
 	}
-	test_execution_pipe(shell_data, std_in, ast_current->left);
+	execution_pipe(shell_data, std_in, ast_current->left);
 	if (ast_current->value.last_cmd)
 		wait_process(shell_data, &ast_current->value, true);
 }
@@ -41,10 +42,12 @@ void	execute_on_ast(t_minishell *shell_data, t_ast *ast)
 
 	if (!ast)
 		return ;
+	signal(SIGINT, ft_signal_child);
+	signal(SIGQUIT, ft_signal_child);
 	std_in = -1;
 	if (ast->type == AST_PIPE)
 	{
-		test_execution_pipe(shell_data, &std_in, ast);
+		execution_pipe(shell_data, &std_in, ast);
 		return ;
 	}
 	if (ast->right)

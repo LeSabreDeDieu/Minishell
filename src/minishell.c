@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:28:15 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/08 16:02:39 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/10 14:36:42 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	traitement(t_minishell *data, char *prompt)
 {
 	int	itter_heredoc;
 
+	signal(SIGINT, SIG_IGN);
 	to_tokenise(data, prompt);
 	if (!data->tokens || !data->tokens->first_token)
 		return (FAILURE);
@@ -46,6 +47,8 @@ int	traitement(t_minishell *data, char *prompt)
 	expend_and_dequote(data, data->ast);
 	if (open_all_here_doc(data, data->ast, itter_heredoc) != FAILURE)
 		execute_on_ast(data, data->ast);
+	signal(SIGINT, ft_signal_ctrlc);
+	signal(SIGQUIT, ft_signal_quit);
 	free_token(data->tokens);
 	free_ast(&data->ast);
 	return (SUCCESS);
@@ -79,6 +82,10 @@ static void	minishell(char *envp[])
 	print_welcome();
 	while (true)
 	{
+		if (g_signal == SIGINT)
+			g_signal = 0;
+		if (g_signal == SIGQUIT)
+			g_signal = 0;
 		line = rl_gets(&data.data, create_display(&data));
 		g_signal = 0;
 		if (!line)
@@ -89,7 +96,6 @@ static void	minishell(char *envp[])
 			continue ;
 		}
 		traitement(&data, line);
-		printf("main\n");
 	}
 }
 
