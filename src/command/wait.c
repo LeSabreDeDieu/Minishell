@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 01:15:30 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/10 15:25:32 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/10 16:25:47 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,11 @@ void	wait_for_single_process(t_minishell *data, t_ast_value *value)
 	}
 	if (WIFEXITED(states))
 		data->current_status = WEXITSTATUS(states);
+	if (WIFSIGNALED(states))
+	{
+		data->current_status = (128 + WTERMSIG(states));
+		ft_putendl_fd("", STDOUT_FILENO);
+	}
 }
 
 void	wait_for_pipeline(t_minishell *data)
