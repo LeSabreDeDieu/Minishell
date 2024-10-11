@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:34:59 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/04 16:53:30 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/11 10:14:06 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ bool	check_valid_token(t_tokens *tokens)
 		return (free_token(tokens), false);
 	current = tokens->first_token;
 	if (is_and_or_pipe(current->token))
-		return (free_token(tokens), false);
+		return (token_error(current->token->value), free_token(tokens), false);
 	while (current)
 	{
 		if (current->token->type == TOKEN_REDIRECTION && current->next == NULL)

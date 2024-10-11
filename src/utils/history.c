@@ -6,13 +6,13 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:28:07 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/11 10:06:14 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/11 10:44:40 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <readline/history.h>
 #include <fcntl.h>
+#include <readline/history.h>
 #include <unistd.h>
 
 int	create_history(t_data_minishell *data)
@@ -21,7 +21,7 @@ int	create_history(t_data_minishell *data)
 	char	*path;
 
 	path = ft_strjoin(data->home, HISTORY_FILE);
-	fd = open(path, O_CREAT | O_RDWR | O_APPEND, 0666);
+	fd = open(path, O_CREAT | O_RDWR | O_APPEND, 0644);
 	if (fd == -1)
 	{
 		ft_putstr_fd("Error: can't create history file\n", STDERR_FILENO);
@@ -39,12 +39,20 @@ int	add_history_file(t_data_minishell *data, char *line)
 
 	add_history(line);
 	path = ft_strjoin(data->home, HISTORY_FILE);
+	if (path == NULL)
+	{
+		ft_putstr_fd("Error: can't add history file\n", STDERR_FILENO);
+		return (ENOMEM);
+	}
 	fd = open(path, O_WRONLY | O_APPEND);
 	if (fd == -1)
 	{
 		if (create_history(data) == FAILURE)
-			return (FAILURE);
+			return (errno);
 		fd = open(path, O_WRONLY | O_APPEND);
+		if (fd == -1)
+			return (ft_putstr_fd("Error: can't read history file\n",
+					STDERR_FILENO), errno);
 	}
 	ft_putendl_fd(line, fd);
 	close(fd);
@@ -52,10 +60,17 @@ int	add_history_file(t_data_minishell *data, char *line)
 	return (SUCCESS);
 }
 
-static void	get_all_lines(char *line, int fd)
+static int	get_all_lines(int fd)
 {
 	char	*tmp;
+	char	*line;
 
+	tmp = get_next_line(fd);
+	if (tmp == NULL)
+		return (ENOMEM);
+	line = ft_str_replace(tmp, "\n", "\0");
+	if (line == NULL)
+		return (ENOMEM);
 	while (line != NULL)
 	{
 		add_history(line);
@@ -65,35 +80,34 @@ static void	get_all_lines(char *line, int fd)
 			break ;
 		line = ft_str_replace(tmp, "\n", "\0");
 		if (line == NULL)
-			free(tmp);
+			return (errno);
 	}
+	return (SUCCESS);
 }
 
 int	read_history_from_file(t_data_minishell *data)
 {
 	int		fd;
-	char	*line;
-	char	*tmp;
 	char	*path;
 
 	path = ft_strjoin(data->home, HISTORY_FILE);
+	if (path == NULL)
+	{
+		ft_putstr_fd("Error: can't read history file\n", STDERR_FILENO);
+		return (ENOMEM);
+	}
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
 	{
 		if (create_history(data) == FAILURE)
-			return (FAILURE);
+			return (errno);
 		fd = open(path, O_RDONLY);
+		if (fd == -1)
+			return (ft_putstr_fd("Error: can't read history file\n",
+					STDERR_FILENO), errno);
 	}
-	tmp = get_next_line(fd);
-	if (tmp == NULL)
-	{
-		close(fd);
-		return (free(path), FAILURE);
-	}
-	line = ft_str_replace(tmp, "\n", "\0");
-	if (line == NULL)
-		return (close(fd), free(path), FAILURE);
-	get_all_lines(line, fd);
+	if (get_all_lines(fd) != SUCCESS)
+		return (close(fd), free(path), errno);
 	close(fd);
 	return (free(path), SUCCESS);
 }
@@ -104,11 +118,16 @@ int	clear_history_file(t_data_minishell *data)
 	char	*path;
 
 	path = ft_strjoin(data->home, HISTORY_FILE);
-	fd = open(path, O_TRUNC);
+	if (path == NULL)
+	{
+		ft_putstr_fd("Error: can't clear history file\n", STDERR_FILENO);
+		return (ENOMEM);
+	}
+	fd = open(path, O_TRUNC, 0644);
 	if (fd == -1)
 	{
 		ft_putstr_fd("Error: can't clear history file\n", STDERR_FILENO);
-		return (FAILURE);
+		return (errno);
 	}
 	close(fd);
 	free(path);

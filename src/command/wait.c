@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 01:15:30 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/10 16:31:45 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/11 10:49:19 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,5 +90,8 @@ void	wait_process(t_minishell *data, t_ast_value *value, bool is_pipeline)
 	if (value->pid != -1)
 		wait_for_single_process(data, value);
 	if (is_pipeline)
+	{
 		wait_for_pipeline(data);
+		ft_putendl_fd("", STDOUT_FILENO);
+	}
 }

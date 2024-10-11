@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 12:11:15 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/11 09:49:11 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/11 10:25:00 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,9 @@ int	exit_command(t_minishell *minishell, int argc, char *argv[])
 	unsigned char	status;
 
 	status = minishell->current_status;
-	if (argc == 1)
+	if (argc > 1 && !is_number(argv[1]))
 	{
 		free_minishell(minishell, FREE_ALL);
-		ft_putstr_fd("exit\n\033[0m\007\033[1 q\007", STDOUT_FILENO);
-		exit(status);
-	}
-	if (!is_number(argv[1]))
-	{
 		error_message_command_with_arg("exit", argv[1],
 			"numeric argument required");
 		exit(2);

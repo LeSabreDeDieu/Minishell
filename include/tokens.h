@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:45:05 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/04 16:39:51 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/11 10:14:01 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,7 @@ int		tokenise_subshell(t_tokens *tokens, char **str, t_token_type type);
 bool	check_is_in_shell(char *str);
 bool	contain_and_or(char *str);
 bool	is_space_in_quotes(char *str);
+
+void	token_error(char *str);
 
 #endif
