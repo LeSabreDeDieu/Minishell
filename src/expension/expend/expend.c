@@ -6,19 +6,17 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 12:03:24 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/08 11:57:14 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/10 18:18:21 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expension.h"
 
 static int	expend_variable(t_minishell *shell_data, t_ast_value *value,
-		bool is_quoted, t_pos *pos)
+		t_pos *pos)
 {
 	char	pid_str[16];
 
-	if (value->argv[pos->i][pos->j] == '\'' && !is_quoted)
-		pos->j += pos_next_quote(&value->argv[pos->i][pos->j + 1]) + 1;
 	if (value->argv[pos->i][pos->j] == '$' && value->argv[pos->i][pos->j
 		+ 1] == '?')
 		expend_last_status(shell_data, value, pos);
@@ -47,16 +45,15 @@ static int	expend3(t_minishell *shell_data, t_ast_value *value, t_pos *pos)
 	while (value->argv[pos->i] && value->argv[pos->i][pos->j])
 	{
 		is_quoted = is_in_dquote(value->argv[pos->i][pos->j], is_quoted);
+		if (value->argv[pos->i][pos->j] == '\'' && !is_quoted)
+			pos->j += pos_next_quote(&value->argv[pos->i][pos->j + 1]) + 1;
 		if (value->argv[pos->i][pos->j] == '$')
 		{
-			if (expend_variable(shell_data, value, is_quoted, pos) == FAILURE)
+			if (expend_variable(shell_data, value, pos) == FAILURE)
 				return (FAILURE);
 		}
 		else if (value->argv[pos->i][pos->j] == '~')
-		{
-			expend_tild(shell_data, value, pos);
-			++pos->j;
-		}
+			(expend_tild(shell_data, value, pos), ++pos->j);
 		else if (value->argv[pos->i][pos->j] == '*')
 		{
 			expend_wildcard(shell_data, value->argv[pos->i]);

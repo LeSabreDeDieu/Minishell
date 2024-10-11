@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:28:15 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/10 16:19:33 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/10 18:06:47 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ static void	minishell(char *envp[])
 	print_welcome();
 	while (true)
 	{
+		signal(SIGQUIT, SIG_IGN);
 		if (g_signal == SIGINT)
 			g_signal = 0;
 		if (g_signal == SIGQUIT)
