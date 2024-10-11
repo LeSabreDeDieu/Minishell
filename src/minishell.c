@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:28:15 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/11 14:07:34 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/11 18:25:22 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,14 +81,17 @@ static void	minishell(char *envp[])
 	while (true)
 	{
 		signal(SIGQUIT, SIG_IGN);
-		if (g_signal == SIGINT)
-			g_signal = 0;
-		if (g_signal == SIGQUIT)
-			g_signal = 0;
 		line = rl_gets(&data.data, create_display(&data));
-		g_signal = 0;
-		if (!line)
+		if (g_signal == SIGINT){
+			g_signal = 0;
+		}
+		else if (g_signal == SIGQUIT)
+			g_signal = 0;
+		else if (!line)
+		{
 			exit_command(&data, 1, NULL);
+		}
+		g_signal = 0;
 		if (!*line)
 		{
 			free(line);

@@ -3,21 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   ast.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:44:54 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/04 16:40:54 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/11 18:41:35 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef AST_H
 # define AST_H
 
-# include <stdbool.h>
-
 # include "libft.h"
 # include "redirections.h"
 # include "tokens.h"
+# include <stdbool.h>
 
 typedef struct s_minishell	t_minishell;
 typedef struct s_token_list	t_token_list;
@@ -71,5 +70,7 @@ int							count_nb_arg(t_ast_value **value,
 								t_token_list **current);
 int							add_argv_value(t_ast_value **value,
 								t_token_list **current);
+
+void						ast_unlink_heredoc(t_ast *current);
 
 #endif // AST_H

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 17:39:06 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/11 12:53:19 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/11 15:33:19 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,14 @@ void	execution_pipe(t_minishell *shell_data, int *std_in,
 			execute_pipe_last(shell_data, std_in, &ast_current->value);
 		else
 			execute_pipe(shell_data, std_in, &ast_current->value);
+	} else if(ast_current->type == AST_SUBSHELL) {
+		if (expend(shell_data, &ast_current->value) == FAILURE)
+			return ;
+		to_dequote(&ast_current->value);
+		if (ast_current->value.last_cmd)
+			execute_pipe_sub_last(shell_data, std_in, &ast_current->value);
+		else
+			execute_pipe_sub(shell_data, std_in, &ast_current->value);
 	}
 	execution_pipe(shell_data, std_in, ast_current->left);
 	if (ast_current->value.last_cmd)

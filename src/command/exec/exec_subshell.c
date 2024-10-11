@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   exec_subshell.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:29:24 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/11 14:40:48 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/11 18:23:50 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast.h"
 #include "command.h"
 #include "env.h"
+#include "ms_signal.h"
 #include <fcntl.h>
 #include <stdio.h>
-#include "ms_signal.h"
 
 int	handle_subshell_redirections(t_minishell *data, t_ast_value *value)
 {
@@ -35,6 +35,7 @@ void	execute_in_subshell(t_minishell *data, t_ast_value *value)
 {
 	char		*prompt;
 	t_minishell	new_shell;
+	int			status;
 
 	ft_bzero(&new_shell, sizeof(t_minishell));
 	if (handle_subshell_redirections(data, value) == FAILURE)
@@ -46,10 +47,10 @@ void	execute_in_subshell(t_minishell *data, t_ast_value *value)
 		free_minishell(data, FREE_ALL);
 		exit(ENOMEM);
 	}
-	traitement(&new_shell, prompt);
+	free_minishell(data, FREE_AST | FREE_TOKEN);
+	status = traitement(data, prompt);
 	free_minishell(data, FREE_ALL);
-	free_minishell(&new_shell, FREE_ALL);
-	exit(errno);
+	exit(status);
 }
 
 int	fork_subshell(t_minishell *data, t_ast_value *value)

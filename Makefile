@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+         #
+#    By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:19:20 by gcaptari          #+#    #+#              #
-#    Updated: 2024/10/11 10:02:00 by sgabsi           ###   ########.fr        #
+#    Updated: 2024/10/11 18:42:00 by gcaptari         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,10 +76,12 @@ SRC_COMMAND_FILES	=	command.c \
 						prepare/open_all_redirection.c \
 						prepare/safe_dup_all_redir.c \
 						prepare/standard_fd.c \
+						prepare/clear_heredoc.c \
 						exec/exec_subshell.c \
 						exec/exec_simple.c \
 						exec/pipe/pipe.c \
 						exec/pipe/utils.c \
+						exec/exec_builout.c \
 						builtins/echo.c	\
 						builtins/export.c \
 						builtins/unset.c \

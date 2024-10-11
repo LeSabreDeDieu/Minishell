@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 12:08:49 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/11 14:44:53 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/11 17:21:57 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,16 @@ int		exceve_builtins(t_minishell *minishell, char *name, int argc,
 
 // FOR COMMAND
 int		execute_simple(t_minishell *minishell, t_ast_value *value);
+void	execute_in_subshell(t_minishell *data, t_ast_value *value);
+int		execute_subshell(t_minishell *data, t_ast_value *value);
 void	execute_pipe(t_minishell *minishell, int *pipe_int, t_ast_value *value);
 void	execute_pipe_last(t_minishell *minishell, int *pipe_int,
 			t_ast_value *value);
-int		execute_subshell(t_minishell *data, t_ast_value *value);
+void	execute_pipe_sub_last(t_minishell *minishell, int *pipe_int,
+			t_ast_value *value);
+void	execute_pipe_sub(t_minishell *minishell, int *pipe_in, t_ast_value *value);
 void	execute_on_ast(t_minishell *minishell, t_ast *ast);
+int		execute_builout(t_minishell *minishell, t_ast_value *value);
 char	*get_real_command(char *name, t_minishell *minishell);
 int		create_pipe(t_ast_value *value);
 void	dup_standard(t_ast_value *value);

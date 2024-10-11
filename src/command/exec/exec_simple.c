@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_simple.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:34:57 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/11 14:41:48 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/11 18:25:16 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,30 +34,24 @@ static int	handle_builtin(t_minishell *minishell, t_ast_value *value)
 
 static int	handle_child_process(t_minishell *minishell, t_ast_value *value)
 {
-	char	**envp;
-	char	*path;
+	int	status;
 
 	close_dup_standard(value);
-	path = get_real_command(value->name, minishell);
-	if (!path)
-		(error_message_command("fork", "Malloc failled"),
-			free_minishell(minishell, FREE_ALL), exit(ENOMEM));
-	else if (safe_dup_all_redir(minishell, value, FREE_ALL,
+	if ((ft_strncmp(value->name, "./", 2) == 0 || ft_strncmp(value->name, "/",
+				1) == 0) && access(value->name, F_OK) != 0)
+	{
+		(error_message_with_arg(value->name, strerror(ENOENT)),
+			free_minishell(minishell, FREE_ALL), exit(ENOENT));
+	}
+	if (safe_dup_all_redir(minishell, value, FREE_ALL,
 			CLOSE_DUP_STD | CLOSE_FD_REDIR | UNLINK) == -1)
 	{
-		free(path);
 		exit(ENOENT);
 	}
-	envp = env_to_tab();
-	if (!envp)
-		(error_message_command("fork", "Malloc failled"),
-			free_minishell(minishell, FREE_ALL), exit(ENOMEM));
-	if (execve(path, value->argv, envp) != 0)
-		error_message_command(value->name, COMMAND_NOT_FOUND);
-	(free_str_tab(envp), free(path));
+	status = execute_builout(minishell, value);
 	close_all_redir(value, CLOSE_DUP_STD | CLOSE_FD_REDIR | UNLINK);
 	free_minishell(minishell, FREE_ALL);
-	exit(errno);
+	exit(status);
 }
 
 static int	handle_fork(t_minishell *minishell, t_ast_value *value)

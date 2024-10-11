@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 12:11:15 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/11 10:25:00 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/11 18:33:48 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,16 @@ int	exit_command(t_minishell *minishell, int argc, char *argv[])
 	unsigned char	status;
 
 	status = minishell->current_status;
-	if (argc > 1 && !is_number(argv[1]))
-	{
-		free_minishell(minishell, FREE_ALL);
-		error_message_command_with_arg("exit", argv[1],
-			"numeric argument required");
-		exit(2);
-	}
 	if (argc > 2)
 		return (ft_putstr_fd("minishell: exit: too many arguments\n",
 				STDERR_FILENO), 1);
+	if (argc == 2 && !is_number(argv[1]))
+	{
+		error_message_command_with_arg("exit", argv[1],
+			"numeric argument required");
+		free_minishell(minishell, FREE_ALL);
+		exit(2);
+	}
 	else if (argc == 2)
 		status = ft_atoi(argv[1]);
 	free_minishell(minishell, FREE_ALL);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:48:08 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/11 13:35:22 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/11 17:52:05 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	free_minishell(t_minishell *minishell, int action)
 	{
 		free_token(minishell->tokens);
 		free(minishell->tokens);
+		minishell->tokens = NULL;
 	}
 	if (action & FREE_ENV)
 		free_env();
