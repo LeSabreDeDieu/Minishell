@@ -6,19 +6,20 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:34:57 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/10 14:33:25 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/11 14:41:48 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast.h"
 #include "command.h"
 #include "env.h"
+#include "ms_signal.h"
 
 static int	handle_builtin(t_minishell *minishell, t_ast_value *value)
 {
 	if (open_all_redirection(value->redirections) == FAILURE)
 	{
-		close_all_redir(value, CLOSE_DUP_STD | CLOSE_FD_REDIR);
+		close_all_redir(value, CLOSE_DUP_STD | CLOSE_FD_REDIR | UNLINK);
 		return (minishell->current_status = ENOENT);
 	}
 	if (dup_all_redir(value->redirections) == 0)
@@ -27,7 +28,7 @@ static int	handle_builtin(t_minishell *minishell, t_ast_value *value)
 	else
 		minishell->current_status = ENOENT;
 	close_dup_standard(value);
-	close_all_redir(value, CLOSE_DUP_STD | CLOSE_FD_REDIR);
+	close_all_redir(value, CLOSE_DUP_STD | CLOSE_FD_REDIR | UNLINK);
 	return (minishell->current_status);
 }
 
@@ -42,7 +43,7 @@ static int	handle_child_process(t_minishell *minishell, t_ast_value *value)
 		(error_message_command("fork", "Malloc failled"),
 			free_minishell(minishell, FREE_ALL), exit(ENOMEM));
 	else if (safe_dup_all_redir(minishell, value, FREE_ALL,
-			CLOSE_DUP_STD | CLOSE_FD_REDIR) == -1)
+			CLOSE_DUP_STD | CLOSE_FD_REDIR | UNLINK) == -1)
 	{
 		free(path);
 		exit(ENOENT);
@@ -54,7 +55,7 @@ static int	handle_child_process(t_minishell *minishell, t_ast_value *value)
 	if (execve(path, value->argv, envp) != 0)
 		error_message_command(value->name, COMMAND_NOT_FOUND);
 	(free_str_tab(envp), free(path));
-	close_all_redir(value, CLOSE_DUP_STD | CLOSE_FD_REDIR);
+	close_all_redir(value, CLOSE_DUP_STD | CLOSE_FD_REDIR | UNLINK);
 	free_minishell(minishell, FREE_ALL);
 	exit(errno);
 }
@@ -74,7 +75,7 @@ static int	handle_fork(t_minishell *minishell, t_ast_value *value)
 		signal(SIGQUIT, SIG_DFL);
 		if (open_all_redirection(value->redirections) == FAILURE)
 		{
-			close_all_redir(value, CLOSE_DUP_STD | CLOSE_FD_REDIR);
+			close_all_redir(value, CLOSE_DUP_STD | CLOSE_FD_REDIR | UNLINK);
 			free_minishell(minishell, FREE_ALL);
 			exit(errno);
 		}

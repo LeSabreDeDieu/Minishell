@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 15:09:12 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/10 14:32:19 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/11 14:34:34 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,11 @@ int	parent_precess_hd(t_minishell *minishell, int pid, int itterdoc,
 
 	signal(SIGINT, SIG_IGN);
 	waitpid(pid, &status, 0);
-	minishell->current_status = WEXITSTATUS(status);
-	if (minishell->current_status == 130)
-		return (FAILURE);
+	close(redir_list->redirection.fd);
+	if (WIFSIGNALED(status))
+		minishell->current_status = 128 + WTERMSIG(status);
+	else if (WIFEXITED(status))
+		minishell->current_status = WEXITSTATUS(status);
 	itterdoc_str = ft_itoa(itterdoc);
 	here_doc_name = ft_strjoin(HERE_DOC_PATH, itterdoc_str);
 	free(itterdoc_str);
@@ -57,6 +59,5 @@ int	fork_hd(t_minishell *minishell, t_redirection_list *redir_list,
 				redir_list) == FAILURE)
 			return (FAILURE);
 	}
-	close(redir_list->redirection.fd);
 	return (SUCCESS);
 }

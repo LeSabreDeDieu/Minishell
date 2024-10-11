@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:51:41 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/11 10:16:23 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/11 13:46:22 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,19 @@ bool	is_space_in_quotes(char *str)
 	return (0);
 }
 
-void	token_error(char *str)
+void	token_syntax_error(char *str)
 {
 	ft_putstr_fd(SHELL_NAME, STDERR_FILENO);
 	ft_putstr_fd(": syntax error near unexpected token « ",
 		STDERR_FILENO);
+	ft_putstr_fd(str, STDERR_FILENO);
+	ft_putendl_fd(" »", STDERR_FILENO);
+}
+
+void	token_not_close(char *str)
+{
+	ft_putstr_fd(SHELL_NAME, STDERR_FILENO);
+	ft_putstr_fd(": not closed « ", STDERR_FILENO);
 	ft_putstr_fd(str, STDERR_FILENO);
 	ft_putendl_fd(" »", STDERR_FILENO);
 }

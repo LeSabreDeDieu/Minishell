@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 09:35:19 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/10 13:58:57 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/11 14:33:47 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	create_and_open_heredoc_file(t_redirection_list *redir_list, int itterdoc)
 	here_doc_name = ft_strjoin(HERE_DOC_PATH, itterdoc_str);
 	free(itterdoc_str);
 	redir_list->redirection.fd = open(here_doc_name,
-			O_CREAT | O_RDWR | O_APPEND, 0644);
+			O_CREAT | O_WRONLY | O_APPEND, 0644);
 	if (redir_list->redirection.fd == -1)
 	{
 		free(here_doc_name);

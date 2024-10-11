@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 12:08:49 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/11 10:01:28 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/11 14:44:53 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ typedef struct s_minishell			t_minishell;
 typedef struct s_ast				t_ast;
 typedef struct s_ast_value			t_ast_value;
 typedef struct s_redirection_list	t_redirection_list;
-
-# define HERE_DOC_PATH "/tmp/.minishell_here_doc_"
 
 typedef enum e_type_command
 {

@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 01:29:04 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/10 14:36:51 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/11 13:25:39 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	ft_signal_ctrlc(int signum)
 	g_signal = signum;
 	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
-	rl_replace_line("", 0);
+	rl_replace_line("\0", 0);
 	rl_redisplay();
 }
 

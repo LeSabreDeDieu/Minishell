@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:45:46 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/03 13:07:58 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/11 14:39:09 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	close_pipe_fds(t_ast_value *value)
 	}
 }
 
-void	close_redirection_fds(t_redirection_list *list)
+void	close_redirection_fds(t_redirection_list *list, bool is_unlink)
 {
 	t_redirection_list	*current;
 
@@ -42,7 +42,7 @@ void	close_redirection_fds(t_redirection_list *list)
 			&& current->redirection.fd != -1)
 		{
 			close(current->redirection.fd);
-			if (current->redirection.flag == HERE_DOC)
+			if (current->redirection.flag == HERE_DOC && is_unlink)
 				unlink(current->redirection.filename);
 		}
 		current->redirection.fd = -1;
@@ -57,5 +57,5 @@ void	close_all_redir(t_ast_value *value, int action)
 	if (action & CLOSE_PIPE)
 		close_pipe_fds(value);
 	if (action & CLOSE_FD_REDIR)
-		close_redirection_fds(value->redirections);
+		close_redirection_fds(value->redirections, action & UNLINK);
 }

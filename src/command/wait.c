@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 01:15:30 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/11 10:49:19 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/11 13:19:41 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,9 @@ void	kill_all_pid(t_ast *ast)
 void	handle_signal_interrupt(t_minishell *data)
 {
 	if (g_signal == SIGQUIT)
-	{
 		ft_putendl_fd("\033[0KQuit (Core dumped)", STDOUT_FILENO);
-		data->current_status = 128 + g_signal;
-	}
-	else if (g_signal == SIGINT)
-	{
+	else if (g_signal == SIGINT && data->current_status != 130)
 		ft_putendl_fd("", STDOUT_FILENO);
-		data->current_status = 128 + g_signal;
-	}
 	kill_all_pid(data->ast);
 	g_signal = 0;
 }
@@ -47,16 +41,7 @@ void	wait_for_single_process(t_minishell *data, t_ast_value *value)
 	int	ret;
 	int	states;
 
-	ret = 0;
-	while (ret >= 0)
-	{
-		ret = waitpid(value->pid, &states, WNOHANG);
-		if (g_signal != 0)
-		{
-			handle_signal_interrupt(data);
-			break ;
-		}
-	}
+	ret = waitpid(value->pid, &states, 0);
 	if (WIFEXITED(states))
 		data->current_status = WEXITSTATUS(states);
 	if (WIFSIGNALED(states))
@@ -73,10 +58,11 @@ void	wait_for_pipeline(t_minishell *data)
 {
 	int	ret;
 
-	ret = 0;
-	while (ret >= 0)
+	(void)data;
+	ret = 1;
+	while (ret > 0)
 	{
-		ret = wait3(NULL, WNOHANG, NULL);
+		ret = wait3(NULL, 0, NULL);
 		if (g_signal != 0)
 		{
 			handle_signal_interrupt(data);
@@ -90,8 +76,5 @@ void	wait_process(t_minishell *data, t_ast_value *value, bool is_pipeline)
 	if (value->pid != -1)
 		wait_for_single_process(data, value);
 	if (is_pipeline)
-	{
 		wait_for_pipeline(data);
-		ft_putendl_fd("", STDOUT_FILENO);
-	}
 }

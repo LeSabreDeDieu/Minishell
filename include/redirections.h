@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 17:52:37 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/07 13:08:52 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/11 14:38:16 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ enum							e_close_fd
 {
 	CLOSE_FD_REDIR = 1 << 0,
 	CLOSE_DUP_STD = 1 << 1,
-	CLOSE_PIPE = 1 << 2
+	CLOSE_PIPE = 1 << 2,
+	UNLINK = 1 << 3
 };
 
 typedef enum e_type_redirection

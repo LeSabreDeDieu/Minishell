@@ -6,13 +6,14 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:29:31 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/10 15:24:49 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/11 14:43:58 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast.h"
 #include "command.h"
 #include "env.h"
+#include "ms_signal.h"
 #include <fcntl.h>
 #include <stdio.h>
 
@@ -28,7 +29,7 @@ void	execution_cmd_pipe(t_minishell *minishell, t_ast_value *value)
 		{
 			state = exceve_builtins(minishell, value->name, value->argc,
 					value->argv);
-			close_all_redir(value, CLOSE_FD_REDIR);
+			close_all_redir(value, CLOSE_FD_REDIR | CLOSE_DUP_STD | UNLINK);
 			(free_minishell(minishell, FREE_ALL), exit(state));
 		}
 		path = get_real_command(value->name, minishell);
@@ -41,7 +42,7 @@ void	execution_cmd_pipe(t_minishell *minishell, t_ast_value *value)
 			error_message_command(value->name, COMMAND_NOT_FOUND);
 		(free(path), free_str_tab(envp));
 	}
-	close_all_redir(value, CLOSE_FD_REDIR | CLOSE_DUP_STD);
+	close_all_redir(value, CLOSE_FD_REDIR | CLOSE_DUP_STD | UNLINK);
 	(free_minishell(minishell, FREE_ALL), exit(errno));
 }
 
@@ -54,16 +55,17 @@ void	execute_pipe(t_minishell *minishell, int *pipe_in, t_ast_value *value)
 	if (!value->pid)
 	{
 		(signal(SIGINT, SIG_DFL), signal(SIGQUIT, SIG_DFL));
+		g_signal = 0;
 		close(value->fd_in);
 		if (*pipe_in != -1)
 			(dup2(*pipe_in, STDIN_FILENO), close(*pipe_in));
 		if (open_all_redirection(value->redirections) == FAILURE)
-			(close_all_redir(value, CLOSE_FD_REDIR | CLOSE_DUP_STD),
+			(close_all_redir(value, CLOSE_FD_REDIR | CLOSE_DUP_STD | UNLINK),
 				exit(errno));
 		dup2(value->fd_out, STDOUT_FILENO);
 		close(value->fd_out);
 		if (safe_dup_all_redir(minishell, value, FREE_ALL,
-				CLOSE_DUP_STD | CLOSE_FD_REDIR) == -1)
+				CLOSE_DUP_STD | CLOSE_FD_REDIR | UNLINK) == -1)
 			exit(ENOENT);
 		execution_cmd_pipe(minishell, value);
 	}
@@ -85,6 +87,8 @@ void	execute_pipe_last(t_minishell *minishell, int *pipe_in,
 	}
 	if (!value->pid)
 	{
+		(signal(SIGINT, SIG_DFL), signal(SIGQUIT, SIG_DFL));
+		g_signal = 0;
 		if (open_all_redirection(value->redirections) == FAILURE)
 			exit(errno);
 		if (*pipe_in != -1)
@@ -92,7 +96,7 @@ void	execute_pipe_last(t_minishell *minishell, int *pipe_in,
 		dup2(value->fd_out, STDOUT_FILENO);
 		close(value->fd_out);
 		if (safe_dup_all_redir(minishell, value, FREE_ALL,
-				CLOSE_DUP_STD | CLOSE_FD_REDIR) == -1)
+				CLOSE_DUP_STD | CLOSE_FD_REDIR | UNLINK) == -1)
 			exit(ENOENT);
 		execution_cmd_pipe(minishell, value);
 	}

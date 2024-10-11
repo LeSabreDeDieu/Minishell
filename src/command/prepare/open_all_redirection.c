@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:44:38 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/08 17:04:15 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/11 14:40:29 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	open_redirection_file(t_redirection *redirection)
 				O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (redirection->fd == -1)
 	{
-		error_message_command_with_arg("fork", redirection->filename,
+		error_message_command_with_arg("open", redirection->filename,
 			strerror(errno));
 		return (-1);
 	}
