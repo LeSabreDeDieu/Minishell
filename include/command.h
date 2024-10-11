@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 12:08:49 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/08 15:16:27 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/11 10:01:28 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int		env_command(int argc, char *argv[]);
 int		cd_command(int argc, char *argv[]);
 int		exit_command(t_minishell *minishell, int argc, char *argv[]);
 int		pwd_command(int argc, char *argv[]);
+int		history_command(t_minishell *minishell, int argc, char *argv[]);
 int		exceve_builtins(t_minishell *minishell, char *name, int argc,
 			char *argv[]);
 

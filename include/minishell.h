@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:45:02 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/10 14:42:01 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/11 10:04:02 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ char	*get_uname(void);
 char	*get_path(void);
 
 //HISTORIQUE
+int		create_history(t_data_minishell *data);
 int		add_history_file(t_data_minishell *data, char *line);
 int		read_history_from_file(t_data_minishell *data);
 int		clear_history_file(t_data_minishell *data);

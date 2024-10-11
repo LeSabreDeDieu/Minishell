@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 14:45:31 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/09/26 10:34:32 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/11 08:56:06 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@ static bool	is_flags(char *flags)
 	return (true);
 }
 
-static void	print_args(char **tmp, bool no_eof, bool is_write)
+static void	print_args(char **tmp, bool *no_eof, bool is_write)
 {
 	while (tmp && *tmp)
 	{
 		if (!is_write && **tmp == '-' && is_flags(*tmp + 1))
 		{
-			no_eof = true;
+			*no_eof = true;
 			++tmp;
 			continue ;
 		}
@@ -60,7 +60,7 @@ int	echo_command(int argc, char *argv[])
 		tmp = argv + 1;
 		if (!tmp || !*tmp)
 			return (125);
-		print_args(tmp, no_eof, is_write);
+		print_args(tmp, &no_eof, is_write);
 		!no_eof && ft_putstr_fd("\n", STDOUT_FILENO);
 	}
 	return (EXIT_SUCCESS);

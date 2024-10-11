@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 15:30:56 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/04 17:34:27 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/11 10:01:01 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,5 +84,7 @@ int	exceve_builtins(t_minishell *minishell, char *name, int argc, char *argv[])
 		status = unset_command(argc, argv);
 	else if (is_exact_name(name, "pwd"))
 		status = pwd_command(argc, argv);
+	else if (is_exact_name(name, "history"))
+		status = history_command(minishell, argc, argv);
 	return (status);
 }
