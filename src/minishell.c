@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:28:15 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/14 15:50:07 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/14 17:18:32 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ static void	minishell(char *envp[])
 	{
 		signal(SIGQUIT, SIG_IGN);
 		line = rl_gets(&data.data, create_display(&data));
-		printf("g_signal = %d\n", g_signal);
 		if (g_signal == SIGINT)
 			g_signal = 0;
 		else if (g_signal == SIGQUIT)

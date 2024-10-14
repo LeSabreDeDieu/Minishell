@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:29:24 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/14 15:50:48 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/14 17:16:35 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,6 @@ int	fork_subshell(t_minishell *data, t_ast_value *value)
 	}
 	if (!value->pid)
 	{
-		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_DFL);
 		g_signal = 0;
 		execute_in_subshell(data, value);
 	}
@@ -72,15 +70,6 @@ int	fork_subshell(t_minishell *data, t_ast_value *value)
 
 int	execute_subshell(t_minishell *data, t_ast_value *value)
 {
-	int	old_errno;
-
-	if (!value->name)
-	{
-		open_all_redirection(value->redirections);
-		old_errno = errno;
-		close_all_redir(value, CLOSE_FD_REDIR);
-		return (data->current_status = old_errno);
-	}
 	dup_standard(value);
 	if (fork_subshell(data, value) == FAILURE)
 		return (FAILURE);

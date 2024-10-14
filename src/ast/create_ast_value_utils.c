@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:21:34 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/07 15:57:34 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/14 18:10:24 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,22 @@ int	add_argv_value(t_ast_value **value, t_token_list **current)
 				return (FAILURE);
 			(*current) = (*current)->next->next;
 		}
+	}
+	return (SUCCESS);
+}
+
+int	create_ast_value_subshell(t_ast_value *value, t_token_list **current)
+{
+	value->fd_in = -1;
+	value->fd_out = -1;
+	value->name = (*current)->token->value;
+	(*current) = (*current)->next;
+	while ((*current) && (*current)->token->type == TOKEN_REDIRECTION)
+	{
+		if ((*current)->next && add_list_redirection(&value->redirections,
+				(*current)->token, (*current)->next->token->value) == FAILURE)
+			return (FAILURE);
+		(*current) = (*current)->next->next;
 	}
 	return (SUCCESS);
 }

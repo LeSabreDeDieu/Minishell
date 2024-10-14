@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:44:54 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/11 18:41:35 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/14 18:10:46 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,25 +52,21 @@ typedef struct s_ast
 	t_type_ast				type;
 }							t_ast;
 
-int							create_ast(t_minishell *data, t_tokens *tokens);
-int							create_ast_value(t_ast_value *value,
-								t_token_list **tokens);
-t_ast						*create_nodes(t_token_list *tokens);
-void						create_nodes_special(t_token_list *tokens,
-								t_ast *left, t_ast *ast);
-void						free_ast(t_ast **ast);
+int		create_ast(t_minishell *data, t_tokens *tokens);
+int		create_ast_value(t_ast_value *value, t_token_list **tokens);
+int		create_ast_value_subshell(t_ast_value *value, t_token_list **current);
+t_ast	*create_nodes(t_token_list *tokens);
+void	create_nodes_special(t_token_list *tokens, t_ast *left, t_ast *ast);
+void	free_ast(t_ast **ast);
 
 // UTILS
-int							add_list_redirection(t_redirection_list **list,
-								t_token *type, char *file);
-bool						is_quote(t_token *token);
-int							create_redirection_list(t_ast_value **value,
-								t_token_list **current);
-int							count_nb_arg(t_ast_value **value,
-								t_token_list **current);
-int							add_argv_value(t_ast_value **value,
-								t_token_list **current);
+int		add_list_redirection(t_redirection_list **list, t_token *type,
+			char *file);
+bool	is_quote(t_token *token);
+int		create_redirection_list(t_ast_value **value, t_token_list **current);
+int		count_nb_arg(t_ast_value **value, t_token_list **current);
+int		add_argv_value(t_ast_value **value, t_token_list **current);
 
-void						ast_unlink_heredoc(t_ast *current);
+void	ast_unlink_heredoc(t_ast *current);
 
 #endif // AST_H
