@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 12:03:24 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/14 15:09:01 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/14 18:22:13 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ static int	expend_variable(t_minishell *shell_data, t_ast_value *value,
 	return (SUCCESS);
 }
 
-static int	expend3(t_minishell *shell_data, t_ast_value *value, t_pos *pos)
+static int	expend_value(t_minishell *shell_data, t_ast_value *value,
+		t_pos *pos)
 {
 	bool	is_quoted;
 
@@ -65,7 +66,8 @@ static int	expend3(t_minishell *shell_data, t_ast_value *value, t_pos *pos)
 	return (SUCCESS);
 }
 
-static int	expend2(t_minishell *shell_data, t_ast_value *value, t_pos *pos)
+static int	add_to_chain_list(t_minishell *shell_data, t_ast_value *value,
+		t_pos *pos)
 {
 	t_dlist	*tmp;
 	int		ret;
@@ -73,7 +75,7 @@ static int	expend2(t_minishell *shell_data, t_ast_value *value, t_pos *pos)
 	while (pos->i < value->argc && value->argv[pos->i])
 	{
 		pos->j = 0;
-		ret = expend3(shell_data, value, pos);
+		ret = expend_value(shell_data, value, pos);
 		if (ret != FAILURE)
 		{
 			tmp = new_dlist(value->argv[pos->i]);
@@ -99,7 +101,7 @@ int	expend(t_minishell *shell_data, t_ast_value *value)
 	if (value->argv)
 	{
 		pos.i = 0;
-		if (expend2(shell_data, value, &pos) == FAILURE)
+		if (add_to_chain_list(shell_data, value, &pos) == FAILURE)
 			return (free_dlist(&shell_data->stack), FAILURE);
 		free_str_tab(value->argv);
 		split_stack_elements(&shell_data->stack);
