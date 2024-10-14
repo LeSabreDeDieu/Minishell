@@ -6,20 +6,20 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:28:15 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/14 14:07:33 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/14 15:50:07 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <limits.h>
+#include "ast.h"
+#include "command.h"
+#include "here_doc.h"
+#include "libft.h"
 #include "minishell.h"
 #include "ms_signal.h"
-#include "here_doc.h"
 #include "stdbool.h"
-#include "command.h"
-#include "tokens.h"
-#include "libft.h"
 #include "test.h"
-#include "ast.h"
+#include "tokens.h"
+#include <limits.h>
 
 static void	usage(int argc)
 {
@@ -47,9 +47,10 @@ int	traitement(t_minishell *data, char *prompt)
 	expend_and_dequote(data, data->ast);
 	if (open_all_here_doc(data, data->ast, &itter_heredoc) != FAILURE)
 		execute_on_ast(data, data->ast);
-	init_signal();
+	ast_unlink_heredoc(data->ast);
 	free_token(data->tokens);
 	free_ast(&data->ast);
+	init_signal();
 	return (data->current_status);
 }
 
@@ -83,14 +84,13 @@ static void	minishell(char *envp[])
 	{
 		signal(SIGQUIT, SIG_IGN);
 		line = rl_gets(&data.data, create_display(&data));
+		printf("g_signal = %d\n", g_signal);
 		if (g_signal == SIGINT)
 			g_signal = 0;
 		else if (g_signal == SIGQUIT)
 			g_signal = 0;
-		else if (!line)
-		{
+		if (!line)
 			exit_command(&data, 1, NULL);
-		}
 		g_signal = 0;
 		if (!*line)
 		{

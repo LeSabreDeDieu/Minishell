@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   open_all_redirection.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:44:38 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/14 11:19:04 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/14 15:18:08 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,5 @@ int	open_all_redirection(t_redirection_list *list)
 		}
 		current = current->next;
 	}
-	printf("stop open status %d\n", status);
 	return (status);
 }

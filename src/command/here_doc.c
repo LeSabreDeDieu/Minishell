@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 09:35:19 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/14 14:14:36 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/14 15:40:57 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	here_doc_read(t_redirection_list *redir_list)
 	{
 		write(redir_list->redirection.fd, "\0", 1);
 		error_message(HERE_DOC_EOF_ERROR);
-		return (SIGQUIT);
+		return (SUCCESS);
 	}
 	if (*line == '\0')
 		return (free(line), LOOP);
@@ -81,9 +81,9 @@ int	open_here_doc(t_minishell *minishell, t_ast_value *ast_value, int *itterdoc)
 	redir_list = ast_value->redirections;
 	while (redir_list)
 	{
-		++(*itterdoc);
 		if (redir_list->redirection.flag == HERE_DOC)
 		{
+			++(*itterdoc);
 			if (fork_hd(minishell, redir_list, *itterdoc) == FAILURE)
 				return (FAILURE);
 		}
@@ -96,7 +96,7 @@ int	open_all_here_doc(t_minishell *minishell, t_ast *ast, int *itterdoc)
 {
 	if (!ast)
 		return (SUCCESS);
-	if (open_all_here_doc(minishell, ast->left, itterdoc) == FAILURE)
+	if (open_all_here_doc(minishell, ast->right, itterdoc) == FAILURE)
 		return (FAILURE);
 	if (ast->type == AST_CMD || ast->type == AST_SUBSHELL)
 	{
@@ -105,7 +105,7 @@ int	open_all_here_doc(t_minishell *minishell, t_ast *ast, int *itterdoc)
 			return (FAILURE);
 		}
 	}
-	if (open_all_here_doc(minishell, ast->right, itterdoc) == FAILURE)
+	if (open_all_here_doc(minishell, ast->left, itterdoc) == FAILURE)
 		return (FAILURE);
 	return (SUCCESS);
 }

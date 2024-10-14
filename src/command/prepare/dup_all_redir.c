@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dup_all_redir.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:45:14 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/14 12:33:08 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/14 15:09:17 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ int	dup_all_redir(t_redirection_list *list)
 	status = 0;
 	while (current)
 	{
-		printf("dup2: {type: %d, name: %s, fd: %d}\n", STDIN_FILENO, current->redirection.filename, current->redirection.fd);
 		if (current->redirection.filename != NULL)
 		{
 			if (dup_redirection(&(current->redirection)) == -1)

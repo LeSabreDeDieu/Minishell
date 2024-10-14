@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 15:30:56 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/11 17:46:28 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/14 15:13:54 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ char	*get_real_command(char *name, t_minishell *minishell)
 		path_value = path->value;
 	if (!name)
 		real_name = (ft_strdup(""));
-	else if (is_builtin(name) || !path_value || !*path_value || (ft_strlen(name) >= 2
-			&& ft_strncmp(name, "./", 2) == 0) || (ft_strlen(name) >= 2
-			&& ft_strncmp(name, "/", 1) == 0))
+	else if (is_builtin(name) || !path_value || !*path_value
+		|| (ft_strlen(name) >= 2 && ft_strncmp(name, "./", 2) == 0)
+		|| (ft_strlen(name) >= 2 && ft_strncmp(name, "/", 1) == 0))
 		real_name = (ft_strdup(name));
 	else
 		real_name = search_command_on_path(name, path_value);

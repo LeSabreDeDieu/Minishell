@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 12:03:24 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/11 08:39:15 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/14 15:09:01 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static int	expend2(t_minishell *shell_data, t_ast_value *value, t_pos *pos)
 			tmp = new_dlist(value->argv[pos->i]);
 			if (!tmp)
 				return (free_dlist(&shell_data->stack), FAILURE);
-			if (ret != WILDCARD) 
+			if (ret != WILDCARD)
 				add_dlist(&shell_data->stack, tmp);
 		}
 		else if (ret == FAILURE)

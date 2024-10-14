@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clear_heredoc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 18:35:42 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/11 18:40:30 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/14 15:10:56 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	unlink_heredoc(t_redirection_list *list)
 	current = list;
 	while (current)
 	{
-		if (current->redirection.filename && current->redirection.flag == HERE_DOC)
+		if (current->redirection.filename
+			&& current->redirection.flag == HERE_DOC)
 			unlink(current->redirection.filename);
 		current = current->next;
 	}
@@ -27,15 +28,13 @@ void	unlink_heredoc(t_redirection_list *list)
 
 void	ast_unlink_heredoc(t_ast *current)
 {
-	if(!current)
-		return;
+	if (!current)
+		return ;
 	ast_unlink_heredoc(current->left);
 	if (current->type == AST_CMD || current->type == AST_SUBSHELL)
 	{
-		if(current->value.redirections)
+		if (current->value.redirections)
 			unlink_heredoc(current->value.redirections);
 	}
-
 	ast_unlink_heredoc(current->right);
-
 }

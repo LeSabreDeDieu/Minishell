@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   safe_dup_all_redir.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:46:27 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/14 12:36:35 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/14 15:09:11 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 int	safe_dup_all_redir(t_minishell *data, t_ast_value *value, int action_mini,
 		int action_redir)
 {
-
-	printf("before dup2 %p, %s\n", value->redirections, value->name);
 	if (dup_all_redir(value->redirections) == -1)
 	{
 		if (action_mini != -1)
@@ -25,7 +23,5 @@ int	safe_dup_all_redir(t_minishell *data, t_ast_value *value, int action_mini,
 			close_all_redir(value, action_redir);
 		return (FAILURE);
 	}
-
-	printf("after dup2 %p, %s\n", value->redirections, value->name);
 	return (SUCCESS);
 }

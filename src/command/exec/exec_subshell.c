@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_subshell.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:29:24 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/11 18:23:50 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/14 15:50:48 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,8 @@ int	handle_subshell_redirections(t_minishell *data, t_ast_value *value)
 void	execute_in_subshell(t_minishell *data, t_ast_value *value)
 {
 	char		*prompt;
-	t_minishell	new_shell;
 	int			status;
 
-	ft_bzero(&new_shell, sizeof(t_minishell));
 	if (handle_subshell_redirections(data, value) == FAILURE)
 		return ;
 	prompt = ft_substr(value->name, 1, ft_strlen(value->name) - 2);
@@ -76,14 +74,14 @@ int	execute_subshell(t_minishell *data, t_ast_value *value)
 {
 	int	old_errno;
 
-	dup_standard(value);
 	if (!value->name)
 	{
 		open_all_redirection(value->redirections);
 		old_errno = errno;
 		close_all_redir(value, CLOSE_FD_REDIR);
-		return (data->current_status = errno);
+		return (data->current_status = old_errno);
 	}
+	dup_standard(value);
 	if (fork_subshell(data, value) == FAILURE)
 		return (FAILURE);
 	close_all_redir(value, CLOSE_DUP_STD | CLOSE_PIPE);

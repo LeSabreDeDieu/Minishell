@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 17:20:20 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/14 13:30:30 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/14 15:13:49 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include "ms_signal.h"
 #include <fcntl.h>
 #include <stdio.h>
-
 
 int	execute_builout(t_minishell *minishell, t_ast_value *value)
 {

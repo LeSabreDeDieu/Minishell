@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 15:16:59 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/14 14:11:51 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/14 15:15:51 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
-# define HERE_DOC_PATH ".minishell_here_doc_"
+# define HERE_DOC_PATH "/tmp/.minishell_here_doc_"
 
 typedef struct s_minishell			t_minishell;
 typedef struct s_redirection_list	t_redirection_list;

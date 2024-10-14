@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wait.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 01:15:30 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/11 18:42:47 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/14 15:11:43 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,11 @@ void	wait_for_single_process(t_minishell *data, t_ast_value *value)
 			ft_putendl_fd("\033[0KQuit (Core dumped)", STDOUT_FILENO);
 		else if (WTERMSIG(states) == SIGINT)
 			ft_putendl_fd("", STDOUT_FILENO);
-	}else if (WIFEXITED(states)){
+	}
+	else if (WIFEXITED(states))
+	{
 		data->current_status = WEXITSTATUS(states);
 	}
-
 }
 
 void	wait_for_pipeline(t_minishell *data)
@@ -75,11 +76,11 @@ void	wait_process(t_minishell *data, t_ast_value *value, bool is_pipeline)
 {
 	if (value->pid != -1)
 		wait_for_single_process(data, value);
-	if (is_pipeline){
+	if (is_pipeline)
+	{
 		wait_for_pipeline(data);
 		ast_unlink_heredoc(data->ast);
 	}
 	else
 		ast_unlink_heredoc(data->ast);
-
 }

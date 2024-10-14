@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+        
+	+:+     */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+      
+	+#+        */
+/*                                                +#+#+#+#+#+  
+	+#+           */
 /*   Created: 2024/10/04 15:30:58 by sgabsi            #+#    #+#             */
 /*   Updated: 2024/10/04 15:30:58 by sgabsi           ###   ########.fr       */
 /*                                                                            */
@@ -12,7 +15,6 @@
 
 #include "command.h"
 #include "ms_error.h"
-
 
 static bool	ft_str_isprint(char *str)
 {

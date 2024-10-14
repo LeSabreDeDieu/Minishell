@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:29:31 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/14 11:07:06 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/14 15:11:26 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 void	execution_cmd_pipe(t_minishell *minishell, t_ast_value *value)
 {
-	int		state;
+	int	state;
 
 	state = 0;
 	if (value->name)
@@ -61,7 +61,9 @@ void	execute_pipe(t_minishell *minishell, int *pipe_in, t_ast_value *value)
 	close_all_redir(value, CLOSE_FD_REDIR | CLOSE_PIPE);
 	*pipe_in = value->fd_in;
 }
-void	execute_pipe_sub(t_minishell *minishell, int *pipe_in, t_ast_value *value)
+
+void	execute_pipe_sub(t_minishell *minishell, int *pipe_in,
+		t_ast_value *value)
 {
 	create_pipe(value);
 	value->pid = fork();
@@ -111,7 +113,9 @@ void	execute_pipe_last(t_minishell *minishell, int *pipe_in,
 		close(*pipe_in);
 	close_all_redir(value, CLOSE_FD_REDIR | CLOSE_DUP_STD);
 }
-void	execute_pipe_sub_last(t_minishell *minishell, int *pipe_in, t_ast_value *value)
+
+void	execute_pipe_sub_last(t_minishell *minishell, int *pipe_in,
+		t_ast_value *value)
 {
 	value->fd_out = dup(STDOUT_FILENO);
 	value->fd_in = -1;
