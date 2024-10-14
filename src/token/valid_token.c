@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:34:59 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/11 14:02:54 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/14 13:35:15 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,23 @@ bool	check_quotes(t_token_list *current, t_tokens *tokens)
 
 bool	check_valid_token2(t_tokens *tokens, t_token_list *current)
 {
+	if (current->token->type == TOKEN_SUBSHELL)
+	{
+		if (ft_strlen(current->token->value) == 2)
+			return (token_syntax_error("()"), free_token(tokens), false);
+		else if (counter_char_token(current->token->value,
+				'(') != counter_char_token(current->token->value, ')'))
+			return (token_not_close(current->token->value), free_token(tokens),
+				false);
+	}
 	if (current->token->type == TOKEN_REDIRECTION && current->next->next
 		&& current->next->next->token->type == TOKEN_SUBSHELL)
 		return (token_syntax_error(current->token->value), free_token(tokens),
 			false);
+	if (current->token->type == TOKEN_REDIRECTION && current->next != NULL
+		&& current->next->token->type != TOKEN_WORD)
+		return (token_syntax_error(current->next->token->value),
+			free_token(tokens), false);
 	if (is_and_or_pipe(current->token) && current->next == NULL)
 		return (token_syntax_error(current->token->value), free_token(tokens),
 			false);
@@ -85,15 +98,6 @@ bool	check_valid_token(t_tokens *tokens)
 					|| current->token->value[0] == ')')))
 			return (token_syntax_error(current->token->value),
 				free_token(tokens), false);
-		if (current->token->type == TOKEN_SUBSHELL)
-		{
-			if (ft_strlen(current->token->value) == 2)
-				return (token_syntax_error("()"), free_token(tokens), false);
-			else if (counter_char_token(current->token->value,
-					'(') != counter_char_token(current->token->value, ')'))
-				return (token_not_close(current->token->value),
-					free_token(tokens), false);
-		}
 		if (check_valid_token2(tokens, current) == false)
 			return (free_token(tokens), false);
 		current = current->next;

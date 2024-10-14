@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:28:15 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/14 12:46:22 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/14 14:07:33 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <limits.h>
 #include "minishell.h"
 #include "ms_signal.h"
+#include "here_doc.h"
 #include "stdbool.h"
 #include "command.h"
 #include "tokens.h"
@@ -44,7 +45,7 @@ int	traitement(t_minishell *data, char *prompt)
 		return (ENOMEM);
 	itter_heredoc = -1;
 	expend_and_dequote(data, data->ast);
-	if (open_all_here_doc(data, data->ast, itter_heredoc) != FAILURE)
+	if (open_all_here_doc(data, data->ast, &itter_heredoc) != FAILURE)
 		execute_on_ast(data, data->ast);
 	init_signal();
 	free_token(data->tokens);
@@ -82,15 +83,16 @@ static void	minishell(char *envp[])
 	{
 		signal(SIGQUIT, SIG_IGN);
 		line = rl_gets(&data.data, create_display(&data));
-		if (g_signal == SIGINT){
+		if (g_signal == SIGINT)
 			g_signal = 0;
-		}
 		else if (g_signal == SIGQUIT)
 			g_signal = 0;
-		if (!line)
+		else if (!line)
 		{
 			exit_command(&data, 1, NULL);
-		}else if (!*line)
+		}
+		g_signal = 0;
+		if (!*line)
 		{
 			free(line);
 			continue ;

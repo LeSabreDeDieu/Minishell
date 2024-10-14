@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 15:09:12 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/14 12:41:55 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/14 14:17:12 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int	parent_precess_hd(t_minishell *minishell, int pid, int itterdoc,
 		minishell->current_status = 128 + WTERMSIG(status);
 	else if (WIFEXITED(status))
 		minishell->current_status = WEXITSTATUS(status);
+	if (minishell->current_status == 130)
+		return (FAILURE);
 	itterdoc_str = ft_itoa(itterdoc);
 	here_doc_name = ft_strjoin(HERE_DOC_PATH, itterdoc_str);
 	free(itterdoc_str);

@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 09:35:19 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/11 14:33:47 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/14 14:14:36 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,16 +74,17 @@ int	create_and_open_heredoc_file(t_redirection_list *redir_list, int itterdoc)
 	return (SUCCESS);
 }
 
-int	open_here_doc(t_minishell *minishell, t_ast_value *ast_value, int itterdoc)
+int	open_here_doc(t_minishell *minishell, t_ast_value *ast_value, int *itterdoc)
 {
 	t_redirection_list	*redir_list;
 
 	redir_list = ast_value->redirections;
 	while (redir_list)
 	{
+		++(*itterdoc);
 		if (redir_list->redirection.flag == HERE_DOC)
 		{
-			if (fork_hd(minishell, redir_list, itterdoc) == FAILURE)
+			if (fork_hd(minishell, redir_list, *itterdoc) == FAILURE)
 				return (FAILURE);
 		}
 		redir_list = redir_list->next;
@@ -91,7 +92,7 @@ int	open_here_doc(t_minishell *minishell, t_ast_value *ast_value, int itterdoc)
 	return (SUCCESS);
 }
 
-int	open_all_here_doc(t_minishell *minishell, t_ast *ast, int itterdoc)
+int	open_all_here_doc(t_minishell *minishell, t_ast *ast, int *itterdoc)
 {
 	if (!ast)
 		return (SUCCESS);
@@ -99,7 +100,6 @@ int	open_all_here_doc(t_minishell *minishell, t_ast *ast, int itterdoc)
 		return (FAILURE);
 	if (ast->type == AST_CMD || ast->type == AST_SUBSHELL)
 	{
-		++itterdoc;
 		if (open_here_doc(minishell, &ast->value, itterdoc) == FAILURE)
 		{
 			return (FAILURE);

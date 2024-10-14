@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:45:02 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/11 10:04:02 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/14 13:58:05 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ int		clear_history_file(t_data_minishell *data);
 
 //UTILS
 void	print_welcome(void);
-int		open_all_here_doc(t_minishell *minishell, t_ast *ast, int itterdoc);
 int		expend_and_dequote(t_minishell *data, t_ast *ast);
 
 #endif
