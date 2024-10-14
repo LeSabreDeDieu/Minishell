@@ -6,7 +6,7 @@
 /*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:28:15 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/11 18:25:22 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/14 12:46:22 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,10 @@ static void	minishell(char *envp[])
 		}
 		else if (g_signal == SIGQUIT)
 			g_signal = 0;
-		else if (!line)
+		if (!line)
 		{
 			exit_command(&data, 1, NULL);
-		}
-		g_signal = 0;
-		if (!*line)
+		}else if (!*line)
 		{
 			free(line);
 			continue ;

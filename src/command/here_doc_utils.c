@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 15:09:12 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/11 14:34:34 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/14 12:41:55 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	parent_precess_hd(t_minishell *minishell, int pid, int itterdoc,
 	signal(SIGINT, SIG_IGN);
 	waitpid(pid, &status, 0);
 	close(redir_list->redirection.fd);
+	redir_list->redirection.fd = -1;
 	if (WIFSIGNALED(status))
 		minishell->current_status = 128 + WTERMSIG(status);
 	else if (WIFEXITED(status))

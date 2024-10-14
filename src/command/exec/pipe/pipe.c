@@ -6,7 +6,7 @@
 /*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:29:31 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/11 18:22:35 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/14 11:07:06 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,13 @@ void	execute_pipe(t_minishell *minishell, int *pipe_in, t_ast_value *value)
 		return (error_message_command("fork", strerror(errno)));
 	if (!value->pid)
 	{
+		if (open_all_redirection(value->redirections) == FAILURE)
+			(close_all_redir(value, CLOSE_FD_REDIR | CLOSE_DUP_STD | UNLINK),
+				exit(errno));
 		(signal(SIGINT, SIG_DFL), signal(SIGQUIT, SIG_DFL));
 		close(value->fd_in);
 		if (*pipe_in != -1)
 			(dup2(*pipe_in, STDIN_FILENO), close(*pipe_in));
-		if (open_all_redirection(value->redirections) == FAILURE)
-			(close_all_redir(value, CLOSE_FD_REDIR | CLOSE_DUP_STD | UNLINK),
-				exit(errno));
 		dup2(value->fd_out, STDOUT_FILENO);
 		close(value->fd_out);
 		if (safe_dup_all_redir(minishell, value, FREE_ALL,
