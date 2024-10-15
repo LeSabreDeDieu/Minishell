@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 12:25:19 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/07 16:03:13 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/15 16:02:37 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,8 @@ void	create_nodes_special(t_token_list *tokens, t_ast *right,
 			ast->right->value.last_cmd = true;
 	}
 	else if (is_and_or_pipe(tokens) == 2)
+	{
+		free_ast(&right);
 		ast->left = create_nodes(tokens);
+	}
 }

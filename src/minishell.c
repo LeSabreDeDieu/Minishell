@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:28:15 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/14 17:18:32 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/15 16:19:13 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,22 @@ int	traitement(t_minishell *data, char *prompt)
 		return (FAILURE);
 	free(prompt);
 	if (!check_valid_token(data->tokens))
-		return (ENOENT);
+		return (free_token(data->tokens), ENOENT);
 	if (create_ast(data, data->tokens) == FAILURE)
+	{
+		free_minishell(data, FREE_AST | FREE_TOKEN);
 		return (ENOMEM);
+	}
 	itter_heredoc = -1;
-	expend_and_dequote(data, data->ast);
+	if (expend_and_dequote(data, data->ast) == FAILURE)
+	{
+		free_minishell(data, FREE_AST | FREE_TOKEN);
+		return (ENOMEM);
+	}
 	if (open_all_here_doc(data, data->ast, &itter_heredoc) != FAILURE)
 		execute_on_ast(data, data->ast);
 	ast_unlink_heredoc(data->ast);
-	free_token(data->tokens);
-	free_ast(&data->ast);
-	init_signal();
+	free_minishell(data, FREE_AST | FREE_TOKEN);
 	return (data->current_status);
 }
 
@@ -97,6 +102,7 @@ static void	minishell(char *envp[])
 			continue ;
 		}
 		traitement(&data, line);
+		init_signal();
 	}
 }
 

@@ -3,60 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:22:49 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/04 16:50:06 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/15 16:18:49 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokens.h"
 
-static bool	check_is_in_shell_2(char *str, char *and, char *or)
+const char	*find_operators(const char *input)
 {
-	char	*search;
+	int	len;
+	int	i;
 
-	search = ft_strstr(str, "\'");
-	if (!search)
-		return (1);
-	if (and && and < search)
-		return (1);
-	if (or && or < search)
-		return (1);
-	return (0);
-}
-
-bool	check_is_in_shell(char *str)
-{
-	char	*search;
-	char	*and;
-	char	*or;
-
-	search = ft_strstr(str, "(");
-	if (!search)
-		return (1);
-	and = ft_strstr(str, "&&");
-	or = ft_strstr(str, "||");
-	if (and && and < search)
-		return (1);
-	if (or && or < search)
-		return (1);
-	search = ft_strstr(str, "\"");
-	if (!search)
-		return (1);
-	if (and && and < search)
-		return (1);
-	if (or && or < search)
-		return (1);
-	if (check_is_in_shell_2(str, and, or) == 1)
-		return (1);
-	return (0);
+	len = ft_strlen(input);
+	i = 0;
+	while (i < len)
+	{
+		if (input[i] == '&' && input[i + 1] == '&')
+		{
+			if (!is_in_quotes(input, i) && !is_in_subshell(input, i))
+				return (&input[i]);
+			i++;
+		}
+		else if (input[i] == '|' && input[i + 1] == '|')
+		{
+			if (!is_in_quotes(input, i) && !is_in_subshell(input, i))
+				return (&input[i]);
+			i++;
+		}
+		i++;
+	}
+	return (NULL);
 }
 
 bool	contain_and_or(char *str)
 {
-	return (*str != '(' && *str != '"' && *str != '\'' && check_is_in_shell(str)
-		&& (ft_strstr(str, "&&") != NULL || ft_strstr(str, "||") != NULL));
+	return (find_operators(str) != NULL);
 }
 
 static size_t	get_len_word(char *str)

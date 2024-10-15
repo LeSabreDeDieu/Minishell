@@ -6,7 +6,7 @@
 /*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:45:46 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/14 11:05:48 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/15 12:58:45 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,25 @@
 void	close_std_fds(t_ast_value *value)
 {
 	if (value->fd_in != -1)
-		close(value->fd_in);
+	{
+		if (close(value->fd_in) == -1)
+			error_message_command("standard", strerror(errno));
+		value->fd_in = -1;
+	}
 	if (value->fd_out != -1)
-		close(value->fd_out);
-	value->fd_out = -1;
-	value->fd_in = -1;
+	{
+		if (close(value->fd_out) == -1)
+			error_message_command("standard", strerror(errno));
+		value->fd_out = -1;
+	}
 }
 
 void	close_pipe_fds(t_ast_value *value)
 {
 	if (value->fd_out != -1)
 	{
-		close(value->fd_out);
+		if (close(value->fd_out) == -1)
+			error_message_command("pipe", strerror(errno));
 		value->fd_out = -1;
 	}
 }
@@ -39,11 +46,17 @@ void	close_redirection_fds(t_redirection_list *list, bool is_unlik)
 	while (current)
 	{
 		if (current->redirection.fd != -1)
-			close(current->redirection.fd);
+		{
+			if (close(current->redirection.fd) == -1)
+				error_message(strerror(errno));
+			else
+				current->redirection.fd = -1;
+		}
 		if (is_unlik && current->redirection.flag == HERE_DOC
-			&& current->redirection.filename != NULL)
-			unlink(current->redirection.filename);
-		current->redirection.fd = -1;
+			&& current->redirection.filename != NULL
+			&& unlink(current->redirection.filename) == -1)
+			error_message_command(current->redirection.filename,
+				strerror(errno));
 		current = current->next;
 	}
 }

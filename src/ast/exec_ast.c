@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 17:39:06 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/14 15:13:34 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/15 16:14:14 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,25 +18,18 @@
 static void	execution_by_type(t_minishell *shell_data, int *std_in,
 		t_ast *ast_current)
 {
-	if (ast_current->type == AST_CMD)
+	if (ast_current->type == AST_CMD || ast_current->type == AST_SUBSHELL)
 	{
 		if (expend(shell_data, &ast_current->value) == FAILURE)
 			return ;
 		to_dequote(&ast_current->value);
 		if (ast_current->value.last_cmd)
+		{
 			execute_pipe_last(shell_data, std_in, &ast_current->value);
+			wait_process(shell_data, &ast_current->value, true);
+		}
 		else
 			execute_pipe(shell_data, std_in, &ast_current->value);
-	}
-	else if (ast_current->type == AST_SUBSHELL)
-	{
-		if (expend(shell_data, &ast_current->value) == FAILURE)
-			return ;
-		to_dequote(&ast_current->value);
-		if (ast_current->value.last_cmd)
-			execute_pipe_sub_last(shell_data, std_in, &ast_current->value);
-		else
-			execute_pipe_sub(shell_data, std_in, &ast_current->value);
 	}
 }
 
@@ -47,8 +40,6 @@ void	execution_pipe(t_minishell *shell_data, int *std_in, t_ast *ast_current)
 	execution_pipe(shell_data, std_in, ast_current->right);
 	execution_by_type(shell_data, std_in, ast_current);
 	execution_pipe(shell_data, std_in, ast_current->left);
-	if (ast_current->value.last_cmd)
-		wait_process(shell_data, &ast_current->value, true);
 }
 
 void	execute_on_ast(t_minishell *shell_data, t_ast *ast)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_ast_value.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 11:55:12 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/14 18:10:30 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/15 12:59:58 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,9 +102,13 @@ int	create_ast_value(t_ast_value *value, t_token_list **tokens)
 	current = *tokens;
 	if (current->token->type == TOKEN_WORD || is_quote(current->token)
 		|| current->token->type == TOKEN_REDIRECTION)
+	{
+		value->type = AST_CMD;
 		return (create_ast_value_word(value, tokens));
+	}
 	else if (current->token->type == TOKEN_SUBSHELL)
 	{
+		value->type = AST_SUBSHELL;
 		if (create_ast_value_subshell(value, &current) == FAILURE)
 			return (FAILURE);
 	}

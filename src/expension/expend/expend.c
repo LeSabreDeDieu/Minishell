@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expend.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 12:03:24 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/14 18:22:13 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/15 15:57:39 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ static int	add_to_chain_list(t_minishell *shell_data, t_ast_value *value,
 				return (free_dlist(&shell_data->stack), FAILURE);
 			if (ret != WILDCARD)
 				add_dlist(&shell_data->stack, tmp);
+			else
+				free_dlist(&tmp);
 		}
 		else if (ret == FAILURE)
 			return (FAILURE);

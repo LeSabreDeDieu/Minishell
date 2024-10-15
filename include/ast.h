@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:44:54 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/14 18:10:46 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/15 11:41:07 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ typedef struct s_token		t_token;
 
 typedef enum e_type_ast
 {
-	AST_AND,
+	AST_AND = 1,
 	AST_OR,
 	AST_SUBSHELL,
 	AST_PIPE,
@@ -39,6 +39,7 @@ typedef struct s_ast_value
 	char					*name;
 	int						argc;
 	pid_t					pid;
+	t_type_ast				type;
 	int						fd_in;
 	int						fd_out;
 	bool					last_cmd;

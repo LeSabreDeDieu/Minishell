@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 17:52:37 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/11 14:38:16 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/15 11:31:45 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,11 @@ enum							e_close_fd
 	UNLINK = 1 << 3
 };
 
+enum							e_dup2_fd
+{
+	DUP_PIPE = 1 << 0,
+	DUP_STANDARD = 1 << 1
+};
 typedef enum e_type_redirection
 {
 	HERE_DOC = 1,

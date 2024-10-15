@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_subshell.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:29:24 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/14 17:16:35 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/15 16:13:59 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,9 @@ int	handle_subshell_redirections(t_minishell *data, t_ast_value *value)
 {
 	if (open_all_redirection(value->redirections) == FAILURE)
 		exit(errno);
-	close_dup_standard(value);
 	if (dup_all_redir(value->redirections) == -1)
 	{
-		close_all_redir(value, CLOSE_DUP_STD | CLOSE_FD_REDIR | UNLINK);
+		close_all_redir(value, CLOSE_FD_REDIR | UNLINK);
 		free_minishell(data, FREE_ALL);
 		exit(ENOENT);
 	}
@@ -33,15 +32,20 @@ int	handle_subshell_redirections(t_minishell *data, t_ast_value *value)
 
 void	execute_in_subshell(t_minishell *data, t_ast_value *value)
 {
-	char		*prompt;
-	int			status;
+	char	*prompt;
+	int		status;
+	size_t	line;
 
 	if (handle_subshell_redirections(data, value) == FAILURE)
 		return ;
-	prompt = ft_substr(value->name, 1, ft_strlen(value->name) - 2);
+	line = ft_strlen(value->name);
+	if (value->name && *value->name == '(' && value->name[line - 1] == ')')
+		prompt = ft_substr(value->name, 1, line - 2);
+	else
+		prompt = ft_strdup(value->name);
 	if (!prompt)
 	{
-		close_all_redir(value, CLOSE_DUP_STD | CLOSE_FD_REDIR | UNLINK);
+		close_all_redir(value, CLOSE_FD_REDIR | UNLINK);
 		free_minishell(data, FREE_ALL);
 		exit(ENOMEM);
 	}
@@ -70,7 +74,6 @@ int	fork_subshell(t_minishell *data, t_ast_value *value)
 
 int	execute_subshell(t_minishell *data, t_ast_value *value)
 {
-	dup_standard(value);
 	if (fork_subshell(data, value) == FAILURE)
 		return (FAILURE);
 	close_all_redir(value, CLOSE_DUP_STD | CLOSE_PIPE);

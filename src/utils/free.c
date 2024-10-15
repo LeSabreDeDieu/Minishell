@@ -6,7 +6,7 @@
 /*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:48:08 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/14 11:03:50 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/15 15:45:16 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,10 @@ void	free_token(t_tokens *tokens)
 void	free_minishell(t_minishell *minishell, int action)
 {
 	if (action & FREE_AST)
+	{
 		free_ast(&minishell->ast);
+		free_dlist(&minishell->stack);
+	}
 	if ((action & FREE_TOKEN) && minishell->tokens)
 	{
 		free_token(minishell->tokens);

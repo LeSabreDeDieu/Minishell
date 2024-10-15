@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_ast_value_utils.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:21:34 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/14 18:10:24 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/15 11:36:39 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ int	add_argv_value(t_ast_value **value, t_token_list **current)
 
 int	create_ast_value_subshell(t_ast_value *value, t_token_list **current)
 {
+	value->pid = -1;
 	value->fd_in = -1;
 	value->fd_out = -1;
 	value->name = (*current)->token->value;

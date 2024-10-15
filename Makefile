@@ -6,7 +6,7 @@
 #    By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:19:20 by gcaptari          #+#    #+#              #
-#    Updated: 2024/10/11 18:42:00 by gcaptari         ###   ########.fr        #
+#    Updated: 2024/10/15 14:13:10 by gcaptari         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -152,7 +152,7 @@ NAME				=	minishell
 
 # Compiler
 CC					=	cc
-CFLAGS				=	-Wall -Wextra -Wshadow -Wunused -Werror -MMD -g3
+CFLAGS				=	-Wall -Wextra -Wshadow -Werror -MMD -g3
 
 OPTIONS				=	-I $(INCDIR) -I $(LIBFT_DIR)/includes
 LFLAGS				=	-L $(LIBFT_DIR) -lft -lreadline -lcurses

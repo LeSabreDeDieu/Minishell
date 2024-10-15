@@ -6,7 +6,7 @@
 /*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:34:57 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/11 18:25:16 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/15 11:20:18 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,12 @@ static int	handle_child_process(t_minishell *minishell, t_ast_value *value)
 		(error_message_with_arg(value->name, strerror(ENOENT)),
 			free_minishell(minishell, FREE_ALL), exit(ENOENT));
 	}
-	if (safe_dup_all_redir(minishell, value, FREE_ALL,
-			CLOSE_DUP_STD | CLOSE_FD_REDIR | UNLINK) == -1)
+	if (safe_dup_all_redir(minishell, value, FREE_ALL, UNLINK) == -1)
 	{
 		exit(ENOENT);
 	}
 	status = execute_builout(minishell, value);
-	close_all_redir(value, CLOSE_DUP_STD | CLOSE_FD_REDIR | UNLINK);
+	close_all_redir(value, UNLINK);
 	free_minishell(minishell, FREE_ALL);
 	exit(status);
 }

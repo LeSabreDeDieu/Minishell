@@ -6,13 +6,13 @@
 /*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:14:37 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/11 17:44:22 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/15 16:11:54 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <utmp.h>
 #include <unistd.h>
+#include <utmp.h>
 
 void	set_env_from_void(void)
 {
@@ -86,8 +86,9 @@ char	*get_uname(void)
 int	expend_and_dequote(t_minishell *data, t_ast *ast)
 {
 	if (!ast)
+		return (SUCCESS);
+	if (expend_and_dequote(data, ast->right) == FAILURE)
 		return (FAILURE);
-	expend_and_dequote(data, ast->left);
 	if (ast->type == AST_CMD || ast->type == AST_SUBSHELL)
 	{
 		if (expend(data, &ast->value) == FAILURE)
@@ -95,7 +96,8 @@ int	expend_and_dequote(t_minishell *data, t_ast *ast)
 		to_dequote(&ast->value);
 		dequote_delimiter(ast->value.redirections);
 	}
-	expend_and_dequote(data, ast->right);
+	if (expend_and_dequote(data, ast->left) == FAILURE)
+		return (FAILURE);
 	return (SUCCESS);
 }
 

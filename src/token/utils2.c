@@ -3,14 +3,52 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:51:41 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/11 13:46:22 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/15 16:18:59 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokens.h"
+
+int	is_in_quotes(const char *str, int index)
+{
+	int	single_quote;
+	int	double_quote;
+	int	i;
+
+	single_quote = 0;
+	double_quote = 0;
+	i = 0;
+	while (i < index)
+	{
+		if (str[i] == '\'')
+			single_quote = !single_quote;
+		else if (str[i] == '\"')
+			double_quote = !double_quote;
+		i++;
+	}
+	return (single_quote || double_quote);
+}
+
+int	is_in_subshell(const char *str, int index)
+{
+	int	subshell_count;
+	int	i;
+
+	subshell_count = 0;
+	i = 0;
+	while (i < index)
+	{
+		if (str[i] == '(')
+			subshell_count++;
+		else if (str[i] == ')')
+			subshell_count--;
+		i++;
+	}
+	return (subshell_count > 0);
+}
 
 bool	is_space_in_quotes(char *str)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dup_all_redir.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:45:14 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/14 17:15:24 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/15 12:57:15 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ int	dup_redirection(t_redirection *redirection)
 	{
 		dup2(redirection->fd, STDIN_FILENO);
 	}
-	close(redirection->fd);
+	if (close(redirection->fd) == -1)
+		error_message_command("dup2", strerror(errno));
+	redirection->fd = -1;
 	return (0);
 }
 
