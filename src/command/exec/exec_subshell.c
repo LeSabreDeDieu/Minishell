@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:29:24 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/16 11:32:33 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/16 12:12:03 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void	execute_in_subshell(t_minishell *data, t_ast_value *value)
 		prompt = ft_substr(value->name, 1, line - 2);
 	else
 		prompt = ft_strdup(value->name);
-	printf("prompt = %s\n", prompt);
 	if (!prompt)
 	{
 		close_all_redir(value, CLOSE_FD_REDIR | UNLINK);
