@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_simple.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:34:57 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/15 11:20:18 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/16 16:16:17 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,13 +80,10 @@ static int	handle_fork(t_minishell *minishell, t_ast_value *value)
 
 int	execute_simple(t_minishell *minishell, t_ast_value *value)
 {
-	int	old_errno;
-
 	dup_standard(value);
 	if (!value->name)
 	{
 		open_all_redirection(value->redirections);
-		old_errno = errno;
 		close_all_redir(value, CLOSE_FD_REDIR);
 		return (minishell->current_status = errno);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 17:39:06 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/15 16:14:14 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/16 16:10:08 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,6 @@ static void	execution_by_type(t_minishell *shell_data, int *std_in,
 {
 	if (ast_current->type == AST_CMD || ast_current->type == AST_SUBSHELL)
 	{
-		if (expend(shell_data, &ast_current->value) == FAILURE)
-			return ;
-		to_dequote(&ast_current->value);
 		if (ast_current->value.last_cmd)
 		{
 			execute_pipe_last(shell_data, std_in, &ast_current->value);

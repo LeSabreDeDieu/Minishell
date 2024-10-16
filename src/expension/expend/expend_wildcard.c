@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 19:32:37 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/11 08:33:55 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/16 16:20:10 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,7 @@ int	add_matching_files(t_dlist **wildcard, char *pattern)
 int	expend_wildcard(t_minishell *shell_data, char *argv)
 {
 	DIR		*dir;
-	int		i;
 
-	i = 0;
 	dir = opendir(".");
 	if (!dir)
 		return (FAILURE);

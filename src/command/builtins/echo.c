@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 14:45:31 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/11 08:56:06 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/16 16:18:56 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ static void	print_args(char **tmp, bool *no_eof, bool is_write)
 		}
 		(ft_putstr_fd(*tmp, STDOUT_FILENO), is_write = true);
 		++tmp;
-		*tmp != NULL && ft_putstr_fd(" ", STDOUT_FILENO);
+		if (*tmp != NULL)
+			ft_putstr_fd(" ", STDOUT_FILENO);
 	}
 }
 
@@ -61,7 +62,8 @@ int	echo_command(int argc, char *argv[])
 		if (!tmp || !*tmp)
 			return (125);
 		print_args(tmp, &no_eof, is_write);
-		!no_eof && ft_putstr_fd("\n", STDOUT_FILENO);
+		if (!no_eof)
+			ft_putstr_fd("\n", STDOUT_FILENO);
 	}
 	return (EXIT_SUCCESS);
 }
