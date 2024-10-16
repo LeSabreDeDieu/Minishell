@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:29:33 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/16 11:26:57 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/16 15:32:29 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	print_token(t_tokens *tokens)
 {
 	t_token_list	*current;
 	const char		*token_names[9] = {"AND", "OR", "SUBSHELL", "VARIABLES",
-				"PIPE", "REDIRECTION", "DOUBLE_QUOTE", "SIMPLE_QUOTE", "WORD"};
+		"PIPE", "REDIRECTION", "DOUBLE_QUOTE", "SIMPLE_QUOTE", "WORD"};
 
 	if (tokens->first_token == NULL)
 		return ;

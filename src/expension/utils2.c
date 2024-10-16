@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 23:07:10 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/04 16:41:47 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/16 15:11:56 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,25 @@ bool	char_in_quote(char *str, char c)
 	else
 		return ((ft_strchr(str, '\'') < ft_strchr(str, c) && ft_strchr(str,
 					c) < ft_strchr(ft_strchr(str, '\'') + 1, '\'')));
+}
+
+const char	*find_space(const char *input)
+{
+	int	len;
+	int	i;
+
+	len = ft_strlen(input);
+	i = 0;
+	while (i < len)
+	{
+		if (input[i] == ' ')
+		{
+			if (!is_in_quotes(input, i) && !is_in_subshell(input, i))
+				return (&input[i]);
+		}
+		i++;
+	}
+	return (NULL);
 }
 
 void	dequote_delimiter(t_redirection_list *redir_list)

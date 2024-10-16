@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 15:50:41 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/08 11:52:59 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/16 15:19:15 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	handle_stack_splitting(t_dlist **stack, t_dlist **current)
 		*current = save_prev;
 		return ;
 	}
-	if (ft_strchr((*current)->str, ' ') && !char_in_quote((*current)->str, ' '))
+	if (find_space((*current)->str) != NULL)
 		split_current_stack_element(stack, current);
 }
 
