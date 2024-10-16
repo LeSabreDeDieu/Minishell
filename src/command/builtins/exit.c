@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 12:11:15 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/11 18:33:48 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/16 12:49:18 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,4 @@ int	exit_command(t_minishell *minishell, int argc, char *argv[])
 	free_minishell(minishell, FREE_ALL);
 	ft_putstr_fd("exit\n\033[0m\007\033[1 q\007", STDOUT_FILENO);
 	exit(status);
-	return (status);
 }

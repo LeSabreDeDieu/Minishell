@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wait.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 01:15:30 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/15 14:58:14 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/16 12:48:51 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,7 @@ void	kill_all_pid(t_ast *ast)
 
 void	handle_signal_interrupt(t_minishell *data)
 {
-	if (g_signal == SIGQUIT)
-		ft_putendl_fd("\033[0KQuit (Core dumped)", STDOUT_FILENO);
-	else if (g_signal == SIGINT && data->current_status != 130)
+	if (g_signal == SIGINT && data->current_status != 130)
 		ft_putendl_fd("", STDOUT_FILENO);
 	kill_all_pid(data->ast);
 }
