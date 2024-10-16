@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:28:15 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/15 16:19:13 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/16 11:05:52 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	traitement(t_minishell *data, char *prompt)
 		free_minishell(data, FREE_AST | FREE_TOKEN);
 		return (ENOMEM);
 	}
+	print_ast(data->ast);
 	itter_heredoc = -1;
 	if (expend_and_dequote(data, data->ast) == FAILURE)
 	{

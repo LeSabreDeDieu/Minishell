@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:29:33 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/18 15:07:01 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/16 11:26:57 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	print_token(t_tokens *tokens)
 {
 	t_token_list	*current;
 	const char		*token_names[9] = {"AND", "OR", "SUBSHELL", "VARIABLES",
-		"PIPE", "REDIRECTION", "DOUBLE_QUOTE", "SIMPLE_QUOTE", "WORD"};
+				"PIPE", "REDIRECTION", "DOUBLE_QUOTE", "SIMPLE_QUOTE", "WORD"};
 
 	if (tokens->first_token == NULL)
 		return ;
@@ -32,8 +32,8 @@ void	print_token(t_tokens *tokens)
 
 static void	print_ast_node(t_ast *ast)
 {
-	const char			*type_names[] = {"AND", "OR", "SUBSHELL", "PIPE",
-		"CMD"};
+	const char			*type_names[] = {"UNKNOWN", "AND", "OR", "SUBSHELL",
+		"PIPE", "CMD"};
 	const char			*redi_type[] = {"HERE_DOC", "READ", "WRITE", "APPEND"};
 	t_redirection_list	*tmp;
 	size_t				index;
@@ -41,7 +41,7 @@ static void	print_ast_node(t_ast *ast)
 	if (!ast)
 		return ;
 	index = -1;
-	print_ast_node(ast->left);
+	print_ast_node(ast->right);
 	printf("Type : %s\n", type_names[ast->type]);
 	printf("LastCMD : %i\n", ast->value.last_cmd);
 	printf("Name : %s\n", ast->value.name);
@@ -55,7 +55,7 @@ static void	print_ast_node(t_ast *ast)
 		printf("\tFilename : %s\n", tmp->redirection.filename);
 		tmp = tmp->next;
 	}
-	print_ast_node(ast->right);
+	print_ast_node(ast->left);
 	printf("\n");
 }
 

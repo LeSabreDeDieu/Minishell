@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenise_and_or.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 14:14:53 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/15 16:17:54 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/16 12:07:42 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,24 @@ bool	is_pipe_valid(const char *input, int index)
 	return (!is_in_quotes(input, index) && !is_in_subshell(input, index));
 }
 
+char	*find_pipe(const char *input)
+{
+	int	len;
+	int	i;
+
+	len = ft_strlen(input);
+	i = 0;
+	while (i < len)
+	{
+		if (is_pipe_valid(input, i))
+			return ((char *)&input[i]);
+		else
+			i++;
+		i++;
+	}
+	return (NULL);
+}
+
 static int	tokenise_or_and(t_tokens *tokens, char **str, t_token_type type)
 {
 	char	*tmp;
@@ -45,10 +63,9 @@ static int	tokenise_or_and(t_tokens *tokens, char **str, t_token_type type)
 	if ((int)type == FAILURE)
 		return (SUCCESS);
 	tmp = ft_substr(*str, 0, find_operators(*str) - *str);
-	printf("tmp = %s, find op = %s\n", tmp, find_operators(*str));
 	if (!tmp)
 		return (FAILURE);
-	if (ft_strrchr(tmp, '|') && is_pipe_valid(tmp, ft_strrchr(tmp, '|') - tmp))
+	if (find_pipe(tmp) != NULL)
 	{
 		add_token(tokens, create_token(tmp, TOKEN_SUBSHELL));
 	}
