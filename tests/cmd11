@@ -1,0 +1,10 @@
+echo hello | cat >| ls
+rm a b
+cat << end > a | cat << end > b
+123
+end
+456
+end
+cat a
+cat b
+rm a b

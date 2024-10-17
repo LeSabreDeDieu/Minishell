@@ -1,0 +1,16 @@
+echo |>
+echo |> ok
+echo >| ok
+echo <|
+echo <>
+echo ><
+echo ok || cat
+echo ||| "yep"
+echo |||
+echo "|||"
+echo '|||' cat 
+echo >>
+echo <<
+echo >>| ok
+echo <<| ok
+echo ok | cat -e | wc

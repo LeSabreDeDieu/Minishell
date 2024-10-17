@@ -1,0 +1,11 @@
+mkdir cmd5_dir
+cd cmd5_dir
+ls
+> a
+cat a
+echo "abc" > a
+cat a
+echo def >> a
+cat a
+cd ..
+rm -rf cmd5_dir

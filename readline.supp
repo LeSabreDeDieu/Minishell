@@ -1,0 +1,12 @@
+{
+	<readline-leak>
+	Memcheck:Leak
+	...
+	obj:*/libreadline.so.*
+}
+{
+    <builtout-leak>
+    Memcheck:Leak
+    ...
+    obj:/usr/bin/*
+}

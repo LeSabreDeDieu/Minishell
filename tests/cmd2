@@ -1,0 +1,3 @@
+ls /proc/self/fd
+ls | ls | ls /proc/self/fd
+ls | ls | ls | ls | ls | ls | ls /proc/self/fd

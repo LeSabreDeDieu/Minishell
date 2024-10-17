@@ -1,0 +1,9 @@
+ls
+mkdir cmd1_dir
+cd cmd1_dir
+> test1
+>> test2
+< test3
+ls
+cd ..
+rm -rf cmd1_dir

@@ -1,0 +1,7 @@
+mkdir dir_cmd10
+cd dir_cmd10
+pwd
+rm -rf ../dir_cmd10
+pwd
+cd .
+pwd

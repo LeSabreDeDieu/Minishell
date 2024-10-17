@@ -1,0 +1,7 @@
+ls
+mkdir cmd3_dir
+cd cmd3_dir
+cat < a < b > c > d
+ls
+cd ..
+rm -rf cmd3_dir
