@@ -6,7 +6,7 @@
 #    By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:19:20 by gcaptari          #+#    #+#              #
-#    Updated: 2024/10/16 17:32:10 by sgabsi           ###   ########.fr        #
+#    Updated: 2024/10/17 16:22:45 by sgabsi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -103,6 +103,7 @@ SRC_EXPENSION_FILES	=	expend/expend.c \
 						expend/expend_variable.c \
 						expend/expend_wildcard.c \
 						expend/expend_wildcard_utils.c \
+						expend/split_args_utils.c \
 						expend/split_args.c \
 						dequoting.c \
 						utils.c	\

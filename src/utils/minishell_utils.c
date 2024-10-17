@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:14:37 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/17 15:53:19 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/17 16:16:56 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,11 +129,4 @@ int	expend_and_dequote(t_minishell *data, t_ast *ast)
 	if (expend_and_dequote(data, ast->left) == FAILURE)
 		return (FAILURE);
 	return (SUCCESS);
-}
-
-void	print_welcome(void)
-{
-	ft_putstr_fd("Welcome to ", STDOUT_FILENO);
-	ft_putstr_fd(SHELL_NAME, STDOUT_FILENO);
-	ft_putstr_fd("\n", STDOUT_FILENO);
 }
