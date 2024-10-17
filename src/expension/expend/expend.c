@@ -6,14 +6,14 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 12:03:24 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/16 16:35:20 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/17 15:57:54 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expension.h"
 
 static int	expend_variable(t_minishell *shell_data, t_ast_value *value,
-		t_pos *pos)
+		t_pos *pos, bool is_quoted)
 {
 	char	pid_str[16];
 
@@ -32,7 +32,8 @@ static int	expend_variable(t_minishell *shell_data, t_ast_value *value,
 	}
 	else if (value->argv[pos->i][pos->j] == '$' && value->argv[pos->i][pos->j
 		+ 1] != '$')
-		if (expend_variable_from_env(value, &pos->i, pos->j) == FAILURE)
+		if (expend_variable_from_env(value, &pos->i, pos->j,
+				is_quoted) == FAILURE)
 			return (FAILURE);
 	return (SUCCESS);
 }
@@ -45,21 +46,19 @@ static int	expend_value(t_minishell *shell_data, t_ast_value *value,
 	is_quoted = false;
 	while (value->argv[pos->i] && value->argv[pos->i][pos->j])
 	{
-		is_quoted = is_in_dquote(value->argv[pos->i][pos->j], is_quoted);
-		if (value->argv[pos->i][pos->j] == '\'' && !is_quoted)
-			pos->j += pos_next_quote(&value->argv[pos->i][pos->j + 1]) + 1;
+		is_quoted = is_in_dquote(&value->argv[pos->i][pos->j], is_quoted);
+		if (value->argv[pos->i][pos->j] == ('\'' * -1) && !is_quoted)
+			pos->j += pos_next_quote(&value->argv[pos->i][pos->j + 1],
+					'\'' * -1) + 1;
 		if (value->argv[pos->i][pos->j] == '$')
 		{
-			if (expend_variable(shell_data, value, pos) == FAILURE)
+			if (expend_variable(shell_data, value, pos, is_quoted) == FAILURE)
 				return (FAILURE);
 		}
 		else if (value->argv[pos->i][pos->j] == '~')
 			(expend_tild(shell_data, value, pos), ++pos->j);
 		else if (value->argv[pos->i][pos->j] == '*')
-		{
-			expend_wildcard(shell_data, value->argv[pos->i]);
-			return (WILDCARD);
-		}
+			return (expend_wildcard(shell_data, value->argv[pos->i]), WILDCARD);
 		else
 			++pos->j;
 	}

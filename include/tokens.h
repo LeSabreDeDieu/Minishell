@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:45:05 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/15 16:19:51 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/17 15:24:04 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ bool					is_space_in_quotes(char *str);
 
 void					token_syntax_error(char *str);
 void					token_not_close(char *str);
-int						is_in_quotes(const char *str, int index);
+int						is_in_quotes(const char *str, int index, int mult);
 
 int						is_in_subshell(const char *str, int index);
 

@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:42:00 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/16 15:40:44 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/17 15:30:14 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,22 +58,18 @@ int	tokenise_quote(t_tokens *tokens, char **str, t_token_type type)
 {
 	char	*tmp;
 	int		evode;
-	char	*end;
 
 	if (type == TOKEN_DOUBLE_QUOTE)
 		evode = type + 1;
 	else
 		evode = type - 1;
-	end = getlastquote((*str), tokens->token_config[type][0],
-			tokens->token_config[evode][0]);
-	tmp = ft_substr(*str, 0, end - (*str));
+	tmp = get_word(str);
 	if (!tmp)
 		return (FAILURE);
 	if (is_quote_closed(tmp, tokens->token_config[type][0],
 		tokens->token_config[evode][0]) == false)
 		return (free(tmp), error_message("quote not closed"), FAILURE);
 	add_token(tokens, create_token(tmp, TOKEN_WORD));
-	*str += ft_strlen(tmp);
 	free(tmp);
 	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 15:50:41 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/16 15:19:15 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/17 15:26:22 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,53 @@ int	add_split_to_stack(t_dlist **stack, char **split)
 	return (SUCCESS);
 }
 
+char	**ft_split_not_in_quote(char *str)
+{
+	char	**split;
+	char	*tmp;
+	char	*tmp2;
+	size_t	nb_words;
+	size_t	i;
+
+	if (str == NULL)
+		return (NULL);
+	tmp = str;
+	nb_words = 1;
+	while (*tmp)
+	{
+		tmp2 = (char *)find_space(tmp);
+		if (tmp2 == NULL)
+			break ;
+		nb_words++;
+		tmp = tmp2 + 1;
+	}
+	split = ft_calloc((nb_words + 1), sizeof(char *));
+	if (split == NULL)
+		return (NULL);
+	tmp = str;
+	i = 0;
+	while (*tmp && i < nb_words)
+	{
+		tmp2 = (char *)find_space(tmp);
+		if (tmp2 == NULL)
+			split[i] = ft_strdup(tmp);
+		else
+			split[i] = ft_substr(tmp, 0, tmp2 - tmp);
+		if (split[i] == NULL)
+		{
+			free_str_tab(split);
+			return (NULL);
+		}
+		if (tmp2 != NULL)
+			tmp = tmp2 + 1;
+		else
+			tmp = tmp;
+		i++;
+	}
+	split[i] = NULL;
+	return (split);
+}
+
 void	split_current_stack_element(t_dlist **stack, t_dlist **current)
 {
 	char	**split;
@@ -42,7 +89,7 @@ void	split_current_stack_element(t_dlist **stack, t_dlist **current)
 		*stack = NULL;
 	else
 		(*current)->prev->next = NULL;
-	split = ft_split((*current)->str, ' ');
+	split = ft_split_not_in_quote((*current)->str);
 	if (!split)
 		return ;
 	free((*current)->str);
@@ -71,8 +118,7 @@ void	handle_stack_splitting(t_dlist **stack, t_dlist **current)
 		*current = save_prev;
 		return ;
 	}
-	if (find_space((*current)->str) != NULL)
-		split_current_stack_element(stack, current);
+	split_current_stack_element(stack, current);
 }
 
 void	split_stack_elements(t_dlist **stack)

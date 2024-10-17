@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 14:14:53 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/16 12:07:42 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/17 15:24:12 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ bool	is_pipe_valid(const char *input, int index)
 	if (!input || input[index] != '|'
 		|| (input[index] == '|' && input[index + 1] == '|'))
 		return (false);
-	return (!is_in_quotes(input, index) && !is_in_subshell(input, index));
+	return (!is_in_quotes(input, index, 1) && !is_in_subshell(input, index));
 }
 
 char	*find_pipe(const char *input)

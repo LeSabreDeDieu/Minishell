@@ -6,7 +6,7 @@
 #    By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:19:20 by gcaptari          #+#    #+#              #
-#    Updated: 2024/10/16 16:44:43 by sgabsi           ###   ########.fr        #
+#    Updated: 2024/10/16 17:32:10 by sgabsi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -152,7 +152,7 @@ NAME				=	minishell
 
 # Compiler
 CC					=	gcc
-CFLAGS				=	-Wall -Wextra -Wshadow -Werror -MMD -g3 #-fsanitize=address,leak,undefined
+CFLAGS				=	-Wall -Wextra -Wshadow -Werror -MMD -g3 -fsanitize=address,leak,undefined
 
 OPTIONS				=	-I $(INCDIR) -I $(LIBFT_DIR)/includes
 LFLAGS				=	-L $(LIBFT_DIR) -lft -lreadline -lcurses

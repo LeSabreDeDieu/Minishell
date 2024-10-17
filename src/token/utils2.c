@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:51:41 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/15 16:18:59 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/17 15:24:24 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokens.h"
 
-int	is_in_quotes(const char *str, int index)
+int	is_in_quotes(const char *str, int index, int mult)
 {
 	int	single_quote;
 	int	double_quote;
@@ -23,9 +23,9 @@ int	is_in_quotes(const char *str, int index)
 	i = 0;
 	while (i < index)
 	{
-		if (str[i] == '\'')
+		if (str[i] == ('\'' * mult))
 			single_quote = !single_quote;
-		else if (str[i] == '\"')
+		else if (str[i] == ('"' * mult))
 			double_quote = !double_quote;
 		i++;
 	}

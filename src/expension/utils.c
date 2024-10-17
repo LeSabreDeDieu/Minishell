@@ -6,21 +6,18 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:24:32 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/10 18:18:34 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/17 15:51:54 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expension.h"
 #include <unistd.h>
 
-bool	is_in_dquote(char c, bool is_quoted)
+bool	is_in_dquote(char *c, bool is_quoted)
 {
-	if (c == '"' && is_quoted == false)
-		return (true);
-	else if (c == '"' && is_quoted == true)
-		return (false);
-	else
-		return (is_quoted);
+	if (*c == ('"' * -1))
+		return (!is_quoted);
+	return (is_quoted);
 }
 
 char	*get_end(char *str)
@@ -61,13 +58,14 @@ void	get_pid_as_string(char *pid_str)
 	}
 }
 
-int	expend_variable_from_env(t_ast_value *value, int *i, int j)
+int	expend_variable_from_env(t_ast_value *value, int *i, int j, bool is_quoted)
 {
 	char	*to_exp;
 	t_env	*env;
 	char	*env_value;
 
 	env_value = "";
+	(void) is_quoted;
 	to_exp = ft_substr(value->argv[(*i)], j, ft_strlen(&value->argv[(*i)][(j)])
 			- ft_strlen(get_end(value->argv[(*i)] + ((j) + 1))));
 	if (to_exp == NULL)
@@ -80,12 +78,14 @@ int	expend_variable_from_env(t_ast_value *value, int *i, int j)
 	return (SUCCESS);
 }
 
-int	pos_next_quote(char *str)
+int	pos_next_quote(char *str, char quote)
 {
 	int	i;
 
 	i = 0;
-	while (str[i] && str[i] != '\'')
+	while (str[i] && str[i] != quote)
 		i++;
-	return (i);
+	if (str[i] == quote)
+		return (i);
+	return (-1);
 }

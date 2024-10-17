@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:22:49 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/15 16:18:49 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/17 16:02:06 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ const char	*find_operators(const char *input)
 	{
 		if (input[i] == '&' && input[i + 1] == '&')
 		{
-			if (!is_in_quotes(input, i) && !is_in_subshell(input, i))
+			if (!is_in_quotes(input, i, 1) && !is_in_subshell(input, i))
 				return (&input[i]);
 			i++;
 		}
 		else if (input[i] == '|' && input[i + 1] == '|')
 		{
-			if (!is_in_quotes(input, i) && !is_in_subshell(input, i))
+			if (!is_in_quotes(input, i, 1) && !is_in_subshell(input, i))
 				return (&input[i]);
 			i++;
 		}
@@ -61,6 +61,8 @@ static size_t	get_len_word(char *str)
 			++size;
 			while (str[size] && str[size] != quote)
 				++size;
+			if (!str[size])
+				break ;
 		}
 		++size;
 	}
