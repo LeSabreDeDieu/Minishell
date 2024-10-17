@@ -1,0 +1,23 @@
+"
+""
+"""
+" 
+" "
+" " "
+'
+''
+'''
+' 
+' '
+' ' '
+ '
+echo "a"
+echo 'a'
+echo a
+""echo a
+''echo a
+ec''ho a
+ec""ho a
+echo "a a"
+echo 'a a'
+echo a a

@@ -1,0 +1,20 @@
+mkdir cmd4_dir
+cd cmd4_dir
+export A="s -la"
+l$A
+export A=p
+export B=w
+$A"$B"d
+"$A"'$B'd
+export AB=
+$A$AB"$B"d
+echo "ls -la <a | grep x > b"
+echo ok "" ok
+echo ok "" "" "" "" "" "" "" "" "" ok
+export OK="ok                   ok"
+echo $OK
+unset A
+export A=ok
+echo $A
+cd ..
+rm -rf cmd4_dir

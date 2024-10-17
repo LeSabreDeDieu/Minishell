@@ -1,0 +1,19 @@
+echo abc def
+echo abc "" "" "" def
+echo
+echo -
+echo -n
+echo -pardon?
+echo a
+echo - b
+echo -n c
+echo -pardon? d
+echo a a
+echo - b b
+echo -n c c
+echo -pardon? d d
+echo -n -n -n a
+echo -nnnn -nnnnn -nnnna a
+echo -nnnn -nnnnn a
+echo -nnnn a -nnnnn
+echo a -nnnn -nnnnn
