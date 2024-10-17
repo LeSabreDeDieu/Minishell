@@ -6,7 +6,7 @@
 #    By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:19:20 by gcaptari          #+#    #+#              #
-#    Updated: 2024/10/17 17:13:12 by sgabsi           ###   ########.fr        #
+#    Updated: 2024/10/17 17:54:40 by sgabsi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -134,7 +134,6 @@ SRC_FILES			= $(SRC_AST) \
 					  $(SRC_EXPENSION) \
 					  $(SRC_SIGNAL) \
 					  $(SRC_DLIST) \
-					  test/print.c \
 					  minishell.c
 
 SRC					=	$(addprefix $(SRCDIR)/, $(SRC_FILES))
