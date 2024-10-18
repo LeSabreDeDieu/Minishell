@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:42:02 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/01 10:29:05 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/18 12:53:00 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "command.h"
 #include "env.h"
 
-int	unset_command(int argc, char *argv[])
+int	unset_command(t_minishell *shell_data, int argc, char *argv[])
 {
 	char	**move;
 
@@ -23,7 +23,14 @@ int	unset_command(int argc, char *argv[])
 		if (!move || !*move)
 			return (125);
 		while (*move)
+		{
+			if (is_exact_name(*move, "PATH"))
+			{
+				free(shell_data->data.path);
+				shell_data->data.path = NULL;
+			}
 			unset_env(*move++);
+		}
 		return (1);
 	}
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 12:08:49 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/15 11:47:25 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/18 12:51:34 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ typedef struct s_command_result
 // BUILDINS
 int					echo_command(int argc, char *argv[]);
 int					export_command(int argc, char *argv[]);
-int					unset_command(int argc, char *argv[]);
+int					unset_command(t_minishell *shell_data, int argc,
+						char *argv[]);
 int					env_command(int argc, char *argv[]);
 int					cd_command(int argc, char *argv[]);
 int					exit_command(t_minishell *minishell, int argc,

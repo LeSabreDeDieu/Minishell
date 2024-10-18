@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:28:15 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/18 10:41:13 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/18 13:02:12 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,7 @@ static void	init_minishell(t_minishell *data, char **envp)
 {
 	create_env(envp);
 	init_signal();
-	if (!envp[0])
-		set_env_from_void();
+	set_env_from_void();
 	add_shlvl();
 	ft_bzero(data, sizeof(t_minishell));
 	data->current_status = 0;
