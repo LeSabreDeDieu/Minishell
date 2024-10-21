@@ -37,6 +37,12 @@ bool	is_valid_name(char *name)
 			"not a valid identifier");
 		return (false);
 	}
+	if (name[0] == '=')
+	{
+		error_message_command_with_arg("export", name,
+			"not a valid identifier");
+		return (false);
+	}
 	return (true);
 }
 

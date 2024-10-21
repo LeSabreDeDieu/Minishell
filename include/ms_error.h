@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 09:48:50 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/09/25 09:18:47 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/21 15:22:41 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,13 @@ ligne délimité par la fin du fichier (au lieu de « EOF »)"
 
 # define HOME_NOT_SET "<<HOME>> not set"
 # define OLDPWD_NOT_SET "« OLDPWD » not set"
+
+# define MALLOC_FAILLED "Malloc failled"
+
+// Error code
+
+# define IS_DIR_ERROR 126
+# define COMMAND_NOT_FOUND_ERROR 127
 
 void	error_message(char *message);
 void	error_message_with_arg(char *message, char *arg);
