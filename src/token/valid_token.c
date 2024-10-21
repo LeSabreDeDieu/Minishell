@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:34:59 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/14 13:35:15 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/21 17:53:37 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ bool	check_valid_token2(t_tokens *tokens, t_token_list *current)
 		&& current->next->token->type != TOKEN_WORD)
 		return (token_syntax_error(current->next->token->value),
 			free_token(tokens), false);
-	if (is_and_or_pipe(current->token) && current->next == NULL)
+	if (is_and_or_pipe(current->token) && (current->next == NULL
+			|| is_and_or_pipe(current->next->token)))
 		return (token_syntax_error(current->token->value), free_token(tokens),
 			false);
 	return (true);

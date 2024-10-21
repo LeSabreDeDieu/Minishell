@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:34:57 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/16 16:16:17 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/21 17:57:21 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,8 @@ static int	handle_child_process(t_minishell *minishell, t_ast_value *value)
 	int	status;
 
 	close_dup_standard(value);
-	if ((ft_strncmp(value->name, "./", 2) == 0 || ft_strncmp(value->name, "/",
-				1) == 0) && access(value->name, F_OK) != 0)
-	{
-		(error_message_with_arg(value->name, strerror(ENOENT)),
-			free_minishell(minishell, FREE_ALL), exit(ENOENT));
-	}
 	if (safe_dup_all_redir(minishell, value, FREE_ALL, UNLINK) == -1)
-	{
 		exit(ENOENT);
-	}
 	status = execute_builout(minishell, value);
 	close_all_redir(value, UNLINK);
 	free_minishell(minishell, FREE_ALL);

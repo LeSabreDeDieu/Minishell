@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 17:20:20 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/21 15:31:32 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/21 17:58:57 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@ static bool	is_dir(char *path)
 {
 	struct stat	statbuf;
 
+	if (ft_strncmp(path, ".", 1) != 0
+		&& ft_strncmp(path, "/", 1) != 0)
+		return (false);
 	if (stat(path, &statbuf) == -1)
 		return (false);
 	return (S_ISDIR(statbuf.st_mode));
