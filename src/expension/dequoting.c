@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 12:40:30 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/17 15:42:33 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/21 14:08:56 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,8 @@ char	*dequote(char *str)
 	new_result = NULL;
 	while (str[i])
 	{
-		if ((str[i] == ('\'' * -1) || str[i] == ('"' * -1))
+		if ((str[i] == (char)('\'' * -1)
+			|| str[i] == (char)('"' * -1))
 			&& pos_next_quote(&str[i + 1], str[i]) != -1)
 			dequote_quote(str, &i, &result, &new_result);
 		else

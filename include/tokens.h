@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:45:05 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/17 15:24:04 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/21 14:27:48 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ bool					is_space_in_quotes(char *str);
 void					token_syntax_error(char *str);
 void					token_not_close(char *str);
 int						is_in_quotes(const char *str, int index, int mult);
+bool					is_quote_closed(char *str, char c, char evode);
 
 int						is_in_subshell(const char *str, int index);
 

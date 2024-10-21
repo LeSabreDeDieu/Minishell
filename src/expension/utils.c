@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:24:32 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/17 15:51:54 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/21 14:09:47 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 bool	is_in_dquote(char *c, bool is_quoted)
 {
-	if (*c == ('"' * -1))
+	if (*c == (char)('"' * -1))
 		return (!is_quoted);
 	return (is_quoted);
 }

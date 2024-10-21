@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 12:03:24 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/17 15:57:54 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/21 14:10:39 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,12 @@ static int	expend_value(t_minishell *shell_data, t_ast_value *value,
 	while (value->argv[pos->i] && value->argv[pos->i][pos->j])
 	{
 		is_quoted = is_in_dquote(&value->argv[pos->i][pos->j], is_quoted);
-		if (value->argv[pos->i][pos->j] == ('\'' * -1) && !is_quoted)
+		if (value->argv[pos->i][pos->j] == (char)('\'' * -1) && !is_quoted)
 			pos->j += pos_next_quote(&value->argv[pos->i][pos->j + 1],
 					'\'' * -1) + 1;
-		if (value->argv[pos->i][pos->j] == '$')
+		if (value->argv[pos->i][pos->j] == '$'
+			&& !(value->argv[pos->i][pos->j + 1] == (char)('"' * -1)
+			|| value->argv[pos->i][pos->j + 1] == '\0'))
 		{
 			if (expend_variable(shell_data, value, pos, is_quoted) == FAILURE)
 				return (FAILURE);

@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:45:10 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/08 11:47:23 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/21 14:34:04 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ typedef enum e_error
 	FAILURE = -1,
 	SUCCESS,
 	LOOP,
+	LOOP_END,
 	WILDCARD
 }				t_error;
 
