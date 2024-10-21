@@ -68,3 +68,7 @@ For launch SanicShell :
 ```
 
 This work is published under the terms of **[42 Unlicense](https://github.com/gcamerli/42unlicense)**.
+
+### Crédits
+
+Merci à [**Luma-3**](https://github.com/luma-3) et à [**MonsieurC**](https://github.com/monsieurCanard) pour la rédaction du README et son aide à la documentation du projet.
