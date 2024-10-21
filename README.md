@@ -67,8 +67,8 @@ For launch SanicShell :
 ./minishell
 ```
 
-This work is published under the terms of **[42 Unlicense](https://github.com/gcamerli/42unlicense)**.
-
 ### Credits
 
 Thanks to [**Luma-3**](https://github.com/luma-3) and [**MonsieurC**](https://github.com/monsieurCanard) for writing the README.
+
+This work is published under the terms of **[42 Unlicense](https://github.com/gcamerli/42unlicense)**.
