@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_args.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 15:50:41 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/17 16:18:05 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/22 13:53:20 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,37 +51,55 @@ void	split_current_stack_element(t_dlist **stack, t_dlist **current)
 		return (free_str_tab(split));
 	free_str_tab(split);
 	(*current) = dlist_last(*stack);
-	(*current)->next = save_next;
+	if((*current))
+		(*current)->next = save_next;
 	if (save_next)
 		save_next->prev = (*current);
 }
 
 void	handle_stack_splitting(t_dlist **stack, t_dlist **current)
 {
-	t_dlist	*save_prev;
 
-	if ((*current)->str == NULL || (*current)->str[0] == '\0')
-	{
-		save_prev = (*current)->prev;
-		(*current)->prev->next = (*current)->next;
-		if ((*current)->next)
-			(*current)->next->prev = (*current)->prev;
-		free((*current)->str);
-		free(*current);
-		*current = save_prev;
-		return ;
-	}
+
 	split_current_stack_element(stack, current);
 }
 
 void	split_stack_elements(t_dlist **stack)
 {
 	t_dlist	*current;
+	t_dlist	*save_prev;
+	t_dlist	*tmp;
+
+	current = *stack;
+	if (current && ((current)->str == NULL))
+	{
+		save_prev = (current)->prev;
+		if(save_prev)
+			save_prev->next = (current)->next;
+		if ((current)->next)
+			(current)->next->prev = save_prev;
+		tmp = current;
+		if(save_prev)
+			current = save_prev;
+		else
+		{
+			current = tmp->next;
+			*stack = current;
+		}
+	}
+	while (current)
+	{
+		handle_stack_splitting(stack, &current);
+		if(current)
+			current = current->next;
+	}
 
 	current = *stack;
 	while (current)
 	{
-		handle_stack_splitting(stack, &current);
-		current = current->next;
+		printf("stack => %s\n", current->str);
+		if(current)
+			current = current->next;
 	}
+
 }

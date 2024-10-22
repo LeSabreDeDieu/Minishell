@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dlist.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 19:29:48 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/08 11:50:26 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/22 13:59:16 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_dlist	*new_dlist(char *str)
 	new_dlist = ft_calloc(1, sizeof(t_dlist));
 	if (!new_dlist)
 		return (NULL);
+
 	new_dlist->str = ft_strdup(str);
 	if (!new_dlist->str)
 		return (free(new_dlist), NULL);
@@ -71,8 +72,8 @@ int	dlist_len(t_dlist *dlist)
 	i = 0;
 	while (tmp)
 	{
+		++i;
 		tmp = tmp->next;
-		i++;
 	}
 	return (i);
 }
@@ -90,9 +91,11 @@ char	**dlist_to_argv(t_dlist **dlist)
 	tmp = *dlist;
 	while (tmp)
 	{
-		if (tmp->str != NULL && ft_strlen(tmp->str) > 0)
+
+		if (tmp->str != NULL)
 		{
 			argv[i] = ft_strdup(tmp->str);
+			printf("dlist -> argv %s\n", argv[i]);
 			if (argv[i] == NULL)
 				return (free_str_tab(argv), NULL);
 			i++;
