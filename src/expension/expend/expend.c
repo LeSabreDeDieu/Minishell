@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expend.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 12:03:24 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/22 13:55:20 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/22 15:07:35 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,6 @@ int	expend(t_minishell *shell_data, t_ast_value *value)
 		free_str_tab(value->argv);
 		split_stack_elements(&shell_data->stack);
 		value->argc = dlist_len(shell_data->stack);
-		printf("len argv => %i\n", value->argc);
 		argv_tmp = dlist_to_argv(&shell_data->stack);
 		if (argv_tmp == NULL)
 			return (free_dlist(&shell_data->stack), FAILURE);

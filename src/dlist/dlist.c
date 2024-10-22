@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dlist.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 19:29:48 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/22 13:59:16 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/22 15:07:35 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ char	**dlist_to_argv(t_dlist **dlist)
 		if (tmp->str != NULL)
 		{
 			argv[i] = ft_strdup(tmp->str);
-			printf("dlist -> argv %s\n", argv[i]);
 			if (argv[i] == NULL)
 				return (free_str_tab(argv), NULL);
 			i++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 14:45:31 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/22 14:00:54 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/22 15:10:23 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ static void	print_args(char **tmp, int argc,  bool *no_eof, bool is_write)
 		}
 		if(*tmp)
 			(ft_putstr_fd(*tmp, STDOUT_FILENO), is_write = true, ++tmp);
-		else
-			(ft_putstr_fd("(null)", STDOUT_FILENO), is_write = true);
 		if (*tmp != NULL)
 			ft_putstr_fd(" ", STDOUT_FILENO);
 		++i;
