@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:24:32 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/21 14:09:47 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/23 13:54:25 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,42 +20,11 @@ bool	is_in_dquote(char *c, bool is_quoted)
 	return (is_quoted);
 }
 
-char	*get_end(char *str)
+bool	is_dollar_allone(t_ast_value *value, t_pos *pos)
 {
-	char	*tmp;
-
-	tmp = str;
-	while (*tmp)
-	{
-		if (!(ft_isalnum(*tmp) || *tmp == '_'))
-			break ;
-		tmp++;
-	}
-	return (tmp);
-}
-
-void	get_pid_as_string(char *pid_str)
-{
-	int		fd;
-	char	buffer[BUFFER_SIZE];
-	ssize_t	bytes_read;
-	int		i;
-
-	i = 0;
-	fd = open("/proc/self/stat", O_RDONLY);
-	if (fd == -1)
-		return (perror("open"));
-	bytes_read = read(fd, buffer, sizeof(buffer) - 1);
-	if (bytes_read <= 0)
-		return (close(fd), perror("read"));
-	buffer[bytes_read] = '\0';
-	close(fd);
-	while (buffer[i] != ' ' && buffer[i] != '\0')
-	{
-		if (i < (int) sizeof(pid_str) - 1)
-			pid_str[i] = buffer[i];
-		i++;
-	}
+	return (value->argv[(*pos).i][(*pos).j] == '$'
+			&& (ft_isspace(value->argv[(*pos).i][(*pos).j + 1])
+				|| !value->argv[(*pos).i][(*pos).j + 1]));
 }
 
 int	expend_variable_from_env(t_ast_value *value, int *i, int j, bool is_quoted)
@@ -78,14 +47,38 @@ int	expend_variable_from_env(t_ast_value *value, int *i, int j, bool is_quoted)
 	return (SUCCESS);
 }
 
-int	pos_next_quote(char *str, char quote)
+const char	*find_space(const char *input)
 {
+	int	len;
 	int	i;
 
+	len = ft_strlen(input);
 	i = 0;
-	while (str[i] && str[i] != quote)
+	while (i < len)
+	{
+		if (ft_isspace(input[i]))
+		{
+			if (!is_in_quotes(input, i, -1) && !is_in_subshell(input, i))
+				return (&input[i]);
+		}
 		i++;
-	if (str[i] == quote)
-		return (i);
-	return (-1);
+	}
+	return (NULL);
+}
+
+void	dequote_delimiter(t_redirection_list *redir_list)
+{
+	t_redirection_list	*current;
+	char				*filename;
+
+	current = redir_list;
+	while (current)
+	{
+		if (current->redirection.flag == HERE_DOC)
+		{
+			filename = dequote(current->redirection.filename);
+			current->redirection.filename = filename;
+		}
+		current = current->next;
+	}
 }

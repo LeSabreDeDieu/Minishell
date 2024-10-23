@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 22:16:42 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/17 16:18:49 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/23 13:53:44 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ int				expend_wildcard(t_minishell *shell_data, char *argv);
 
 char			**ft_split_not_in_quote(char *str);
 void			split_stack_elements(t_dlist **stack);
-bool			char_in_quote(char *str, char c);
 
 const char		*find_space(const char *input);
 

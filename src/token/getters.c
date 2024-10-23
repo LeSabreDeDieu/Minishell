@@ -1,47 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   getters.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:22:49 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/21 14:56:48 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/23 13:31:35 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokens.h"
-
-const char	*find_operators(const char *input)
-{
-	int	len;
-	int	i;
-
-	len = ft_strlen(input);
-	i = 0;
-	while (i < len)
-	{
-		if (input[i] == '&' && input[i + 1] == '&')
-		{
-			if (!is_in_quotes(input, i, 1) && !is_in_subshell(input, i))
-				return (&input[i]);
-			i++;
-		}
-		else if (input[i] == '|' && input[i + 1] == '|')
-		{
-			if (!is_in_quotes(input, i, 1) && !is_in_subshell(input, i))
-				return (&input[i]);
-			i++;
-		}
-		i++;
-	}
-	return (NULL);
-}
-
-bool	contain_and_or(char *str)
-{
-	return (find_operators(str) != NULL);
-}
 
 static int	get_len_quote(char *str, size_t *size)
 {
