@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 19:29:48 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/22 15:07:35 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/23 15:55:48 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ t_dlist	*new_dlist(char *str)
 	new_dlist = ft_calloc(1, sizeof(t_dlist));
 	if (!new_dlist)
 		return (NULL);
-
 	new_dlist->str = ft_strdup(str);
 	if (!new_dlist->str)
 		return (free(new_dlist), NULL);
@@ -91,7 +90,6 @@ char	**dlist_to_argv(t_dlist **dlist)
 	tmp = *dlist;
 	while (tmp)
 	{
-
 		if (tmp->str != NULL)
 		{
 			argv[i] = ft_strdup(tmp->str);
@@ -102,6 +100,5 @@ char	**dlist_to_argv(t_dlist **dlist)
 		tmp = tmp->next;
 	}
 	free_dlist(dlist);
-	*dlist = NULL;
 	return (argv);
 }

@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 15:50:41 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/22 15:15:06 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/23 15:40:19 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,13 @@ void	split_current_stack_element(t_dlist **stack, t_dlist **current)
 	t_dlist	*save_next;
 
 	save_next = (*current)->next;
+	split = ft_split_not_in_quote((*current)->str);
+	if (!split)
+		return ;
 	if ((*current)->prev == NULL)
 		*stack = NULL;
 	else
 		(*current)->prev->next = NULL;
-	split = ft_split_not_in_quote((*current)->str);
-	if (!split)
-		return ;
 	free((*current)->str);
 	free((*current));
 	if (add_split_to_stack(stack, split) == FAILURE)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_ast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 17:16:29 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/15 12:58:29 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/10/23 15:56:10 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ void	free_ast(t_ast **ast)
 	if ((*ast)->type == AST_CMD || (*ast)->type == AST_SUBSHELL)
 	{
 		i = 0;
-		if ((*ast)->value.argv && (*ast)->value.argc)
-		{
+		if ((*ast)->value.argv)
+		{		
 			while (i < (*ast)->value.argc)
 			{
 				free((*ast)->value.argv[i]);
