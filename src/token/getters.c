@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:22:49 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/23 13:31:35 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/23 14:24:49 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	get_len_quote(char *str, size_t *size)
 	else
 		evode = '\"';
 	if (is_quote_closed(&str[(*size)], quote, evode) == false)
-		return (error_message("quote not closed"), FAILURE);
+		return (error_message("quote not closed"), ENOENT);
 	++(*size);
 	while (str[(*size)] && str[(*size)] != quote)
 		++(*size);
@@ -49,6 +49,8 @@ static size_t	get_len_word(char *str)
 			rep = get_len_quote(str, &size);
 			if (rep == FAILURE)
 				return ((size_t)(-1));
+			else if (rep == ENOENT)
+				return (errno = ENOENT, (size_t)(-1));
 			else if (rep == LOOP_END)
 				break ;
 		}

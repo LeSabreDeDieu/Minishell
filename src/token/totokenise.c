@@ -6,42 +6,41 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:03:20 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/14 15:07:50 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/23 14:31:34 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokens.h"
 
-void	tokenise_prompt(t_tokens *tokens, char *prompt, bool is_and_or)
+int	tokenise_prompt(t_tokens *tokens, char *prompt, bool is_and_or)
 {
 	char	*save;
 	char	*tmp;
+	int		status;
 
 	if (!prompt || !*prompt)
-		return ;
+		return (FAILURE);
 	tmp = ft_strtrim(prompt, " ");
 	if (!tmp)
-		return ;
+		return (ENOMEM);
 	save = tmp;
 	while (*tmp)
 	{
 		if (contain_and_or(tmp))
-			return (tokenise_and_or(tokens, &tmp), free(save));
+			return (tokenise_and_or(tokens, &tmp), free(save), SUCCESS);
 		if (ft_isspace(*tmp))
 		{
 			tmp++;
 			continue ;
 		}
-		if (tokenise(&tmp, tokens, is_and_or) == FAILURE)
-		{
-			(free_token(tokens), tokens->first_token = NULL);
-			break ;
-		}
+		status = tokenise(&tmp, tokens, is_and_or);
+		if (status == FAILURE || status == ENOENT)
+			return (free_token(tokens), tokens->first_token = NULL, status);
 	}
-	free(save);
+	return (free(save), SUCCESS);
 }
 
-void	to_tokenise(t_minishell *data, char *prompt)
+int	to_tokenise(t_minishell *data, char *prompt)
 {
 	t_tokens	*tokens;
 
@@ -49,7 +48,7 @@ void	to_tokenise(t_minishell *data, char *prompt)
 	{
 		tokens = ft_calloc(1, sizeof(t_tokens));
 		if (!tokens)
-			return ;
+			return (ENOMEM);
 		tokens->first_token = NULL;
 		tokens->token_config[0] = "&&";
 		tokens->token_config[1] = "||";
@@ -63,5 +62,5 @@ void	to_tokenise(t_minishell *data, char *prompt)
 	}
 	else
 		tokens = data->tokens;
-	tokenise_prompt(tokens, prompt, false);
+	return (tokenise_prompt(tokens, prompt, false));
 }

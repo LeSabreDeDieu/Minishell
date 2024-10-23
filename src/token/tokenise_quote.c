@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:42:00 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/21 14:27:16 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/23 14:26:05 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,13 @@ int	tokenise_quote(t_tokens *tokens, char **str, t_token_type type)
 	else
 		evode = type - 1;
 	tmp = get_word(str);
-	if (!tmp)
+	if (!tmp && errno == ENOENT)
+		return (ENOENT);
+	else if (!tmp && errno != ENOENT)
 		return (FAILURE);
 	if (is_quote_closed(tmp, tokens->token_config[type][0],
 		tokens->token_config[evode][0]) == false)
-		return (free(tmp), error_message("quote not closed"), FAILURE);
+		return (free(tmp), error_message("quote not closed"), ENOENT);
 	add_token(tokens, create_token(tmp, TOKEN_WORD));
 	free(tmp);
 	return (SUCCESS);

@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:45:05 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/21 14:27:48 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/23 14:30:13 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ t_token					*create_token(char *value, t_token_type type);
 int						add_token(t_tokens *tokens, t_token *token);
 
 int						tokenise(char **str, t_tokens *tokens, bool and_or);
-void					to_tokenise(t_minishell *data, char *prompt);
-void					tokenise_prompt(t_tokens *tokens, char *prompt,
+int						to_tokenise(t_minishell *data, char *prompt);
+int						tokenise_prompt(t_tokens *tokens, char *prompt,
 							bool is_and_or);
 void					tokenise_and_or(t_tokens *tokens, char **str);
 

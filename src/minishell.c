@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:28:15 by sgabsi            #+#    #+#             */
-/*   Updated: 2024/10/18 13:02:12 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/23 14:31:56 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,11 @@ static void	usage(int argc)
 int	traitement(t_minishell *data, char *prompt)
 {
 	int	itter_heredoc;
+	int	status;
 
-	to_tokenise(data, prompt);
-	if (!data->tokens || !data->tokens->first_token)
-		return (FAILURE);
+	status = to_tokenise(data, prompt);
+	if (status == FAILURE || status == ENOENT || status == ENOMEM)
+		return (status);
 	free(prompt);
 	if (!check_valid_token(data->tokens))
 		return (free_token(data->tokens), ENOENT);
@@ -99,7 +100,7 @@ static void	minishell(char *envp[])
 			free(line);
 			continue ;
 		}
-		traitement(&data, line);
+		data.current_status = traitement(&data, line);
 		init_signal();
 	}
 }
