@@ -6,7 +6,7 @@
 /*   By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 14:45:31 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/10/22 15:10:23 by sgabsi           ###   ########.fr       */
+/*   Updated: 2024/10/16 16:18:56 by sgabsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,9 @@ static bool	is_flags(char *flags)
 	return (true);
 }
 
-static void	print_args(char **tmp, int argc,  bool *no_eof, bool is_write)
+static void	print_args(char **tmp, bool *no_eof, bool is_write)
 {
-	int i;
-
-	i = 0;
-	while (i < argc)
+	while (tmp && *tmp)
 	{
 		if (!is_write && **tmp == '-' && is_flags(*tmp + 1))
 		{
@@ -42,11 +39,10 @@ static void	print_args(char **tmp, int argc,  bool *no_eof, bool is_write)
 			++tmp;
 			continue ;
 		}
-		if(*tmp)
-			(ft_putstr_fd(*tmp, STDOUT_FILENO), is_write = true, ++tmp);
+		(ft_putstr_fd(*tmp, STDOUT_FILENO), is_write = true);
+		++tmp;
 		if (*tmp != NULL)
 			ft_putstr_fd(" ", STDOUT_FILENO);
-		++i;
 	}
 }
 
@@ -65,7 +61,7 @@ int	echo_command(int argc, char *argv[])
 		tmp = argv + 1;
 		if (!tmp || !*tmp)
 			return (125);
-		print_args(tmp, argc, &no_eof, is_write);
+		print_args(tmp, &no_eof, is_write);
 		if (!no_eof)
 			ft_putstr_fd("\n", STDOUT_FILENO);
 	}
