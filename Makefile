@@ -6,7 +6,7 @@
 #    By: sgabsi <sgabsi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:19:20 by gcaptari          #+#    #+#              #
-#    Updated: 2024/10/23 13:54:51 by sgabsi           ###   ########.fr        #
+#    Updated: 2024/10/23 13:57:14 by sgabsi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -78,7 +78,7 @@ SRC_COMMAND_PREPARE			=	$(addprefix $(SRC_COMMAND_PREPARE_DIR)/, $(SRC_COMMAND_P
 
 #COMMAND_EXEC_PIPE
 SRC_COMMAND_EXEC_PIPE_DIR 	=	pipe
-SRC_COMMAND_EXEC_PIPE_FILES	=	pipe.c 						\
+SRC_COMMAND_EXEC_PIPE_FILES	=	pipe.c 							\
 								utils.c
 SRC_COMMAND_EXEC_PIPE		=	$(addprefix $(SRC_COMMAND_EXEC_PIPE_DIR)/, $(SRC_COMMAND_EXEC_PIPE_FILES))
 
