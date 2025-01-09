@@ -13,8 +13,8 @@
 
 ---
 <p align="center">
-	<img src="https://img.shields.io/badge/Score-UNKNOWN-blue?style=flat-square&logo=42" alt="Score project :???"/>
-	<img alt="Static Badge" src="https://img.shields.io/badge/Outstanding-UNKNOWN-blue?style=flat-square&logo=42">
+	<img src="https://img.shields.io/badge/Score-125-blue?style=flat-square&logo=42" alt="Score project :125"/>
+	<img alt="Static Badge" src="https://img.shields.io/badge/Outstanding-2-blue?style=flat-square&logo=42">
 	<img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/LeSabreDeDieu/Minishell?style=flat-square&logo=github">
 </p>
 
